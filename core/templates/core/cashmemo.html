@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-size: 25px;
+            font-weight: 600;
+            line-height: 1.5385;
+            color: #333;
+            text-align: left;
+            background-color: #eee;
+        }
+        .address{
+            font-size: 18px;
+            font-weight: 200;
+
+        }
+        .bio{
+            font-size: 30px;
+            font-weight: 259;
+
+        }
+        .dio{
+            font-size: 20px;
+            font-weight: 500;
+
+        }
+
+        .mt-50 {
+
+            margin-top: 50px;
+        }
+
+        .mb-50 {
+
+            margin-bottom: 50px;
+        }
+
+        .over {
+            text-decoration: overline;
+        }
+
+        .top1 {
+            height: 80px;
+            width: 140px;
+            
+            background-color: #FFFFFF;
+            margin-top: 10px;
+            overflow: hidden;
+            display: inline-block;
+        }
+    </style>
+    <title>cashmemeo</title>
+</head>
+
+<body>
+    <div class="w-100  mt-50 mb-50">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="card">
+                    
+                    <div class="text-center">
+                        <img src="http://www.ranamotorsbd.com/images/Rana-Motors-Logo.png" class="top1 " alt="">
+                        <h2>RANA MOTORS LIMITED</h2>
+                            <span class="address">Address:Uttara 3rd phase Connectiong Road,Diabari,Dhaka 1230,+880-1842-111631,+880-1815-644860</span>
+                         <h4><span class=" border border-secondary px-4 font-bold">INVOICE</span></h2>   
+                    </div>
+                    <div class="header-elements">
+
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="mb-4 pull-left">
+                                    <h4 class="font-weight-bold mb-2 mt-md-2  ">Invoice: {{date.added|date:"dmy-gi"}}</h4>
+                                    <h4 class="font-weight-bold mb-2 mt-md-2 ">SL: {{date.order_id}}</h4>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="mb-4 ">
+                                    <div class="text-sm-right">
+                                        
+                                        <ul class="list list-unstyled mb-0">
+                                            <li><span class="dio border border-secondary px-2">CLIENT COPY</span></li>
+                                         <li>Date : <span class="font-weight-semibold"> {{ date.added| date:"F d, Y"}}</span></li>
+                                            <li><span>Contact :</span><span class="bio"> {{date.customer.Phone}}</span></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-md-flex flex-md-wrap">
+                            <div class="mb-4 mb-md-2 text-left">
+                                
+                                <ul class="list list-unstyled mb-0">
+                                    
+                                    <li><span>NAME :</span><span class="bio"> {{date.customer.name|title}}</span></li>
+                                    <li><span>ADDRESS :</span><span class="bio"> {{date.customer.address|title}}</span></li>
+                                    
+                                    <li><span>DELIVERY ADDRESS :</span><span class="bio"> {{date.order.address|title}}</span></li>
+                                    
+                                    
+                                </ul>
+                            </div>
+
+                           
+                        </div>
+                    </div>
+
+                    
+
+
+
+
+                    <div class="table-responsive">
+                        <table class="table table-lg">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>QTY</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rs in orders %}
+                                <tr>
+                                
+                                    <td>{{rs.product.name}}</td>
+
+                                    
+                                    <td>{{rs.quantity}}</td>
+                                    <td>{{rs.product.price}}</td>
+                                    <td>{{rs.total_price}}</td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="d-md-flex flex-md-wrap">
+
+                           
+
+                          
+                            <div class="pt-2 mb-3 wmin-md-400 ml-auto">
+                                
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-left">Subtotal:</th>
+                                                <td class="text-right">{{total}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="text-left">Discount: <span
+                                                        class="font-weight-normal"></span>
+                                                </th>
+                                                <td class="text-right">{{date.discount}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-left">Total:</th>
+                                                
+                                                    
+                                                    <td class="text-right">{{total1}}</td>
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                       
+                                    </table>
+                                    
+                                    
+                                </div>
+
+
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <p>IN WORDS:BDT {{text|title}}</p>
+                    <br>
+                    <div class="d-sm-inline-flex">
+                        <p class="over">RECEIVED BY</p>
+                        <span class="over ml-auto">FOR - RANA MOTORS LIMITED</span>
+                        </div> 
+                    <div class="card-footer">
+                     <P class="address" >Goods ones sold are not taken back</P>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

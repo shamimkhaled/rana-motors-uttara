@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            clifford: '#da373d',
+          }
+        }
+      }
+    }
+  </script>
+<body>
+
+
+
+  <nav class="flex items-center justify-between flex-wrap bg-stone-600  ">
+    <div class="flex items-center flex-shrink-0 text-white mr-6">
+      <img src="http://www.ranamotorsbd.com/images/Rana-Motors-Logo.png" class="top1 " alt="">
+      <span class="font-semibold text-xl tracking-tight">RANA MOTORS</span>
+    </div>
+    <div class="block lg:hidden">
+      <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+      </button>
+    </div>
+    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+      <div class="text-sm lg:flex-grow">
+        
+
+      
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                Logout
+            </a>
+
+            <a href="{% url 'cart' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+              HOME
+          </a>
+
+
+          <a href="{% url 'soldlist' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+            INVICE LIST
+        </a>
+
+        <a href="{% url 'customerlist' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+          CLIENT LEDGER
+      </a>
+         
+           
+        {% else %}
+            <a href="{% url 'login' %}" class="block mt-4 lg:inline-block lg:mt-0 text-orange-200 hover:text-white mr-4">
+                Login
+            </a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+   
+<br>
+    
+
+    <form action="{% url 'search_results' %}" class="form-inline px-10" method="get">
+
+      <div class="form-group mb-8">
+
+           
+
+      </div>
+
+      <div class="form-group mx-sm-3 mb-2">
+
+       <label for="" class="sr-only">search</label>
+
+       <input name="search" type="" class="form-control" id="" placeholder="NAME">
+
+       </div>
+
+       <button type="submit" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">search</button>
+
+  </form>
+
+
+
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Phone</th>
+            <th>DUE BALANCE</th>
+            <th>MR INVOICELIST</th>
+            <th>PAYMENT LIST</th>
+            <th>BALACE SHEET</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <td>{{ user.name }}</td>
+              <td>{{ user.Phone }}</td>
+              <td>{{ user.balance }}</td>
+              
+            <td>
+
+              <!-- <a href="{% url 'soldlist' %}?customer= {{user.id}}&invoicenumber=&start_date=&end_date=" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+                INVOICE LIST
+              </a> -->
+
+
+              <form action="{% url 'mrinvoicelist' %}" method="get" >
+                <input type="date" name="start_date" class="mr border rounded-md ">
+                <span class="px-1">-</span>
+                <input type="date" name="end_date" class="mr-2 border rounded-md ">
+                <input type="hidden" id="supplier_id" name="supplier" value="{{user.id}}">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+                    Search
+                </button>
+            </form>
+
+
+            
+            <!-- <a href="#" onclick="generateClientLedgerURL()" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+                INVOICE LIST
+            </a> -->
+            
+           
+            </td>
+        </td>
+
+         
+
+
+        <td>
+
+          <!-- <a href="{% url 'soldlist' %}?customer= {{user.id}}&invoicenumber=&start_date=&end_date=" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+            INVOICE LIST
+          </a> -->
+
+
+          
+          <form action="{% url 'supplierbill_list' %}" method="get" >
+            <input type="date" name="start_date" class="mr border rounded-md ">
+            <span class="px-1">-</span>
+            <input type="date" name="end_date" class="mr-2 border rounded-md ">
+            <input type="hidden" id="supplier_id" name="supplier" value="{{user.id}}">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+                Search
+            </button>
+        </form>
+        
+        <!-- <a href="#" onclick="generateClientLedgerURL()" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+            INVOICE LIST
+        </a> -->
+        
+       
+        </td>
+
+
+
+       
+
+
+
+
+        <td>
+
+          <!-- <a href="{% url 'soldlist' %}?customer= {{user.id}}&invoicenumber=&start_date=&end_date=" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+            INVOICE LIST
+          </a> -->
+
+
+          <form action="{% url 'supplierbalancesheet' %}" method="get" >
+            <input type="date" name="start_date" class="mr border rounded-md ">
+            <span class="px-1">-</span>
+            <input type="date" name="end_date" class="mr-2 border rounded-md ">
+            <input type="hidden" id="supplier_id" name="supplier" value="{{user.id}}">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+                Search
+            </button>
+        </form>
+        
+        <!-- <a href="#" onclick="generateClientLedgerURL()" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+            INVOICE LIST
+        </a> -->
+        
+       
+        </td>
+    
+
+
+
+
+
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+      {% if users.has_other_pages %}
+        <ul class="pagination">
+          {% if users.has_previous %}
+            <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+          {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+          {% endif %}
+          {% for i in users.paginator.page_range %}
+            {% if users.number == i %}
+              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+              <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if users.has_next %}
+            <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+          {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+          {% endif %}
+        </ul>
+      {% endif %} 
+    
+
+    
+</body>
+<script>
+  function generateClientLedgerURL() {
+      var startDate = document.querySelector('input[name="start_date"]').value;
+      var endDate = document.querySelector('input[name="end_date"]').value;
+      var supplierid= document.getElementById('supplier_id').value;
+      
+      var clientLedgerURL = `{% url 'mrinvoicelist' %}?supplier=${supplierid}&invoicenumber=&start_date=${startDate}&end_date=${endDate}`;
+      
+      window.location.href = clientLedgerURL;
+  }
+
+
+
+
+
+
+
+function generateClientLedgerURL() {
+      var startDate = document.querySelector('input[name="start_date"]').value;
+      var endDate = document.querySelector('input[name="end_date"]').value;
+      var supplierid= document.getElementById('supplier_id').value;
+      
+      var clientLedgerURL = `{% url 'supplierbill_list' %}?supplier=${supplierid}&start_date=${startDate}&end_date=${endDate}`;
+      
+      window.location.href = clientLedgerURL;
+  }
+
+
+
+  function generateClientLedgerURL() {
+      var startDate = document.querySelector('input[name="start_date"]').value;
+      var endDate = document.querySelector('input[name="end_date"]').value;
+      var supplierid= document.getElementById('supplier_id').value;
+      
+      var clientLedgerURL = `{% url 'supplierbalancesheet' %}?supplier=${supplierid}&start_date=${startDate}&end_date=${endDate}`;
+      
+      window.location.href = clientLedgerURL;
+  }
+
+
+
+
+//   function generateClientLedgerURL() {
+//       var startDate = document.querySelector('input[name="start_date"]').value;
+//       var endDate = document.querySelector('input[name="end_date"]').value;
+//       var customerId = document.getElementById('customer_id').value;
+      
+//       var clientLedgerURL = `{% url 'returnlist' %}?customer=${customerId}&invoicenumber=&start_date=${startDate}&end_date=${endDate}`;
+      
+//       window.location.href = clientLedgerURL;
+//   }
+
+
+//   function generateClientLedgerURL() {
+//       var startDate = document.querySelector('input[name="start_date"]').value;
+//       var endDate = document.querySelector('input[name="end_date"]').value;
+//       var customerId = document.getElementById('customer_id').value;
+      
+//       var clientLedgerURL = `{% url 'customerbalancesheet' %}?customer=${customerId}&invoicenumber=&start_date=${startDate}&end_date=${endDate}`;
+      
+//       window.location.href = clientLedgerURL;
+//   }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</html>
