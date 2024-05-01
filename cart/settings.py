@@ -88,17 +88,21 @@ WSGI_APPLICATION = 'cart.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# settings.py of App1
+
+
+# settings.py of App2
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'defaultdb',
+        'NAME': 'uttara',  # Change the database name for App2
         'USER': 'doadmin',
-        'PASSWORD': 'AVNS_NFVtJ8GyvtWjrPFeJAF',
-        'HOST': 'db-postgresql-blr1-84846-do-user-11508951-0.c.db.ondigitalocean.com',
+        'PASSWORD': 'AVNS_aM8IbD6BkuLu_6CfDKa',
+        'HOST': 'db-postgresql-nyc3-00666-do-user-16510221-0.c.db.ondigitalocean.com',
         'PORT': '25060',
         'OPTIONS': {
             'sslmode': 'require',
-        },
+        }
     }
 }
 
