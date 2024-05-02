@@ -99,7 +99,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'uttara',
         'USER': 'doadmin',
-        'PASSWORD': 'AVNS_BATz8GgTTCp14FAPaAj',
+        'PASSWORD': 'AVNS_MEiggP5CCa1Mm8zJZe1',
         'HOST': 'db-postgresql-blr1-31429-do-user-16510221-0.c.db.ondigitalocean.com',
         'PORT': '25060',
         'OPTIONS': {
