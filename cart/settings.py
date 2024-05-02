@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'cart.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'uttara',
+        'NAME': 'doadmin',
         'USER': 'uttara',
         'PASSWORD': 'AVNS_BATz8GgTTCp14FAPaAj',
         'HOST': 'db-postgresql-blr1-31429-do-user-16510221-0.c.db.ondigitalocean.com',
