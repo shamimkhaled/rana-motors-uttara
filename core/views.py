@@ -107,6 +107,14 @@ def cart(request):
 
     if request.method=='POST' and 'btnform2' in request.POST and shopcart.exists(): 
      if form.is_valid() :
+
+
+
+        for rs in shopcart: 
+           product = Product.objects.get(id=rs.product_id)
+           if int(rs.quantity) > int(product.quantity) :
+              messages.error(request, 'Do not have group product quanitity that quantity')
+              return redirect('cart') 
         fs= form.save(commit=False)
         fs.user= request.user
         fs.totalprice=total-fs.discount
@@ -121,7 +129,8 @@ def cart(request):
           cus =Customer.objects.filter(id=fs.customer_id).first()
           cus.balance +=fs.due
         
-          cus.save()        
+          cus.save()   
+          cus =Customer.objects.filter(id=fs.customer_id).first()     
           item, created =Customerbalacesheet.objects.get_or_create(
             order_id=fs.id,
             customer=cus,
@@ -139,11 +148,7 @@ def cart(request):
             reporttype='INVOICE'
             
         )
-        for rs in shopcart: 
-           product = Product.objects.get(id=rs.product_id)
-           if int(rs.quantity) > int(product.quantity) :
-              messages.error(request, 'Do not have group product quanitity that quantity')
-              return redirect('cart') 
+       
 
         for rs in shopcart:
                 detail = sold()
@@ -170,6 +175,7 @@ def cart(request):
                 user_products.delete()
                 product = Product.objects.get(id=rs.product_id)
                 product.quantity -= rs.quantity
+                
                 detail.exchange_ammount=rs.exchange_ammount
                 detail.costprice=product.price
                 detail.save()
@@ -1423,11 +1429,7 @@ def mr(request):
         products = Product.objects.all()
   
     #products = Product.objects.filter(Q(productcatagory__icontains=category))
-    totalbalnce=0
-    for p in products:
-        totalbalnce +=p.price * p.quantity
-
-    mo = Product.objects.filter(mother=True)
+    
 
   
     # myFilter = OrderFilter(request.GET, queryset=products)
@@ -1631,8 +1633,10 @@ def editcashmemo(request,id):
 
          page_number = request.GET.get('page')
          pro = paginator.get_page(page_number) 
+         balancecusold=0
          if orderr.customer:
            oldid= orderr.customer.id
+           balancecusold= orderr.customer
          if form.is_valid():
             fs = form.save(commit=False)
             
@@ -1687,13 +1691,15 @@ def editcashmemo(request,id):
                 product.save()
 
 
-            if orderr.customer:
-              if fs.customer.id != oldid:
+            if fs.customer:
+              if fs.customer.id != oldid :
                 print("Updating customer balance...")  # Informative print statement
 
         # Update customer balance if customer changed for the order
-                orderr.customer.balance -= orderr.due
-                orderr.customer.save()
+                cus =Customer.objects.filter(id=oldid).first()
+                cus.balance -=fs.due
+        
+                cus.save()
 
                 order_creation_date = orderr.added
 
@@ -1719,13 +1725,13 @@ def editcashmemo(request,id):
 
                 
 
-            else:
+              else:
         # Handle the case where the customer remains the same (optional logic)
                 print("Customer did not change for the order.")
 
     # Complete form saving after all checks and updates
  # Save the form data to create the model instance
-                if orderr.customer:
+                if fs.customer:
                     cus =Customer.objects.filter(id=daily.order.customer_id).first()
 
                     olddue=total - daily.order.paid
