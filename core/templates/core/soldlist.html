@@ -235,12 +235,15 @@ closeButton.addEventListener('click', function() {
         <th scope="col">price due</th>
         <th scope="col">OFFFICE COPY</th>
         <th scope="col">CLIENT COPY</th>
+        <th scope="col">BOTH MEMO</th>
         <th scope="col">CHALAN</th>
         <th scope="col">RETURN</th>
         <th scope="col">EDIT CASHMEMO</th>
         <th scope="col">bill</th>
         <th scope="col">DELETE</th>
         <th scope="col">TIME</th>
+        <th scope="col">SMS</th>
+
       </tr>
     </thead>
     <tbody>
@@ -251,36 +254,48 @@ closeButton.addEventListener('click', function() {
         <td>{{ rs.customer.name}}</td>
         <td>{{ rs.name}}</td>
         <td>{{rs.totalprice}} | {{rs.due}} </td>
-        <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
+        <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
             onclick="window.location.href = '{{rs.id}}/cashmemo'">
-            Printcashmemo
+            Print Cashmemo
 
           </button>
         </td>
-        <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
-          onclick="window.location.href = '{{rs.id}}/cashmemo1'">
-          Printcashmemo2
+       
 
-        </button>
-      </td>
+        <td>
+          <button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
+                  onclick="window.location.href = '{{rs.id}}/cashmemo1'">
+            Print Cashmemo 2
+          </button>
+        </td>
 
-      <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
+
+        <td>
+          <button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
+                  onclick="window.location.href = '{{rs.id}}/bothcashmemo'">
+           Both Memo
+          </button>
+        </td>
+        
+      
+
+      <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
         onclick="window.location.href = '{{rs.id}}/chalan'">
-        chalan
+        Chalan
 
       </button>
     </td>
-        <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
+        <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
             onclick="window.location.href = '{{rs.id}}/returnn'">
-            return
+            Return
 
           </button>
         </td>
         {% if not rs.smssend %}
     <td>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40 mr-px"
+        <button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
                 onclick="window.location.href = '{{ rs.id }}/editcashmemo'">
-            editcashmemo
+            Edit Cashmemo
         </button>
     </td>
 {% else %}
@@ -288,9 +303,9 @@ closeButton.addEventListener('click', function() {
 {% endif %}
 
       {% if  not rs.customer.name %}
-      <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
+      <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
         onclick="window.location.href = '{{rs.id}}/bill'">
-        bill
+        Bill
 
       </button>
       </td>
@@ -305,16 +320,22 @@ closeButton.addEventListener('click', function() {
 
       {% if not rs.smssend %}
     <td>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40 mr-px"
-                onclick="window.location.href = '{{ rs.id }}/deleteinvoice'">
-            delete invoice
-        </button>
+      <button class="bg-red-400 hover:bg-orange-500 text-white text-lg font-bold py-2 px-2 rounded w-48 mr-px"
+      onclick="return confirm('Are you sure you want to delete this invoice?') ? window.location.href = '{{ rs.id }}/deleteinvoice' : false;">
+  Delete invoice
+</button>
     </td>
     {% else %}
     <td>ALREADY POSTED</td>
 {% endif %}
     </td>
-        <td>{{ rs.added}}</td>
+        <td>{{ rs.datetime}}</td>
+        <td>
+        <button class="bg-green-600 hover:bg-blue-800 text-white text-lg font-bold py-2 px-2 rounded w-48 mr-px"
+        onclick="return confirm('Are you sure you want to send message?') ? window.location.href = '{{ rs.id }}/smssendinvoice' : false;">
+    <i class="fas fa-comment-sms mr-1"></i>  Send Sms
+</button>
+</td>
       </tr>
       {% endfor %}
     </tbody>

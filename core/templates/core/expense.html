@@ -120,16 +120,11 @@
         {% csrf_token %}
         {{ form3|crispy }}
         <br>
-        <button type="submit" class="save btn btn-info" name="btnform3">COMMISSION</button>
+        <button type="submit" class="save btn btn-info" name="btnform3">COMMISSION + Discount</button>
     </form>
 
 
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {{ form3|crispy }}
-        <br>
-        <button type="submit" class="save btn btn-info" name="btnform3">Discount</button>
-    </form>
+    
 
 
     <form method="POST" class="post-form">
@@ -154,42 +149,31 @@
     <button class="bg-transparent hover:bg-gray-800 text-blue-900 font-semibold hover:text-gray-900 py-2 px-4 border border-blue-500 hover:border-transparent rounded">Search</button>
 </form>
 
-    <div class="flex flex-wrap " >
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-2">
     {% for product in pro %}
-    
     <a href="#"
-        class="w-[47%] p-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
+        class="p-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {{ product.name}}
+            {{ product.name }}
         </h5>
-        <div class="flex justify-between">
-            <p class="font-normal text-gray-700 dark:text-gray-400 px-1">
+        <div class="flex justify-between items-center">
+            <p class="font-normal text-gray-700 dark:text-gray-400">
                 TK{{ product.price }}
             </p>
-            
-            <p class="font-normal   text-red mx-1">
+            <p class="font-normal text-red-500">
                 Qty: {{ product.quantity }}
             </p>
             <button
-                class="save btn btn-info mx-2"
+                class="save btn btn-info"
                 onclick="window.location.href = '{{product.id}}/expenseform'">
                 Add 
             </button>
-
-            
-
-            
-            
         </div>
     </a>
-    
     {% endfor %}
-                   
+</div>
+
     
-    
-                       
-                    
-                </div>
 
                 <div class="pagination">
                     <span class="step-links">
@@ -223,10 +207,10 @@
                         <p>
                             {{ product.ammount }}  tk {{ product.paybillcatogory.name }}</b>
                         </p>
-                        <p>
-                            
-                           
-                        </p>
+                        <button class="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold px-1 rounded"
+                        onclick="window.location.href = '/{{product.paybillcatogory_id}}/deletexpense'">
+                                        X
+                                    </button>
                     </div>
                     {% endfor %}
 
@@ -234,14 +218,22 @@
                 <div class="mt-2 border-t-2">
                     <div class="mt-2 flex justify-between">
                         <p class="font-bold">TOTAL</p>
-                        <p class="font-bold">${{ total }}</p>
+                        <p class="font-bold">{{ total }} tk</p>
                     </div>
                 </div>
-                <button
+                <!-- <button
                 class="save btn btn-info mx-2"
                 onclick="window.location.href = 'expensestore'">
                 Add 
-            </button>
+            </button> -->
+
+
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form4|crispy }}
+                <br>
+                <button type="submit" class="save btn btn-info" name="btnform5"> office expense</button>
+            </form>
                </div>
               
             </div>

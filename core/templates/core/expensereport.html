@@ -64,8 +64,8 @@
         <th scope="col"> Type</th>
         <th scope="col">Description</th>
         
-        <th scope="col">Debit </th>
-        <th scope="col">Credit</th>
+        <th scope="col">Credit </th>
+        <th scope="col">Debit</th>
         <th scope="col">Balance</th>
       </tr>
     </thead>
@@ -74,7 +74,7 @@
       <tr>
 
 
-        <td>{{ rs.added}}</td>
+        <td>{{ rs.datetime}}</td>
         <td>{{rs.typecat}} </td>
         <td>{{ rs.paybillcatogory.name }} |{{rs.remarks}} </td>
         
@@ -89,7 +89,9 @@
      
     <td>{{ rs.ammount }}</td>
         <td>{{ rs.pettycashbalance}}</td>
-       
+        <td>
+          <a href="{% url 'update_paybill' rs.pk %}" class="btn btn-primary btn-sm">Edit</a>
+      </td>
       </tr>
       {% endfor %}
 

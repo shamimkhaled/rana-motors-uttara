@@ -79,7 +79,7 @@ h6{
 </head>
 
 <body>
-  <div class="container">
+  
     <div class="card card-one">
      
         <div class="mx-1">
@@ -88,7 +88,7 @@ h6{
             id="Picture 1" src="http://www.ranamotorsbd.com/images/Rana-Motors-Logo.png" alt="Rana-Motors-Logo"> <b><span
             style='font-size:16.0pt;line-height:107%;font-family:"Tahoma",sans-serif'>RANA
             MOTORS LIMITED</span></b> 
-            <p class="card-text">Address: Apollo Hospital Exit Road, Baridhara, Dhaka-1229, Cell: +8801842-111634, +8801842111636, +8801842111612</p>
+            <p class="card-text">Address: Apollo Hospital Exit Road, Baridhara, Dhaka-1229, Cell: +8801842-111634</p>
             
 
 
@@ -159,30 +159,70 @@ h6{
                 <th class="text-center" scope="col">Quantity</th>
                 <th class="text-center" scope="col">Unit Price</th>
                 <th class="text-center" scope="col">Total</th>
+                <th class="text-center" scope="col">subremarks</th>
               </tr>
             </thead>
             <tbody>
 
               {% for rs in orders %}
               <tr>
+                <th scope="row">{{ forloop.counter }}</th>	
+                {% if rs.sparename %}
+                <td>{{ rs.sparename }}</td>
+                <td align="center">N/A</td>
+                <td align="center">{{ rs.product.brand }}</td>
+                <td align="center">{{ rs.quantity }}</td>
+                <td align="center">{{ rs.price1 }}</td>
+                <td align="center">{{ rs.total_price1 }}</td>
+                <td align="center">{{ rs.remarks | default:"" }}</td>
+
+                {% elif not rs.sparename and  rs.product.groupname and  rs.exchange_ammount != 0 %}
+                <td>{{ rs.product.productcatagory }} - Exchange -<br> {{ rs.product.name }} {{ rs.engine_no|default:"" }} </td>
+                <td align="center">N/A</td>
+                <td align="center">{{ rs.product.brand }}</td>
+                <td align="center">{{ rs.quantity }}</td>
+                <td align="center">{{ rs.price1 }}</td>
+                <td align="center">{{ rs.total_price1 }}</td>
+                <td align="center">{{ rs.remarks | default:""}}</td>
 
 
-                <th scope="row">{{ forloop.counter }}</th>
-                {% if rs.sparename != None %}
-                
-                <td>{{rs.sparename}} {{rs.engine_no}}</td>
-                {% endif%}
-                {% if rs.sparename == None %}
-                
-                <td>{{rs.product.name}} {{rs.engine_no}}</td>
-                {% endif%}
-                <td>N/A</td>
-                <td>{{rs.product.brand}}</td>
-                <td align="right">{{rs.quantity}}</td>
-                <td>{{rs.price1}}</td>
-                <td align="right">{{rs.total_price1}}</td>
-                
-              </tr> 
+
+
+                {% elif not rs.sparename and  rs.product.groupname and not rs.exchange_ammount != 0 %}
+                <td>  {{ rs.product.productcatagory }} <br> {{ rs.product.name }} {{ rs.engine_no|default:"" }} </td>
+                <td align="center">N/A</td>
+                <td align="center">{{ rs.product.brand }}</td>
+                <td align="center">{{ rs.quantity }}</td>
+                <td align="center">{{ rs.price1 }}</td>
+                <td align="center">{{ rs.total_price1 }}</td>
+                <td align="center">{{ rs.remarks | default:""}}</td>
+
+
+
+               
+
+                {% elif not rs.sparename and  not rs.product.groupname and  rs.exchange_ammount != 0 %}
+                <td> {{ rs.product.productcatagory }} -Exchange {{ rs.product.name }} {{ rs.engine_no|default:"" }} </td>
+                <td align="center">N/A</td>
+                <td align="center">{{ rs.product.brand }}</td>
+                <td align="center">{{ rs.quantity }}</td>
+                <td align="center">{{ rs.price1 }}</td>
+                <td align="center">{{ rs.total_price1 }}</td>
+                <td align="center">{{ rs.remarks |default:""}}</td>
+               
+                {% elif not rs.sparename and  not rs.product.groupname and not rs.exchange_ammount != 0 %}
+                <td>{{ rs.product.productcatagory }} - {{ rs.product.name }} {{ rs.engine_no|default:"" }} </td>
+                <td align="center">N/A</td>
+                <td align="center">{{ rs.product.brand }}</td>
+                <td align="center">{{ rs.quantity }}</td>
+                <td align="center">{{ rs.price1 }}</td>
+                <td align="center">{{ rs.total_price1 }}</td>
+                <td align="center">{{ rs.remarks|default:"" }}</td>
+                {% else %}
+               
+               
+                {% endif %}
+              </tr>
               {% endfor %}
               
              
@@ -283,6 +323,9 @@ h6{
                   height:12.3pt'>
                   <p class=MsoNormal style='margin-bottom:0in;line-height:normal'>&nbsp;</p>
                   </td>
+                  
+                  {% if date.totalprice|sub:date.paid != 0 %}
+
                   <td width=120 colspan=2 style='width:87px;border:none;padding:1.95pt 1.95pt 1.95pt 1.95pt;
                   height:12.3pt'>
                   <p class=MsoNormal align=right style='margin-bottom:0in;text-align:right;
@@ -290,18 +333,19 @@ h6{
                   color:black'>Due Amount:</span></b></p>
                   </td>
                   <td width=95 style='width:65.65px;border:solid black 1.0pt;border-top:none;
-                  padding:1.95pt 1.95pt 1.95pt 1.95pt;height:12.3pt'>
-                  <p class=MsoNormal align=right style='margin-bottom:0in;text-align:right;
-                  line-height:normal'><b><span style='font-size:11px;font-family:"Tahoma",sans-serif;
-                  color:black'>{{date.totalprice|sub:date.paid}}</span></b></p>
+                                    padding:1.95pt 1.95pt 1.95pt 1.95pt;height:12.3pt'>
+                      <p class=MsoNormal align=right style='margin-bottom:0in;text-align:right;
+                      line-height:normal'><b><span style='font-size:11px;font-family:"Tahoma",sans-serif;
+                      color:black'>{{ total1|sub:date.paid }}</span></b></p>
                   </td>
+                  {% endif %}
                  </tr>
               </tbody>
             </table>
           </div>
 
         
-      
+       <br>
     
       
       <div class="row">
@@ -334,7 +378,7 @@ h6{
 
       </div>
     </div>  
-  </div>
+  
 
 
 

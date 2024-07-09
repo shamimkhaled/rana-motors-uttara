@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grouped Products by Category</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h2>Grand Total Price Across All Categories: {{ total_price_all_categories }}</h2>
+    <h1>Products Grouped by Category</h1>
+    {% for category, data in grouped_products.items %}
+        <h2>Category: {{ category }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Status</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Group Name</th>
+                    <th>Mother</th>
+                    <th>Subpart Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in data.products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.pcode }}</td>
+                    <td>{{ product.status }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price }}</td>
+                    
+                    <td>{{ product.total_price }}</td>
+                    
+                    <td>{{ product.groupname }}</td>
+                    <td>{{ product.mother }}</td>
+                    <td>{{ product.subpartquantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="8" style="text-align: right; font-weight: bold;">
+                        Total Price (Category {{ category }}): {{ data.total_price }}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    {% endfor %}
+    
+    
+</body>
+</html>

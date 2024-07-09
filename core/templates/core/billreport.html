@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Receipt Memo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .details-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .details-table th, .details-table td {
+            padding: 4px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        .details-table th {
+            background-color: #f2f2f2;
+        }
+        .amount-box {
+            border: 1px solid #ddd;
+            padding: 4px;
+            margin-bottom: 5px;
+        }
+        .date-box {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: center;
+            margin-bottom: 5px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        th, td {
+            padding: 4px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        th.denomination {
+            width: 60px;
+        }
+        th.bank-details {
+            width: 80px;
+        }
+        .totals, .signature {
+            text-align: right;
+        }
+        .totals th, .totals td, .signature th, .signature td {
+            padding: 4px 0;
+        }
+        .message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .sl-no {
+            width: 40px;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+        @media print {
+            body, .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            th, td {
+                border: 1px solid #ddd;
+            }
+            .details-table th, .details-table td {
+                border: 1px solid #ddd;
+            }
+            .details-box, .amount-box, .date-box {
+                border: 1px solid #ddd;
+            }
+
+
+            
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+    
+        <div class="text-center">
+            <h1>RANA MOTORS LIMITED</h1>
+            <span class="address">
+                Address: Uttara 3rd phase Connecting Road, Diabari, Dhaka 1230, +880-1842-111631, +880-1815-644860
+            </span>
+            <br>
+            <h2>
+                <span class="border">Money Receipt</span>
+            </h2>
+        </div>
+        <div class="date-box">
+            Date: {{ bills.datetime | date:"F d, Y" }}
+        </div>
+        <div class="details-box">
+            <table class="details-table">
+                <tr>
+                    <th class="sl-no">SL No.</th>
+                    <td>{{ bills.datetime | date:"dmy-gi" }}</td>
+                </tr>
+                <tr>
+                    <th>Name:</th>
+                    <td>{{ bills.order.name }} {{ bills.customer.name }}</td>
+                </tr>
+                <tr>
+                    <th>Address:</th>
+                    <td>{{ bills.order.address }} {{ bills.customer.address }}</td>
+                </tr>
+                <tr>
+                    <th>Mobile No:</th>
+                    <td>{{ bills.order.Phone }} {{ bills.customer.Phone }}</td>
+                </tr>
+                <tr>
+                    <th>In Words:</th>
+                    <td>{{ text }} tk</td>
+                </tr>
+            </table>
+        
+    </div>
+        
+        
+        <table>
+          <thead>
+            <tr>
+              <th class ="denomination">Denomination</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th class="bank-details">Bank Details</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1000 tk</td>
+              <td></td>
+              <td></td>
+              <td>Bank Name</td>
+              <td>{{bills.bankname|default:""}}</td>
+            </tr>
+            <tr>
+              <td>500 tk</td>
+              <td></td>
+              <td></td>
+              <td>Branch Name</td>
+              <td>{{bills.brunchname |default:""}}</td>
+            </tr>
+            <tr>
+              <td>200 tk</td>
+              <td></td>
+              <td></td>
+              <td>Cheque Number</td>
+              <td>{{bills.ChequeNo|default:""}}</td>
+            </tr>
+            <tr>
+              <td>100 tk</td>
+              <td></td>
+              <td></td>
+              <td>Issue Date</td>
+              <td>{{bills.issueDate|default:""}}</td>
+            </tr>
+            <tr>
+              <td>50 tk</td>
+              <td></td>
+              <td></td>
+              <td>Clearing Date</td>
+              <td>{{bills.ClearingDate|default:""}}</td>
+            </tr>
+            <tr>
+              <td>20 tk</td>
+              <td></td>
+              <td></td>
+              <td colspan="2" rowspan="1"></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Total Cash Amount:</th>
+              <td></td>
+              <td >{{bills.ammount}} TK</td>
+              <td colspan="2">Received By: _______________________</td>
+            </tr>
+
+            <!-- <tr>
+              <td></td> <td></td> <td></td>  <td colspan="2">Received By: _______________________</td>
+            </tr> -->
+          </tfoot>
+        </table>
+        
+        
+        <div class="message">
+            If you do not get any confirmation SMS with number & ammount within 24 hours from RANA MOTORS Ltd.Please 
+            contact with us for verification 01815644860
+        </div>
+    </div>
+</body>
+</html>

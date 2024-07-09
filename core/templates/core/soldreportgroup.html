@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product List Grouped by Category</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        th:first-child, td:first-child {
+            width: 40%;
+        }
+        td {
+            vertical-align: top;
+        }
+        .category-title {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+        .totals {
+            font-weight: bold;
+        }
+        .print-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product List Grouped by Category</h1>
+    
+    {% for category_data in products_by_category %}
+        <div class="category-title">{{ category_data.category }}</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity Sold</th>
+                    <th>Product Current Stock</th>
+                    <th>Return Quantity</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in category_data.products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.total_quantity_sold }}</td>
+                        <td>{{ product.total_return_quantity }}</td>
+                        <td>{{ product.total_cost_price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="totals" colspan="4">Total Price for Category: {{ category_data.total_category_price }}</td>
+                </tr>
+                <tr>
+                    <td class="totals" colspan="4">Total Quantity Sold for Category: {{ category_data.total_category_quantity_sold }}</td>
+                </tr>
+                <tr>
+                    <td class="totals" colspan="4">Total Quantity (Mother=1) for Category: {{ category_data.total_mother_quantity }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    {% endfor %}
+
+    <button class="print-button" onclick="window.print()">Print</button>
+</body>
+</html>

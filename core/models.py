@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 import datetime
 from django.db.models import F, Sum
 from django.core.exceptions import ValidationError
+from ordered_model.models import OrderedModel
 
 class Product(models.Model):
     CATEGORY = (
@@ -13,15 +14,18 @@ class Product(models.Model):
 			)
 
     PRODUCT = (
-			('exchange', 'exchange'),
+			('local', 'local'),
 			('public', 'public'),
-			)          
+			) 
+    pcode= models.CharField(max_length=200,null=True,blank=True)  
+    productcatagory= models.CharField(max_length=200,null=True)   
+        
     #shopname = models.CharField(max_length=200, null=True, choices=CATEGORY)        
-    name = models.TextField(max_length=200,null=True)
-    productcatagory= models.CharField(max_length=200,null=True)
+    name = models.TextField(max_length=30,null=True)
     status=models.CharField(max_length=10,choices=PRODUCT,default='public',null=True)
-    added = models.DateTimeField(auto_now_add=True,null=True)
-    brand= models.CharField(max_length=200,null=True)
+    # added = models.DateTimeField(auto_now_add=True,null=True)
+    # brand= models.CharField(max_length=200,null=True)
+    quantity = models.PositiveIntegerField(default=0,null=True)
     price = models.DecimalField(
         decimal_places=0,
         max_digits=10,
@@ -30,13 +34,17 @@ class Product(models.Model):
     )
    
     
-    groupname= models.CharField(max_length=200,null=True)
-    quantity = models.PositiveIntegerField(default=0,null=True)
+    groupname= models.CharField(max_length=200,null=True,blank=True)
+   
     mother = models.BooleanField(null=True,blank=True)
     subpartquantity = models.PositiveIntegerField(default=0,null=True)
     
     def __str__(self):
         return self.name
+    
+    def total_price(self):
+        return (self.quantity * self.price)
+
 
 
        
@@ -45,7 +53,14 @@ class Customer(models.Model):
     address = models.CharField(max_length=200)
    
     Phone = models.CharField(max_length=200)
-    balance = models.PositiveIntegerField(default=0,null=True)
+    balance = models.DecimalField(
+        decimal_places=0,
+        max_digits=10,
+        validators=[MinValueValidator(0)],
+        default=0,
+        null=True,
+        blank=True
+    )
     
        
     def __str__(self):
@@ -140,6 +155,7 @@ class Order(models.Model):
     totalprice1 = models.PositiveIntegerField(default=0,null=True,blank=True)
     due = models.PositiveIntegerField(default=0,null=True,blank=True)
     smssend= models.BooleanField(null=True,blank=True,default=False)
+    datetime= models.DateTimeField(null=True) 
     @property
     def total_price(self):
         return (self.quantity * self.UserItem.price1)
@@ -151,15 +167,6 @@ class Order(models.Model):
     
 
 
-
-class plreport(models.Model):
-      product = models.ForeignKey(Product, on_delete=models.CASCADE)
-      order = models.ForeignKey(Order, on_delete=models.CASCADE,null=True,blank=True)
-      user = models.ForeignKey(User, on_delete=models.CASCADE)
-      stockquantity = models.PositiveIntegerField(default=0)
-      changequanitity =models.PositiveIntegerField(default=0)
-      reporttype= models.CharField(max_length=500,blank=True,null=True)
-      added = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 
 
 
@@ -199,6 +206,7 @@ class sold(models.Model):
     Phone = models.CharField(max_length=200,null=True,blank=True)
     sparename = models.CharField(max_length=200,null=True,blank=True)
     groupproduct = models.BooleanField(null=True,blank=True)
+    datetime= models.DateTimeField(null=True,blank=True)
     @property
     def total_price(self):
         return self.quantity * self.price1 +self.exchange_ammount
@@ -256,12 +264,17 @@ class returnn(models.Model):
      duereturnprice = models.PositiveIntegerField(default=0,null=True)
      status=models.CharField(max_length=50,choices= category ,default='CASH RETURN',null=True)
      customer = models.ForeignKey(Customer, on_delete=models.CASCADE,null=True,blank=True)    
-    
+     datetime= models.DateTimeField(null=True) 
 
 
 
 
 class bill(models.Model):  
+     category = (
+			('CASH ','CASH'),
+			('BANK', 'BANK'),
+            ('BOTH', 'BOTH'),
+			) 
      order = models.ForeignKey(Order, on_delete=models.CASCADE,null=True,blank=True)      
      name = models.TextField(max_length=20,null=True)
      ammount = models.DecimalField(
@@ -274,7 +287,13 @@ class bill(models.Model):
      added = models.DateTimeField(auto_now_add=True,null=True,blank=True)
      customer = models.ForeignKey(Customer, on_delete=models.CASCADE,null=True,blank=True) 
      smssend= models.BooleanField(null=True,blank=True,default=False)
-
+     datetime= models.DateTimeField(null=True) 
+     status=models.CharField(max_length=50,choices= category ,default='CASH',null=True)
+     bankname= models.CharField(max_length=300,null=True,default='',blank=True)
+     brunchname= models.CharField(max_length=300,null=True,default='',blank=True)
+     ChequeNo= models.CharField(max_length=300,null=True,default='',blank=True)
+     issueDate= models.DateField(null=True,blank=True) 
+     ClearingDate=models.DateField(null=True,blank=True)
 
 class Customerbalacesheet(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE,null=True,blank=True,related_name='customer')
@@ -285,7 +304,7 @@ class Customerbalacesheet(models.Model):
     duebalanceadd = models.PositiveIntegerField(default=0,null=True)
     balance = models.PositiveIntegerField(default=0,null=True)
     added = models.DateTimeField(auto_now_add=True,null=True)
-       
+    datetime= models.DateTimeField(null=True)  
     
     
     
@@ -346,6 +365,7 @@ class mrentry(models.Model):
     totalprice = models.PositiveIntegerField(default=0,null=True,blank=True)
     totalprice1 = models.PositiveIntegerField(default=0,null=True,blank=True)
     due = models.PositiveIntegerField(default=0,null=True,blank=True)
+    datetime= models.DateTimeField(null=True) 
     @property
     def total_price(self):
         return (self.quantity * self.UserItem.price1)
@@ -393,6 +413,7 @@ class mrentryrecord(models.Model):
     Phone = models.CharField(max_length=200,null=True,blank=True)
     sparename = models.CharField(max_length=200,null=True,blank=True)
     groupproduct = models.BooleanField(null=True,blank=True)
+    datetime= models.DateTimeField(null=True) 
     @property
     def total_price(self):
         return self.quantity * self.price1 +self.exchange_ammount
@@ -439,9 +460,11 @@ class temppaybill(models.Model):
         decimal_places=0,
         max_digits=10,
         validators=[MinValueValidator(0)],
-        null=True
+        null=True,
+        default=0,
     )
    remarks = models.CharField(max_length=800,null=True,blank=True)
+   datetime= models.DateTimeField(null=True)
 
 
 
@@ -472,10 +495,19 @@ class paybill(models.Model):
    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)   
    remarks = models.CharField(max_length=300,null=True,blank=True)
    added = models.DateTimeField(auto_now_add=True,null=True)
+   datetime= models.DateTimeField(null=True)
 
 
 
-class dailyreport(models.Model):    
+class dailyreport(models.Model):  
+
+
+   category = (
+			('COMMISION', 'COMMISION'),
+			('DISCOUNT', 'DISCOUNT'),
+            ('FUND TRANSFER','FUND TRANSFER'),
+            ('CORPORATE','CORPORATE'),
+			  )   
    order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True,blank=True)  
    mrentry = models.ForeignKey(mrentry,on_delete=models.CASCADE,null=True,blank=True)
    added = models.DateTimeField(auto_now_add=True,null=True) 
@@ -488,13 +520,32 @@ class dailyreport(models.Model):
    returncostprice = models.PositiveIntegerField(default=0)
    billexpense = models.PositiveIntegerField(default=0)
    remarks = models.TextField(max_length=200,null=True,blank= True)
-   reporttype = models.CharField(max_length=800,null=True,blank=True)
+   reporttype = models.CharField(max_length=800,choices=category,null=True,blank=True)
+   datetime= models.DateTimeField(null=True) 
 
    @property
    def paiddtotal(self):
         return self.order.paid
 
 
+
+
+
+
+class plreport(models.Model):
+      product = models.ForeignKey(Product, on_delete=models.CASCADE)
+      order = models.ForeignKey(Order, on_delete=models.SET_NULL,null=True,blank=True)
+      mrentry = models.ForeignKey(mrentry,on_delete=models.SET_NULL,null=True,blank=True)
+      user = models.ForeignKey(User, on_delete=models.CASCADE)
+      stockquantity = models.PositiveIntegerField(default=0)
+      costprice= models.PositiveIntegerField(default=0)
+      price1= models.PositiveIntegerField(default=0)
+      price2= models.PositiveIntegerField(default=0)
+      changequanitity =models.PositiveIntegerField(default=0)
+      reporttype= models.CharField(max_length=500,blank=True,null=True)
+      added = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+      datetime= models.DateTimeField(null=True) 
+      reporttype = models.CharField(max_length=800,null=True,blank=True)
 
 
 
@@ -513,7 +564,7 @@ class corportepay(models.Model):
     added = models.DateTimeField(auto_now_add=True,null=True) 
     remarks = models.TextField(max_length=100,null=True)
     corpocatagory= models.ForeignKey(corpocatagory,on_delete=models.CASCADE,null=True,blank=True)
-
+    datetime= models.DateTimeField(null=True)  
 
 
 
@@ -529,7 +580,7 @@ class supplierbalancesheet(models.Model):
     balance = models.PositiveIntegerField(default=0,null=True)
     duebalanceadd =  models.PositiveIntegerField(default=0,null=True)
     added = models.DateTimeField(auto_now_add=True,null=True)       
-
+    datetime= models.DateTimeField(null=True)
    
 
 

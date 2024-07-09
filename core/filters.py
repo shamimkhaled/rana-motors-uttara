@@ -79,21 +79,21 @@ class OrderFilter(django_filters.FilterSet):
 
 class soldfilter(django_filters.FilterSet):
   
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   #start_time = DateTimeFilter(field_name="added", lookup_expr='time__gte', widget=AdminTimeWidget())
   #end_time = DateTimeFilter(field_name="added", lookup_expr='time__lte', widget=AdminTimeWidget())
   invoicenumber = CharFilter(field_name='invoicenumber', lookup_expr='icontains')
   class Meta:
    model = Order
-   fields = ['customer','invoicenumber']
+   fields = ['customer','invoicenumber','Phone','name','vehicleno']
 
 
 
 class plreportfilter(django_filters.FilterSet):
   
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   #start_time = DateTimeFilter(field_name="added", lookup_expr='time__gte', widget=AdminTimeWidget())
   #end_time = DateTimeFilter(field_name="added", lookup_expr='time__lte', widget=AdminTimeWidget())
   
@@ -108,8 +108,8 @@ class plreportfilter(django_filters.FilterSet):
 
 class Customerbalacesheetfilter(django_filters.FilterSet):
   
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   #start_time = DateTimeFilter(field_name="added", lookup_expr='time__gte', widget=AdminTimeWidget())
   #end_time = DateTimeFilter(field_name="added", lookup_expr='time__lte', widget=AdminTimeWidget())
   #invoicenumber = CharFilter(field_name='invoicenumber', lookup_expr='icontains')
@@ -119,26 +119,26 @@ class Customerbalacesheetfilter(django_filters.FilterSet):
 
 
 class mrfilter(django_filters.FilterSet):
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   
   class Meta:
    model = mrentry
    fields = ['supplier']
 
 class dailyreportfilter(django_filters.FilterSet):
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   
   class Meta:
    model = dailyreport
-   fields = []   
+   fields = ['reporttype']   
 
 
 
 class returnfilter(django_filters.FilterSet):
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   
   class Meta:
    model = returnn
@@ -154,8 +154,8 @@ class expensefilter(django_filters.FilterSet):
 
 
 class paybillfilter(django_filters.FilterSet):
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   
   class Meta:
    model = paybill
@@ -173,8 +173,8 @@ class paybillfilter(django_filters.FilterSet):
 
 
 class billfilter(django_filters.FilterSet):
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   
   class Meta:
    model = returnn
@@ -184,8 +184,8 @@ class billfilter(django_filters.FilterSet):
 
 
 class corportepayfilter(django_filters.FilterSet):
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}))
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   
   class Meta:
    model = corportepay
@@ -197,14 +197,21 @@ class corportepayfilter(django_filters.FilterSet):
 
 class supplierbalanecesheetfilter(django_filters.FilterSet):
   
-  start_date = DateFilter(field_name="added", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
-  end_date = DateFilter(field_name="added", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
+  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
   #start_time = DateTimeFilter(field_name="added", lookup_expr='time__gte', widget=AdminTimeWidget())
   #end_time = DateTimeFilter(field_name="added", lookup_expr='time__lte', widget=AdminTimeWidget())
   #invoicenumber = CharFilter(field_name='invoicenumber', lookup_expr='icontains')
   class Meta:
    model = supplierbalancesheet
    fields = ['supplier']   
+
+
+
+
+
+
+
 
 		
 

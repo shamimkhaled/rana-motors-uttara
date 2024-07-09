@@ -193,8 +193,8 @@
                       <tr>
                 
                 
-                        <td>{{ rs.added}}</td>
-                        <td>{{ rs.reporttype}}</td>
+                        <td>{{ rs.datetime}}</td>
+                        <td>{{ rs.reporttype}} {{rs.remarks}}</td>
                         <td>{{rs.added|date:"dmy-gi"}} </td>
                         <td>{% if rs.order.customer.name != None %}
                           

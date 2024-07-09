@@ -159,6 +159,7 @@
         <th scope="col">TIME</th>
         <th scope="col">Remarks</th>
         <th scope="col">BILL INVOICEID</th>
+        <th scope="col">BILL INVOICE</th>
     </thead>
     <tbody>
       {% for rs in returns %}
@@ -170,13 +171,24 @@
         <td>{{ rs.customer.name}} {{ rs.supplier.name}}</td>
         <td>{{ rs.name}}</td>
         <td>{{ rs.ammount}}</td>
-        <td>{{ rs.added}}</td>
+        <td>{{ rs.datetime}}</td>
         <td>{{ rs.remarks}}</td>
        
 
         <td>{{ rs.billinvoiceid}}</td>
+<td>
+        <button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
+        onclick="window.location.href = '{{ rs.id }}/billreport'">
+    BILL REPORT
+</button>
       </td>
 
+ <td>
+      <button class="bg-green-600 hover:bg-blue-800 text-white text-lg font-bold py-2 px-2 rounded w-48 mr-px"
+        onclick="return confirm('Are you sure you want to send message?') ? window.location.href = '{{ rs.id }}/smssendbill' : false;">
+    <i class="fas fa-comment-sms mr-1"></i>  Send Sms
+</button>
+ </td>
       
     
 

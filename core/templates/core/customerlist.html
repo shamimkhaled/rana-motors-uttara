@@ -113,6 +113,7 @@
             <th>BILL RECEIVE LIST</th>
             <th>RETUEN LIST</th>
             <th>BALANCE SHEET</th>
+            <th>send sms</th>
           </tr>
         </thead>
         <tbody>
@@ -231,6 +232,18 @@
         
        
         </td>
+
+      <td>
+
+        <form method="post" action="{% url 'send-smscustomer'  user.id%}">
+          {% csrf_token %}
+          
+          <input type="text" placeholder="message"  id="message" name="message" required>
+          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px">
+            send message
+        </button>
+      </form>
+    </td>
     
 
 

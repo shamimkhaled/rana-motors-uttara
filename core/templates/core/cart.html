@@ -21,7 +21,7 @@
 
 <style>
     .pagination a {
-        background-color: #2e8ccb; /* Change to your desired button color */
+        background-color: #1aaa21; /* Change to your desired button color */
         color: #000000; /* Black text color */
         border: 1px solid #007bff; /* Add a border with the same color as the background */
         padding: 6px 12px; /* Adjust padding as needed */
@@ -37,7 +37,7 @@
     }
 
     .pagination .current {
-        background-color: #007bff; /* Change to your desired button color for the current page */
+        background-color: #249110; /* Change to your desired button color for the current page */
         color: #000000; /* Black text color for the current page */
         border: 1px solid #007bff; /* Add a border with the same color as the background */
         padding: 6px 12px; /* Adjust padding as needed */
@@ -64,54 +64,8 @@
     </div>
 {% endif %}
 
-<script>
-const closeButtons = document.querySelectorAll('.close-btn');
 
-closeButtons.forEach(closeButton => {
-  closeButton.addEventListener('click', function() {
-    // Remove the message element associated with the clicked button
-    this.parentElement.remove(); // Simplified using `remove()` for modern browsers
-  });
-});
-</script>
 
-<style>
-.messages {
-    /* Adjust styling as needed for spacing, borders, etc. */
-    padding: 1rem;
-    border: 1px solid #ddd;
-    margin: 1rem 0;
-    list-style: none; /* Remove default list styling */
-}
-
-.messages li {
-    /* Adjust styling as needed for individual messages */
-    padding: 0.5rem 1rem;
-    display: flex; /* Allow for inline placement of message and close button */
-    justify-content: space-between; /* Align items horizontally */
-    align-items: center; /* Align items vertically */
-    border-bottom: 1px solid #eee; /* Add subtle separation lines */
-}
-
-.message-content {
-    /* Adjust styling as needed for message content */
-    flex-grow: 1; /* Allow message content to expand to fill remaining space */
-}
-
-.close-btn {
-    /* Adjust styling as needed for close button */
-    background: none; /* Remove default button background */
-    border: none; /* Remove default button border */
-    padding: 0 5px; /* Add some padding for visual separation */
-    cursor: pointer; /* Indicate clickable behavior */
-    color: #888; /* Adjust color as needed */
-    transition: color 0.2s ease-in-out; /* Add smooth color transition on hover */
-}
-
-.close-btn:hover {
-    color: #333; /* Change color on hover */
-}
-</style>
 
 
 
@@ -120,7 +74,7 @@ closeButtons.forEach(closeButton => {
 
 
 <div class="flex ">
-    <div class="h-ful shadow-md bg-slate-500 " id="sidenavSecExample">
+    <div class="h-ful shadow-md bg-emerald-700 " id="sidenavSecExample">
         <div class="pt-1 pb-1 px-6">
             <a href="#!">
                 <div class="flex items-center">
@@ -133,16 +87,16 @@ closeButtons.forEach(closeButton => {
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-60 hover:bg-sky-950 hover:font-bold transition duration-300 ease-in-out"
                     href="admin/core/customer/" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>Admin</span>
+                    <i class="fa-solid fa-user-tie" style="color: #b1d03e;"></i>
+                    <span>ADMIN</span>
                 </a>
             </li>
       
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
                     href="/mrinvoicelist" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>MR Invoice Report</span>
+                    <i class="fa-solid fa-file-invoice" style="color: #b1d03e;"></i>
+                    <span>MR INVOICE  LIST</span>
                 </a>
             </li>
 
@@ -151,16 +105,16 @@ closeButtons.forEach(closeButton => {
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
                     href="/soldlist" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>Invoice Report</span>
+                    <i class="fa-solid fa-file-invoice" style="color: #b1d03e;"></i>
+                    <span>INVOICE LIST</span>
                 </a>
             </li>
 
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
                     href="/returnlist" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>returnlist</span>
+                    <i class="fa-solid fa-list" style="color: #b1d03e;"></i>
+                    <span>RETURN LIST</span>
                 </a>
             </li>
 
@@ -168,18 +122,40 @@ closeButtons.forEach(closeButton => {
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
                     href="bill_list" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>Bill receivelist</span>
+                    <i class="fa-solid fa-list"  style="color: #b1d03e;"></i>
+                    <span>BILL RECEIVELIST</span>
                 </a>
             </li>
         
             <hr class="my-2">
+            
+
 
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
-                    href="admin/core/customer/add" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>Add Customer</span>
+                    href="/productcreate" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                    <i class="fa-solid fa-plus" style="color: #b1d03e;"></i>
+                    <span>ADD PRODUCT</span>
+                </a>
+
+            </li>
+
+
+            <li class="relative">
+                <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
+                    href="/customercreate" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                    <i class="fa-solid fa-plus"  style="color: #b1d03e;"></i>
+                    <span>ADD CUSTOMER</span>
+                </a>
+
+            </li>
+
+
+            <li class="relative">
+                <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
+                    href="/suppliercreate" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                    <i class="fa-solid fa-plus" style="color: #b1d03e;"></i>
+                    <span>ADD SUPPLIER</span>
                 </a>
 
             </li>
@@ -188,18 +164,18 @@ closeButtons.forEach(closeButton => {
 
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
-                    href="admin/core/paybillcatogory/add" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>new expense category</span>
+                    href="/paybillcategorycreate" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                    <i class="fa-solid fa-plus" style="color: #b1d03e;"></i>
+                    <span>NEW EXPENSE CETEGORY</span>
                 </a>
 
             </li>
 
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-white-300 hover:bg-sky-950  hover:font-bold transition duration-200 ease-in-out"
-                    href="admin/core/corpocatagory/add" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>new corporate payment </span>
+                    href="/corpocategorycreate" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                    <i class="fa-solid fa-plus" style="color: #b1d03e;"></i>
+                    <span>NEW CORPORATE PAYMENT</span>
                 </a>
 
             </li>
@@ -207,8 +183,8 @@ closeButtons.forEach(closeButton => {
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white hover:text-white whitespace-nowrap rounded hover:text-white-600 hover:bg-sky-950  hover:font-bold transition duration-300 ease-in-out"
                     href="/customerlist" data-mdb-ripple="true" data-mdb-ripple-color="primary">
-                    
-                    <span>Customer Ledger</span>
+                    <i class="fa-solid fa-people-group" style="color: #b1d03e;"></i>
+                    <span>CUSTOMER LEDGER</span>
                 </a>
 
             </li>
@@ -220,8 +196,11 @@ closeButtons.forEach(closeButton => {
             <li class="relative">
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white hover:text-white whitespace-nowrap rounded hover:text-white-600 hover:bg-sky-950  hover:font-bold transition duration-300 ease-in-out"
                     href="/suplierlist" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+
+
+                    <i class="fa-solid fa-people-group" style="color: #b1d03e;"></i>
                     
-                    <span>supplier Ledger</span>
+                    <span> SUPPLIER LEDGER</span>
                 </a>
 
             </li>
@@ -238,9 +217,9 @@ closeButtons.forEach(closeButton => {
                 <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-red-50 text-ellipsis whitespace-nowrap rounded hover:text-white-600 hover:bg-sky-950  hover:font-bold transition duration-300 ease-in-out"
                     href="/mr" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                     
-                    <span class="icon">
-                        <ion-icon name="documents-outline"></ion-icon>
-                    </span>
+                    
+                        <i class="fa-solid fa-file-invoice" style="color: #b1d03e;"></i>
+                    
                     <span>MR ENTRY</span>
                 </a>
             </li>
@@ -249,7 +228,7 @@ closeButtons.forEach(closeButton => {
                     href="/expense" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                     
                     <span class="icon">
-                        <ion-icon name="documents-outline"></ion-icon>
+                        <i class="fa-solid fa-coins" style="color: #b1d03e;"></i>
                     </span>
                     <span>EXPENSE</span>
                 </a>
@@ -259,7 +238,7 @@ closeButtons.forEach(closeButton => {
                     href="/daily" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                     
                     <span class="icon">
-                        <ion-icon name="documents-outline"></ion-icon>
+                        <i class="fa-solid fa-file-pen" style="color: #b1d03e;"></i>
                     </span>
                     <span>DAILY REPORT</span>
                 </a>
@@ -270,7 +249,7 @@ closeButtons.forEach(closeButton => {
                     href="/salesreport" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                     
                     <span class="icon">
-                        <ion-icon name="documents-outline"></ion-icon>
+                        <i class="fa-solid fa-file-pen" style="color: #b1d03e;"></i>
                     </span>
                     <span>SALES REPORT</span>
                 </a>
@@ -283,7 +262,7 @@ closeButtons.forEach(closeButton => {
                     href="/expensereport" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                     
                     <span class="icon">
-                        <ion-icon name="documents-outline"></ion-icon>
+                        <i class="fa-solid fa-wallet" style="color: #b1d03e;"></i>
                     </span>
                     <span>Expense report </span>
                 </a>
@@ -296,12 +275,29 @@ closeButtons.forEach(closeButton => {
                     href="/plreport" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                     
                     <span class="icon">
-                        <ion-icon name="documents-outline"></ion-icon>
+                        <ion-icon name="documents-outline" style="color: #b1d03e;"></ion-icon>
                     </span>
-                    <span>pl report  </span>
+                    <span>product report  </span>
+                </a>
+            </li>
+
+
+
+
+            <li class="relative">
+                <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white hover:text-white text-ellipsis whitespace-nowrap rounded hover:text-white-600 hover:bg-sky-950  hover:font-bold transition duration-300 ease-in-out"
+                    href="/currentproduct" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                    
+                    <span class="icon">
+                        <ion-icon name="documents-outline" style="color: #b1d03e;"></ion-icon>
+                    </span>
+                    <span>Current product </span>
                 </a>
             </li>
      
+
+
+            
             
 
             <li class="relative">
@@ -309,7 +305,7 @@ closeButtons.forEach(closeButton => {
                     href="/sms" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                     
                     <span class="icon">
-                        <ion-icon name="documents-outline"></ion-icon>
+                        <i class="fa-solid fa-comments" style="color: #b1d03e;"></i>
                     </span>
                     <span>sms</span>
                 </a>
@@ -344,7 +340,7 @@ closeButtons.forEach(closeButton => {
         <div class="grid   grid-cols-3 gap-1  ">
             <div class="col-span-2 m-1">
 
-                TOTAL AMMOUNT  {{totalbalace}} TK
+                
                 <div class="container mt-2">
                     <form method="GET" action=" " class="d-flex custom-form">
 
@@ -369,7 +365,7 @@ closeButtons.forEach(closeButton => {
         
                        
                         
-                    <button class="btn text-blue-400 hover:text-white border border-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-300 dark:text-blue-300 dark:hover:text-white dark:hover:bg-blue-400 dark:focus:ring-blue-900" type="submit">Search</button>
+                    <button class="btn text-green-400 hover:text-white border border-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-300 dark:text-blue-300 dark:hover:text-white dark:hover:bg-blue-400 dark:focus:ring-blue-900" type="submit">Search</button>
 
                     </form>
                 </div>
@@ -385,53 +381,34 @@ closeButtons.forEach(closeButton => {
 
                     {% for product in pro %}
     
-    <a href="#"
-        class="w-[47%] p-4 max-w-sm  rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {{ product.name}}
-        </h5>
-        <div class="flex justify-between">
-            <p class="font-normal text-gray-700 dark:text-gray-400 px-1">
-                TK{{ product.price }}
-            </p>
-            
-            <p class="font-normal   text-red mx-1">
-                Qty: {{ product.quantity }}
-            </p>
-
-            <p class="font-normal   text-red mx-1">
-                cat : {{ product.productcatagory }}
-            </p>
-            <!-- <button
-    class="save text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-small rounded-lg text-xs px-3 py-1.5 text-center mr-2 mb-2"
-    onclick="window.location.href = '{{product.id}}/addproduct'">
-    Add
-</button> -->
-
-
-           
-        
-
-         <button class="save btn btn-info mx-2" onclick="openModal('{{ product.id }}', '{{ product.name }}', '{{ product.price }}')">Add</button>
-            
-
-        
-
-            {% if  product.mother == True%}
-            <button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
-            onclick="window.location.href = '/{{product.id}}/group'">
-            group
-            </button>
-            {% else %}
-            
-            
-            {% endif %}
-
-
-            
-            
-        </div>
-    </a>
+                    <a href="#"
+                    class="w-[30%] p-4 max-w-xs rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-2 transition duration-300 ease-in-out">
+                    <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+                        {{ product.productcatagory}}
+                    </h5>
+                    <div class="flex flex-col mb-3">
+                        <p class="font-normal text-gray-700 dark:text-gray-400">
+                            <span class="text-purple-500">name:</span> {{ product.name }}
+                        </p>
+                        <p class="font-normal text-gray-700 dark:text-gray-400">
+                            <span class="text-green-500">Quantity:</span> {{ product.quantity }}
+                        </p>
+                        <p class="font-normal text-gray-700 dark:text-gray-400">
+                            <span class="text-blue-500">Price:</span> TK{{ product.price }}
+                        </p>
+                        
+                        
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <button class="save text-white bg-green-600 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 py-1.5 text-center transition duration-300 ease-in-out"
+                            onclick="openModal('{{ product.id }}', '{{ product.name }}', '{{ product.price }}')">Add to Cart</button>
+                        
+                        {% if product.mother %}
+                        <button class="bg-green-950 hover:bg-purple-600 text-white text-xs font-bold rounded-md py-2 px-3 transition duration-300 ease-in-out"
+                            onclick="window.location.href = '/{{ product.id }}/group'">Group </button>
+                        {% endif %}
+                    </div>
+                </a>
     
     {% endfor %}
                    
@@ -597,7 +574,7 @@ closeButtons.forEach(closeButton => {
                         {% csrf_token %}
                         {{ form|crispy}}
                         <br>
-                        <button type="submit" class="save btn btn-info" name="btnform2">Submit</button>
+                        <button type="submit" class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" name="btnform2">Submit</button>
                     </form>
 
                 </div>

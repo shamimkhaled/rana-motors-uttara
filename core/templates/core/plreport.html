@@ -235,7 +235,11 @@ closeButton.addEventListener('click', function() {
         <th scope="col">clinet copy</th>
         <th scope="col">quantity</th>
         <th scope="col">stock</th>
+        <th scope="col">costprice</th>
+        <th scope="col">price1</th>
+        <th scope="col">price2</th>
         <th scope="col">invoice type</th>
+        <th scope="col">Date time</th>
         
       </tr>
     </thead>
@@ -248,7 +252,7 @@ closeButton.addEventListener('click', function() {
        
         <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
             onclick="window.location.href = '{{rs.order.id}}/cashmemo'">
-            Printcashmemo
+            office copy
 
           </button>
         </td>
@@ -259,13 +263,15 @@ closeButton.addEventListener('click', function() {
         </button>
       </td>
 
-      <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
-        onclick="window.location.href = '{{rs.id}}/chalan'">
-        chalan 
-
      
-    </td>
-        <td>{{ rs.added}}</td>
+     
+    <td>{{ rs.changequanitity}}</td>
+    <td>{{ rs.stockquantity}}</td>
+    <td>{{ rs.costprice}}</td>
+    <td>{{ rs.price1}}</td>
+    <td>{{ rs.price2}}</td>
+    <td>{{ rs.reporttype}}</td>
+        <td>{{ rs.datetime}}</td>
       </tr>
       {% endfor %}
     </tbody>

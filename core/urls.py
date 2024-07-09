@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path,include
-from .views import  update_view,ggroup,group,mrupdate_view,customersolddeatails,chalan,billcustomer,groupupdate_view,dalyreport,dalyreportsearch,expenseform,expensestore,addproduct,addproductgroup,CountryAutocomplete,sms,salesreport,expensereport,api_productlist,delete_user_item,apiaddproduct,userItemstore,mreditcashmemo,smssend,supplierbalancesheetlist,CustomerAutocomplete
+from .views import  update_view,ggroup,group,mrupdate_view,customersolddeatails,chalan,billcustomer,groupupdate_view,dalyreport,dalyreportsearch,expenseform,expensestore,addproduct,addproductgroup,CountryAutocomplete,sms,salesreport,expensereport,api_productlist,delete_user_item,apiaddproduct,userItemstore,mreditcashmemo,smssend,supplierbalancesheetlist,CustomerAutocomplete,bothcashmemo,groupproductstore,smssendcustomer,sendsmssupplier,product_create,autocomplete_groupnamecopy,customer_create_view,supplier_create_view,paybillcategory_create_view,corpocategory_create_view,update_paybill
 
 from django.urls import re_path as url
 from django.urls import reverse
@@ -15,7 +15,7 @@ urlpatterns = [
     path('accounts/logout/', LogoutView.as_view(), name='logout'),
     path('', views.cart, name='cart'),
     path('salesreport', views.salesreport, name='salesreport'),
-    path('mr', views.mr, name='mr'),
+    
     path('corporatepayment', views.corporatepayment, name='corporatepayment'),
   
     path('autocomplete/', views.AutocompleteView.as_view(), name='autocomplete'),
@@ -24,9 +24,15 @@ urlpatterns = [
 
     path('<id>/group',group,name='group'),
     path('<id>/addproductgroup',views.addproductgroup ,name='update'),
+
+     path('groupproductstore/', views.groupproductstore, name='groupproductstore'),
     path('<id>/groupupdate',groupupdate_view ,name='update'),
-     path('<id>/deletegroup', views.delete_itemgroup, name='delete'),
+
+    path('<id>/deletegroup', views.delete_itemgroup, name='delete'),
     path('<id>/mrupdate',mrupdate_view ,name='mrupdate'),
+
+
+    path('<id>/deletexpense', views.deletexpense, name='deletexpense'),
 
     
     path('soldlist', views.soldlist, name='soldlist'),
@@ -35,10 +41,15 @@ urlpatterns = [
 
     path('<id>/cashmemo', views.cashmemo, name='cashmemo'),
     path('<id>/cashmemo1', views.cashmemo1, name='cashmemo1'),
+    path('<id>/billreport', views.billreport, name='billreport'),
+
+
      path('<id>/chalan', views.chalan, name='chalan'),
      path('<id>/deleteinvoice', views.deleteinvoice, name='deleteinvoice'),
       path('<id>/editcashmemo', views.editcashmemo, name='editcashmemo'),
     path('<id>/fianaleditcashmemo', views.fianaleditcashmemo, name='fianaleditcashmemo'),
+    path('<id>/bothcashmemo', views.bothcashmemo, name='bothcashmemo'),
+
 
 
    
@@ -52,17 +63,17 @@ urlpatterns = [
     #bill
     path('bill_list', views.bill_list, name='bill_list'),
     path('supplierbill_list', views.supplierbill_list, name='supplierbill_list'),
-
+    path('<id>/bill', views.billt, name='bill'),
    
     path('productlist', views.productlist, name='productlist'),
 
-
+    path('mr', views.mr, name='mr'),
     path('mrinvoicelist', views.mrinvoicelist, name='mrinvoicelist'),
     path('<id>/mrcashmemo', views.mrcashmemo, name='mrcashmemo'),
     path('<id>/mreditcashmemo', views.mreditcashmemo, name='mreditcashmemo'),
     path('<id>/mrfianaleditcashmemo', views.mrfianaleditcashmemo, name='mrfianaleditcashmemo'),
 
-    path('<id>/bill', views.billt, name='bill'),
+    
     path('<id>/delete', views.delete_item, name='delete'),
    
     path('<id>/billcustomer', views.billcustomer, name='bill'),
@@ -79,17 +90,23 @@ urlpatterns = [
 
 
     path("daily", views.dalyreport, name=""),
-    path("expensereport", views.expensereport, name=""),
+    path("expensereport", views.expensereport, name="expensereport"),
     path('plreport', views.plreportlist, name='plreportlist'),
+     path('productview', views.productreport, name='productreport'),
+ 
 
-
-
-    path("expense", views.expense, name=""),
+    path("expense", views.expense, name="expense"),
     
 
     
     path("sms", views.sms, name="sms"),
     path("smssend", views.smssend, name="smssend"),
+    path('<id>/smssendinvoice', views.smssendinvoice, name='smssendinvoice'),
+    path('<id>/smssendbill', views.smssendbill, name='smssendbill'),
+    path('send-smscustomer/<int:id>/', views.smssendcustomer, name='send-smscustomer'),
+    path('send-smssupplier/<int:id>/', views.sendsmssupplier, name='send-smssupplier'),
+
+
 
 
     path("<id>/expenseform", views.expenseform ,name=""),
@@ -107,8 +124,35 @@ urlpatterns = [
     path('api_useritemstore/', views.userItemstore, name="userItemstore"),
     path('api_mruseritemstore/', views.mruserItemstore, name="mruserItemstore"),
 
-     path('customer-autocomplete/', CustomerAutocomplete.as_view(), name='customer-autocomplete')
+     path('customer-autocomplete/', CustomerAutocomplete.as_view(), name='customer-autocomplete'),
+
+
+
+     path('productcreate', views.product_create, name='product_create'),
+     path('autocomplete-groupnamecopy/', views.autocomplete_groupnamecopy, name='autocomplete-groupnamecopy'),
+     
+     path('autocomplete_category/', views.autocomplete_category, name='autocomplete_category'),
+     path('customercreate', views.customer_create_view, name='customer_create'),
+     path('suppliercreate', views.supplier_create_view, name='supplier_create'),
+     path('paybillcategorycreate', views.paybillcategory_create_view, name='paybillcategory_create'),
+     path('corpocategorycreate', views.corpocategory_create_view, name='corpocategory_create'),
+     path('paybill/update/<int:pk>/', views.update_paybill, name='update_paybill'),
+     
+     path('delete-all-products/', views.delete_all_products, name='delete_all_products'),
+
+
+
+     path('currentproduct', views.grouped_products, name='grouped_products'),
+
+
+     path('soldreportgroup', views.product_list_grouped_by_category, name='product_list_grouped'),
+
+
+     
 ]
+
+
+
 
 
    

@@ -1,1 +1,0 @@
-web: python3.10 gunicorn cart.wsgi:application --bind 0.0.0.0:8000

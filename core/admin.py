@@ -25,9 +25,9 @@ class PhotoAdmin(admin.ModelAdmin):
 
 
 class ComputerAdmin(admin.ModelAdmin):
-    list_filter=('added', 'product')
-    list_display = ('added', 'product')
-    search_fields=('added', 'product') 
+    list_filter=('datetime', 'product')
+    list_display = ('datetime', 'product')
+    search_fields=('datime','product') 
 
 
 #@admin.register (Product)
@@ -59,8 +59,8 @@ class SwitchModelResource(resources.ModelResource):
     
 
 class SwitchModelAdmin(ImportExportModelAdmin):
-        list_display = ('added', 'name','price')
-        list_filter=('added','productcatagory')
+        list_display = ('name','price')
+        list_filter=['productcatagory']
         resource_class = SwitchModelResource
         inlines = [OrderProductline]
         search_fields = ['name']
@@ -104,7 +104,7 @@ admin.site.register(supplier,SwitchModelAdmin2)
 
 class ReturnnAdmin(admin.ModelAdmin):
     list_filter = (
-        ('added', admin.DateFieldListFilter),
+        ('datetime', admin.DateFieldListFilter),
     )
 
 admin.site.register(returnn, ReturnnAdmin)
