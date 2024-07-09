@@ -1726,6 +1726,7 @@ def mrfianaleditcashmemo(request, id):
 
         # Update product quantity
         productnew.quantity = qua + fs.quantity
+        productnew.price=fs.price1
       
 
         orders.totalprice = omitprice1 +(fs.quantity *fs.price1)
