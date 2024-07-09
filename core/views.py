@@ -1829,7 +1829,7 @@ def mrfianaleditcashmemo(request, id):
         messages.success(request, 'Form submitted successfully')
 
         # Redirect to the updated URL
-        return redirect('editcashmemo', id=shopcart.order.id)
+        return redirect('editcashmemo', id=shopcart.mrentryrecordr.id)
 
     # add form dictionary to context
     context["form"] = form
