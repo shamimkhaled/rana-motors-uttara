@@ -3590,7 +3590,7 @@ def smssend(request):
     'Authorization': 'Bearer 297|fOiAZt4BLS5eL1MTjmk4UZvWlHPaOnsIhpW7ivqq',
     'Content-Type': 'application/json'
 }
-    recipients = ["8801814392710","8801922542456"]
+    recipients = ["8801814392710","8801922542456","8801815644860"]
     sender_id = "8809601001296"
     #
 
