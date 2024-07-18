@@ -27,6 +27,7 @@ class Product(models.Model):
     # brand= models.CharField(max_length=200,null=True)
     quantity = models.PositiveIntegerField(default=0,null=True)
     price = models.DecimalField(
+        default=0,
         decimal_places=0,
         max_digits=10,
         validators=[MinValueValidator(0)],
