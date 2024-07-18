@@ -4713,7 +4713,18 @@ def update_paybill(request, pk):
 
 
 def delete_all_products(request):
-    Product.objects.all().delete()
+    # Product.objects.all().delete()
+
+    products = Product.objects.all()
+    
+    # Prepare data to pass to the template
+    product_list = []
+    for product in products:
+        price = product.price if product.price is not None else 0
+        quantity = product.quantity if product.quantity is not None else 0
+        product.save()
+
+    delete_all_products
     return render(request, 'core/customer_form.html')
 
 
