@@ -600,7 +600,7 @@ def soldlist(request):
 
 # Orders without customers  
         orders_without_customers = Order.objects.filter(customer__isnull=True)
-        without_customers = orders_without_customers.aggregate(Sum('due'))['totalprice__sum'] or 0
+        without_customers = orders_without_customers.aggregate(Sum('due'))['due__sum'] or 0
 
         
         # Pagination
