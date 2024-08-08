@@ -605,7 +605,7 @@ def soldlist(request):
         
 
         with_customers = Order.objects.objects.all()
-        with_customers = orders_without_customers.aggregate(Sum('balance'))['balance__sum'] or 0
+        with_customers =  with_customers.aggregate(Sum('balance'))['balance__sum'] or 0
         # Pagination
         paginator = Paginator(filtered_orders, 10)  # Show 5 orders per page
         page_number = request.GET.get('page')
