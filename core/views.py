@@ -599,12 +599,12 @@ def soldlist(request):
         
 
 # Orders without customers  
-        orders_without_customers = Customer.objects.filter(customer__isnull=True)
+        orders_without_customers = Order.objects.filter(customer__isnull=True)
         without_customers = orders_without_customers.aggregate(Sum('due'))['due__sum'] or 0
 
         
 
-        with_customers = Order.objects.objects.all()
+        with_customers = Customer.objects.objects.all()
         with_customers =  with_customers.aggregate(Sum('balance'))['balance__sum'] or 0
         # Pagination
         paginator = Paginator(filtered_orders, 10)  # Show 5 orders per page
