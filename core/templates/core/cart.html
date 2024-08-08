@@ -451,6 +451,9 @@
                         <div class="modal-content py-4 px-6">
                             <div class="modal-header flex justify-between items-center">
                                 <h4 class="modal-title text-lg font-semibold" id="myModalLabel"></h4>
+                                
+
+                                <h4 class="modal-title text-lg font-semibold" id="myModalprice"></h4>
                                 <button class="btn btn-secondary text-white bg-red-500" onclick="closeModal()">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -926,12 +929,16 @@ function deleteItem(item) {
     const openModal = (productId, productName, price) => {
     const modal = document.getElementById("myModal");
     const modalTitle = modal.querySelector("#myModalLabel");
+    
+    const myModalprice = modal.querySelector("#myModalprice");
     const productIdField = modal.querySelector("#productId");
     const quantityField = modal.querySelector("#quantity");
     const priceField = modal.querySelector("#price");
+    const modalprice = modal.querySelector("#myModalprice");
 
-    modalTitle.textContent = productName;
+    modalTitle.textContent = productName  ;
     productIdField.value = productId;
+    myModalprice.textContent = price  ;
     quantityField.value = "";
     priceField.value = "";
 

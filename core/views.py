@@ -3903,7 +3903,7 @@ class AutocompleteView(View):
 
 @api_view(['GET'])
 def api_productlist(request):
-    tasks = UserItem.objects.filter(groupproduct=False).order_by('-id')
+    tasks = UserItem.objects.filter(user=request.user, groupproduct=False).order_by('-id')
     serializer = TaskSerializer(tasks, many=True)
     #total_sum = tasks.aggregate(total_sum=Sum('price1'))['total_sum']  
     total=0
