@@ -594,6 +594,14 @@ def soldlist(request):
         # Apply filtering using the custom filter (soldfilter)
         myFilter = soldfilter(request.GET, queryset=orders)
         filtered_orders = myFilter.qs
+
+
+        
+
+# Orders without customers  
+        orders_without_customers = Order.objects.filter(customer__isnull=True)
+        without_customers = orders_without_customers.aggregate(Sum('due'))['totalprice__sum'] or 0
+
         
         # Pagination
         paginator = Paginator(filtered_orders, 10)  # Show 5 orders per page
@@ -602,7 +610,9 @@ def soldlist(request):
 
         context = {
             'orders': page_orders,
-            'myFilter': myFilter,  # Pass the filter for the template
+            'myFilter': myFilter,
+            'without_customers' :  without_customers ,
+              # Pass the filter for the template
         }
 
         

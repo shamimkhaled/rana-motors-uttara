@@ -90,6 +90,17 @@
 }
 
 
+.summary-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .summary-box h3 {
+            margin-bottom: 15px;
+        }
+
+
 
 </style>
 
@@ -213,7 +224,17 @@ closeButton.addEventListener('click', function() {
     </div>
   </nav>
 
+
   
+
+  
+
+  <div class="col-md-6">
+            <div class="summary-box">
+                <h3>Orders without Customers</h3>
+                <p>Total Price:  {{ without_customers }}</p>
+            </div>
+        </div>
   {% load crispy_forms_tags %}
 {{ form.media }}
 <form method="get" class="flex items-center space-x-4">
