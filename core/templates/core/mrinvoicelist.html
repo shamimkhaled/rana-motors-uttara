@@ -250,44 +250,22 @@ closeButton.addEventListener('click', function() {
         <td>{{ rs.supplier.name}}</td>
         <td>{{ rs.name}}</td>
         <td>{{rs.totalprice}} | {{rs.due}} </td>
-        <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
+        <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
             onclick="window.location.href = '{{rs.id}}/mrcashmemo'">
             Printcashmemo
 
           </button>
         </td>
-        <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
-          onclick="window.location.href = '{{rs.id}}/cashmemo1'">
-          Printcashmemo2
+       
 
-        </button>
-      </td>
-
-      <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
-        onclick="window.location.href = '{{rs.id}}/chalan'">
-        chalan
-
-      </button>
-    </td>
-        <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
-            onclick="window.location.href = '{{rs.id}}/returnn'">
-            return
-
-          </button>
-        </td>
-        <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
+        <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
           onclick="window.location.href = '{{rs.id}}/mreditcashmemo'">
           editcashmemo
 
         </button>
       </td>
 
-      <td><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-40  mr-px"
-        onclick="window.location.href = '{{rs.id}}/bill'">
-        bill
-
-      </button>
-    </td>
+      
         <td>{{ rs.added}}</td>
       </tr>
       {% endfor %}
