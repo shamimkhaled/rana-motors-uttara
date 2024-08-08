@@ -102,6 +102,29 @@
 
 
 
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .summary-box {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+            background-color: #ffffff;
+        }
+        .summary-box h3 {
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .summary-box p {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+
+
 </style>
 {% load crispy_forms_tags %}
 {{ form.media }}
@@ -232,18 +255,19 @@ closeButton.addEventListener('click', function() {
 
   <div class="container">
     <!-- Summary Boxes Row -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="summary-box">
-                <h3>GENERAL ID DUE</h3>
-                <p>To {{ without_customers }}</p>
-                <h3>ID DUE</h3>
-                <p>To {{ with_customers }}</p>
-            </div>
-
-            
-        </div>
-    </div>
+    <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="summary-box text-center">
+                  <h3>GENERAL ID DUE</h3>
+                  <p>{{ without_customers }}</p>
+                  <hr>
+                  <h3>ID DUE</h3>
+                  <p>{{ with_customers }}</p>
+              </div>
+          </div>
+      </div>
+  </div>
 
     <!-- Form Row -->
     <div class="row">
