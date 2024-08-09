@@ -2247,7 +2247,7 @@ def returnreasonn(request,id):
             
             product.quantity += fs.quantity
             product.save()
-            
+            fs.sold=solds
             fs.save()  
             solds.returnquantity = solds.returnquantity + fs.quantity
             solds.save()
