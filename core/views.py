@@ -4737,13 +4737,13 @@ def delete_all_products(request):
     # Product.objects.all().delete()
 
     products = Product.objects.all()
-    
-    # Prepare data to pass to the template
-    product_list = []
+    updated_count = 0
+
     for product in products:
-        price = product.price if product.price is not None else 0
-        quantity = product.quantity if product.quantity is not None else 0
-        product.save()
+            if product.price is not None and (product.avg_price is None or product.avg_price != product.price):
+                product.avg_price = product.price
+                product.save()
+                updated_count += 1
 
     delete_all_products
     return render(request, 'core/customer_form.html')
