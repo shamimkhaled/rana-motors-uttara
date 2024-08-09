@@ -2238,7 +2238,7 @@ def returnreasonn(request,id):
             # Add an error to the form
            
             
-            messages.error(request, 'Do not have that quantity')
+            messages.error(request, 'Do not have that quantity availabe')
             return redirect('returnreasonn', id=id) 
         
         else:
