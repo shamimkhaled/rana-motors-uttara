@@ -47,6 +47,8 @@ class Product(models.Model):
         return self.name
     
     def total_price(self):
+        if self.quantity is None or self.price is None:
+            return 0  # Or some other default value if either is None
         return self.quantity * self.price
 
     def save(self, *args, **kwargs):
