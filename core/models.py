@@ -44,7 +44,9 @@ class Product(models.Model):
         return self.name
     
     def total_price(self):
-        return (self.quantity * self.price)
+        if self.quantity is None or self.price is None:
+            return 0  # Or some other default value if either is None
+        return self.quantity * self.price
 
 
 
