@@ -6,7 +6,8 @@ import datetime
 from django.db.models import F, Sum
 from django.core.exceptions import ValidationError
 from ordered_model.models import OrderedModel
-
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 class Product(models.Model):
     CATEGORY = (
