@@ -7,54 +7,8 @@ from django.db.models import F, Sum
 from django.core.exceptions import ValidationError
 from ordered_model.models import OrderedModel
 
+
 class Product(models.Model):
-    CATEGORY = (
-			('uttara', 'uttara'),
-			('badda', 'badda'),
-			)
-
-    PRODUCT = (
-			('local', 'local'),
-			('public', 'public'),
-			) 
-    pcode= models.CharField(max_length=200,null=True,blank=True)  
-    productcatagory= models.CharField(max_length=200,null=True)   
-        
-    #shopname = models.CharField(max_length=200, null=True, choices=CATEGORY)        
-    name = models.TextField(max_length=30,null=True)
-    status=models.CharField(max_length=10,choices=PRODUCT,default='public',null=True)
-    # added = models.DateTimeField(auto_now_add=True,null=True)
-    # brand= models.CharField(max_length=200,null=True)
-    quantity = models.PositiveIntegerField(default=0,null=True)
-    price = models.DecimalField(
-        decimal_places=0,
-        max_digits=10,
-        validators=[MinValueValidator(0)],
-        default=0,
-        null=True
-    )
-
-    avg_price = models.DecimalField(
-        decimal_places=0,
-        max_digits=10,
-        validators=[MinValueValidator(0)],
-        default=0,
-        null=True
-    )
-   
-    
-    groupname= models.CharField(max_length=200,null=True,blank=True)
-   
-    mother = models.BooleanField(null=True,blank=True)
-    subpartquantity = models.PositiveIntegerField(default=0,null=True)
-    
-    def __str__(self):
-        return self.name
-    
-    def total_price(self):
-        return (self.quantity * self.price)
-    
-    class Product(models.Model):
     CATEGORY = (
         ('uttara', 'uttara'),
         ('badda', 'badda'),
