@@ -54,10 +54,54 @@ class Product(models.Model):
     def total_price(self):
         return (self.quantity * self.price)
     
-    def save(self, *args, **kwargs):
-        if self.avg_price in [None, 0]:
-            self.avg_price = self.price
-        super(Product, self).save(*args, **kwargs)
+    class Product(models.Model):
+    CATEGORY = (
+        ('uttara', 'uttara'),
+        ('badda', 'badda'),
+    )
+
+    PRODUCT = (
+        ('local', 'local'),
+        ('public', 'public'),
+    )
+
+    pcode = models.CharField(max_length=200, null=True, blank=True)
+    productcatagory = models.CharField(max_length=200, null=True)
+    name = models.TextField(max_length=30, null=True)
+    status = models.CharField(max_length=10, choices=PRODUCT, default='public', null=True)
+    quantity = models.PositiveIntegerField(default=0, null=True)
+    price = models.DecimalField(
+        decimal_places=0,
+        max_digits=10,
+        validators=[MinValueValidator(0)],
+        default=0,
+        null=True
+    )
+    avg_price = models.DecimalField(
+        decimal_places=0,
+        max_digits=10,
+        validators=[MinValueValidator(0)],
+        default=0,
+        null=True
+    )
+    groupname = models.CharField(max_length=200, null=True, blank=True)
+    mother = models.BooleanField(null=True, blank=True)
+    subpartquantity = models.PositiveIntegerField(default=0, null=True)
+
+    def __str__(self):
+        return self.name
+    
+    def total_price(self):
+        return self.quantity * self.price
+
+# Use Django signals to handle avg_price
+@receiver(pre_save, sender=Product)
+def update_avg_price(sender, instance, **kwargs):
+    if instance.avg_price is None or instance.avg_price == 0:
+        instance.avg_price = instance.price
+    # Ensure price is not None or 0 to avoid potential issues
+    if instance.price is None:
+        instance.price = 0
 
 
 
