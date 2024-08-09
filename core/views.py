@@ -2414,9 +2414,16 @@ def returnreasonn(request,id):
                     return redirect('returnreasonn', id=id) 
             
     # add form dictionary to context
-    context["form"] = form
+    context = {#'category': category,
+               'form': form,
+               'solds': solds,
+               
+
+               }
     
-    return render(request, "core/update_view.html", context)
+   
+    
+    return render(request, "core/retuernform.html", context)
 
 
 @login_required
