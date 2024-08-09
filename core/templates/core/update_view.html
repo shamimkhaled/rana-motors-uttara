@@ -19,12 +19,17 @@
     {% endif %}
 
     <!-- Form Section -->
-    <div class="container mt-4">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <input class="btn btn-primary mt-3" type="submit" value="Update">
-        </form>
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4">
+            <h3 class="card-title mb-4 text-center">Update Your Information</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="text-center mt-4">
+                    <input class="btn btn-primary btn-lg" type="submit" value="Update">
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Inline Script for Close Button -->
@@ -54,6 +59,28 @@
     }
     .close-btn:hover {
         color: #d9534f;
+    }
+
+    /* Form Styling */
+    .card {
+        border-radius: 15px;
+        background-color: #f8f9fa;
+    }
+    .card-title {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 700;
+    }
+    form {
+        font-family: 'Open Sans', sans-serif;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
     }
     </style>
 {% endblock %}
