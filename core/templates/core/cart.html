@@ -930,14 +930,14 @@ function deleteItem(item) {
    
 
 
-    const openModal = (productId, productName, price, quantity) => {
+    const openModal = (productId,productName,price,quantity) => {
     const modal = document.getElementById("myModal");
     const modalTitle = modal.querySelector("#myModalLabel");
     
     const myModalprice = modal.querySelector("#myModalprice");
     const myModalquantity = modal.querySelector("#myModalquantity");
     const productIdField = modal.querySelector("#productId");
-    // const quantityField = modal.querySelector("#quantity");
+    const quantityField = modal.querySelector("#quantity");
     const priceField = modal.querySelector("#price");
     const modalprice = modal.querySelector("#myModalprice");
 
