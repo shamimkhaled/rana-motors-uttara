@@ -930,7 +930,7 @@ function deleteItem(item) {
    
 
 
-    const openModal = (productId,productName,price,productQuantity) => {
+    const openModal = (productId,productName, price, productQuantity) => {
     const modal = document.getElementById("myModal");
     const modalTitle = modal.querySelector("#myModalLabel");
     
@@ -944,7 +944,7 @@ function deleteItem(item) {
     modalTitle.textContent = productName  ;
     productIdField.value = productId;
     myModalprice.textContent = price  ;
-    myModalquantity.textContent = quantity;
+    myModalquantity.textContent = productQuantity;
     quantityField.value = "";
     priceField.value = "";
 
