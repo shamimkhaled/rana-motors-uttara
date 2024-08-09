@@ -4766,7 +4766,7 @@ def grouped_products(request):
         
         # Filter products where mother is not true (assuming mother=1 means mother=True)
         total_price_category = products.exclude(mother=True).aggregate(
-            total=Sum(F('quantity') * F('price'), output_field=FloatField())
+            total=Sum(F('quantity') * F('avg_price'), output_field=FloatField())
         )['total'] or 0
         
         grouped_products[category['productcatagory']] = {
