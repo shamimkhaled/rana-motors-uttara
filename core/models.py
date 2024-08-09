@@ -27,10 +27,18 @@ class Product(models.Model):
     # brand= models.CharField(max_length=200,null=True)
     quantity = models.PositiveIntegerField(default=0,null=True)
     price = models.DecimalField(
-        default=0,
         decimal_places=0,
         max_digits=10,
         validators=[MinValueValidator(0)],
+        default=0,
+        null=True
+    )
+
+    avg_price = models.DecimalField(
+        decimal_places=0,
+        max_digits=10,
+        validators=[MinValueValidator(0)],
+        default=0,
         null=True
     )
    
@@ -44,9 +52,12 @@ class Product(models.Model):
         return self.name
     
     def total_price(self):
-        if self.quantity is None or self.price is None:
-            return 0  # Or some other default value if either is None
-        return self.quantity * self.price
+        return (self.quantity * self.price)
+    
+    def save(self, *args, **kwargs):
+        if self.avg_price is None:
+            self.avg_price = self.price
+        super(Product, self).save(*args, **kwargs)
 
 
 
