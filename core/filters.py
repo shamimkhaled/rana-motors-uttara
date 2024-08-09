@@ -84,6 +84,7 @@ class soldfilter(django_filters.FilterSet):
   #start_time = DateTimeFilter(field_name="added", lookup_expr='time__gte', widget=AdminTimeWidget())
   #end_time = DateTimeFilter(field_name="added", lookup_expr='time__lte', widget=AdminTimeWidget())
   invoicenumber = CharFilter(field_name='invoicenumber', lookup_expr='icontains')
+  Phone= CharFilter(field_name='Phone', lookup_expr='icontains')
   class Meta:
    model = Order
    fields = ['customer','invoicenumber','Phone','name','vehicleno']
