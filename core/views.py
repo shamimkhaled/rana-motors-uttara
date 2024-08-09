@@ -2225,7 +2225,7 @@ def returnreasonn(request,id):
     shopcart =returnn.objects.filter(sold_id=id).first()
     
     # pass the object as instance in form
-    form = returnnform(request.POST or None, instance =None)
+    form = returnnform(request.POST or None, instance = shopcart)
  
     # save the data from the form and
     # redirect to detail_view
@@ -2247,7 +2247,7 @@ def returnreasonn(request,id):
             
             product.quantity += fs.quantity
             product.save()
-            fs.sold=solds
+            
             fs.save()  
             solds.returnquantity = solds.returnquantity + fs.quantity
             solds.save()
