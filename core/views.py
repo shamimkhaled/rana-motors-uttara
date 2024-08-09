@@ -2219,13 +2219,13 @@ def returnreasonn(request,id):
     # fetch the object related to passed id
     #obj = get_object_or_404(Product, id = id)
     
-    item, created = returnn.objects.get_or_create(
-           sold_id=id,
-        )
-    shopcart =returnn.objects.filter(sold_id=id).first()
+    # item, created = returnn.objects.get_or_create(
+    #        sold_id=id,
+    #     )
+    # shopcart =returnn.objects.filter(sold_id=id).first()
     
     # pass the object as instance in form
-    form = returnnform(request.POST or None, instance = shopcart)
+    form = returnnform(request.POST or None, instance = None)
  
     # save the data from the form and
     # redirect to detail_view
@@ -2247,7 +2247,7 @@ def returnreasonn(request,id):
             
             product.quantity += fs.quantity
             product.save()
-            
+            fs.sold=solds
             fs.save()  
             solds.returnquantity = solds.returnquantity + fs.quantity
             solds.save()
