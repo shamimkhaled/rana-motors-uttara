@@ -49,14 +49,16 @@ class Product(models.Model):
     def total_price(self):
         return self.quantity * self.price
 
-# Use Django signals to handle avg_price
-@receiver(pre_save, sender=Product)
-def update_avg_price(sender, instance, **kwargs):
-    if instance.avg_price is None or instance.avg_price == 0:
-        instance.avg_price = instance.price
-    # Ensure price is not None or 0 to avoid potential issues
-    if instance.price is None:
-        instance.price = 0
+    def save(self, *args, **kwargs):
+        # Ensure avg_price is set to price if it's None or 0
+        if self.avg_price is None or self.avg_price == 0:
+            self.avg_price = self.price
+
+        # Ensure price is not None or 0
+        if self.price is None:
+            self.price = 0
+
+        super(Product, self).save(*args, **kwargs)
 
 
 
