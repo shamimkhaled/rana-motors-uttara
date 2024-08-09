@@ -55,7 +55,7 @@ class Product(models.Model):
         return (self.quantity * self.price)
     
     def save(self, *args, **kwargs):
-        if self.avg_price is None:
+        if self.avg_price in [None, 0]:
             self.avg_price = self.price
         super(Product, self).save(*args, **kwargs)
 
