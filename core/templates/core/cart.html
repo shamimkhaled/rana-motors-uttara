@@ -450,12 +450,13 @@
                     <div class="modal-container bg-white w-1/2 mx-auto rounded-lg shadow-lg z-50 overflow-y-auto">
                         <div class="modal-content py-4 px-6">
                             <div class="modal-header flex justify-between items-center">
-                                <h4 class="modal-title text-lg font-semibold"> price</h4>
                                 <h4 class="modal-title text-lg font-semibold" id="myModalLabel"></h4>
+                                <h4 class="modal-title text-lg font-semibold"> price</h4>
+                                
                                 
 
                                 <h4 class="modal-title text-lg font-semibold" id="myModalprice"></h4>
-                                <h4 class="modal-title text-lg font-semibold"> QRY</h4>
+                                <h4 class="modal-title text-lg font-semibold"> QTY</h4>
                                 <h4 class="modal-title text-lg font-semibold" id="myModalquantity"></h4>
                                 <button class="btn btn-secondary text-white bg-red-500" onclick="closeModal()">&times;</button>
                             </div>
@@ -943,7 +944,7 @@ function deleteItem(item) {
     modalTitle.textContent = productName  ;
     productIdField.value = productId;
     myModalprice.textContent = price  ;
-    myModalquantity.textContent = quantity,
+    myModalquantity.textContent = quantity;
     quantityField.value = "";
     priceField.value = "";
 
