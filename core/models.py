@@ -32,13 +32,13 @@ class Product(models.Model):
         default=0,
         null=True
     )
-    # avg_price = models.DecimalField(
-    #     decimal_places=0,
-    #     max_digits=10,
-    #     validators=[MinValueValidator(0)],
-    #     default=0,
-    #     null=True
-    # )
+    avg_price = models.DecimalField(
+        decimal_places=0,
+        max_digits=10,
+        validators=[MinValueValidator(0)],
+        default=0,
+        null=True
+    )
     groupname = models.CharField(max_length=200, null=True, blank=True)
     mother = models.BooleanField(null=True, blank=True)
     subpartquantity = models.PositiveIntegerField(default=0, null=True)
@@ -49,16 +49,16 @@ class Product(models.Model):
     def total_price(self):
         return self.quantity * self.price
 
-    # def save(self, *args, **kwargs):
-    #     # Ensure avg_price is set to price if it's None or 0
-    #     if self.avg_price is None or self.avg_price == 0:
-    #         self.avg_price = self.price
+    def save(self, *args, **kwargs):
+        # Ensure avg_price is set to price if it's None or 0
+        if self.avg_price is None or self.avg_price == 0:
+            self.avg_price = self.price
 
-    #     # Ensure price is not None or 0
-    #     if self.price is None:
-    #         self.price = 0
+        # Ensure price is not None or 0
+        if self.price is None:
+            self.price = 0
 
-    #     super(Product, self).save(*args, **kwargs)
+        super(Product, self).save(*args, **kwargs)
 
 
 
