@@ -167,7 +167,8 @@ class Order(models.Model):
     paid = models.PositiveIntegerField(default=0,null=True)
     Phone = models.CharField(max_length=200,null=True,blank=True)
     discount = models.PositiveIntegerField(default=0,null=True,blank=True)
-    
+    companyname = models.CharField(max_length=200,null=True,blank=True)
+    companyaddress = models.CharField(max_length=200,null=True,blank=True)
     totalprice = models.PositiveIntegerField(default=0,null=True,blank=True)
     totalprice1 = models.PositiveIntegerField(default=0,null=True,blank=True)
     due = models.PositiveIntegerField(default=0,null=True,blank=True)
@@ -181,6 +182,7 @@ class Order(models.Model):
     @property
     def total_price1(self):
         return (self.quantity * self.UserItem.price2)
+    
     
 
 

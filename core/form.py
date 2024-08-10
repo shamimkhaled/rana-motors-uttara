@@ -9,7 +9,7 @@ class mrr(forms.ModelForm):
     )
     class Meta:  
         model = mrentry 
-        fields = ['supplier','name','address','paid',"discount","datetime"]
+        fields = ['supplier','name','address','companyname','companyaddress','paid',"discount","datetime"]
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Name'}),
            
