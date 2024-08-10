@@ -9,7 +9,7 @@ class mrr(forms.ModelForm):
     )
     class Meta:  
         model = mrentry 
-        fields = ['supplier','name','address','companyname','companyaddress','paid',"discount","datetime"]
+        fields = ['supplier','name','address','paid',"discount","datetime"]
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Name'}),
            
@@ -25,7 +25,7 @@ class  useritem(forms.ModelForm):
 
     class Meta:
         model = Order 
-        fields = ['customer', 'name', 'address', 'paid', 'discount', 'Phone', 'vehicleno','datetime']
+        fields = ['customer', 'name', 'address', 'paid', 'discount', 'Phone', 'vehicleno','companyname','companyaddress','datetime']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Name'}),
             'customer': autocomplete.ModelSelect2(url='customer-autocomplete'),
