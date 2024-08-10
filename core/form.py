@@ -18,18 +18,68 @@ class mrr(forms.ModelForm):
 
 
 class  useritem(forms.ModelForm):
-    datetime= forms.DateTimeField(
-        label=" Date Time Field",
+    
+    date_time = forms.DateTimeField(
+        label="Date Time Field",
         widget=DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
+    )
+    customer_name = forms.CharField(
+        label="ID Client",
+        widget=forms.TextInput(attrs={'placeholder': 'Client Name'})
+    )
+    customer_select = forms.ModelChoiceField(
+        queryset=Order.objects.all(),  # Assuming the related model is Order, change if different
+        widget=autocomplete.ModelSelect2(url='customer-autocomplete'),
+        label="Select Customer"
+    )
+    address_field = forms.CharField(
+        label="Address",
+        widget=forms.TextInput(attrs={'placeholder': 'Address'})
+    )
+    phone_number = forms.CharField(
+        label="Phone Number",
+        widget=forms.TextInput(attrs={'placeholder': 'Phone Number'})
+    )
+    vehicle_number = forms.CharField(
+        label="Vehicle Number",
+        widget=forms.TextInput(attrs={'placeholder': 'Vehicle Number'})
+    )
+    company_name_field = forms.CharField(
+        label="Company Name",
+        widget=forms.TextInput(attrs={'placeholder': 'Company Name'})
+    )
+    company_address_field = forms.CharField(
+        label="Company Address",
+        widget=forms.TextInput(attrs={'placeholder': 'Company Address'})
+    )
+    discount_field = forms.DecimalField(
+        label="Discount",
+        max_digits=5, decimal_places=2
+    )
+    paid_field = forms.BooleanField(
+        label="Paid",
+        required=False
     )
 
     class Meta:
-        model = Order 
-        fields = ['customer', 'name', 'address', 'paid', 'discount', 'Phone', 'vehicleno','companyname','companyaddress','datetime']
-        widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
-            'customer': autocomplete.ModelSelect2(url='customer-autocomplete'),
-        }
+        model = Order
+        fields = [
+            'customer', 'name', 'address', 'paid', 'discount', 
+            'Phone', 'vehicleno', 'companyname', 'companyaddress', 'datetime'
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date_time'].initial = self.instance.datetime
+        self.fields['customer_name'].initial = self.instance.name
+        self.fields['customer_select'].initial = self.instance.customer
+        self.fields['address_field'].initial = self.instance.address
+        self.fields['phone_number'].initial = self.instance.Phone
+        self.fields['vehicle_number'].initial = self.instance.vehicleno
+        self.fields['company_name_field'].initial = self.instance.companyname
+        self.fields['company_address_field'].initial = self.instance.companyaddress
+        self.fields['discount_field'].initial = self.instance.discount
+        self.fields['paid_field'].initial = self.instance.paid
 
 
 
