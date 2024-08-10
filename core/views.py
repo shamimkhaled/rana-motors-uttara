@@ -1281,7 +1281,7 @@ def bothcashmemo(request,id):
          date=Order.objects.all().filter(id=id).last()
          total=0
          for rs in orders:
-            total+=rs.price2 * rs.quantity
+            total+=rs.price1 * rs.quantity
 
          total1=total-date.discount
          text=num2words(total1) 
@@ -1309,13 +1309,13 @@ def bothcashmemo(request,id):
          #total = sum(product.total_price for product in self.user_products)
          context = {#'category': category,
                'orders': orders,
-               'total': total,
+               
                'text': text,
                'date': date,
-               'ordere_de':ordere_de,
+               'ordere_de': ordere_de,
                'total':total,
                'total1':total1,
-                'due' :due,
+               'due' :due,
 
 
                 'total2':total2,
