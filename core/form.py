@@ -19,7 +19,7 @@ class mrr(forms.ModelForm):
 
 class  useritem(forms.ModelForm):
     datetime= forms.DateTimeField(
-        label=" Date Time Field",
+        label=" Date Time ",
         widget=DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
     )
 
@@ -34,12 +34,17 @@ class  useritem(forms.ModelForm):
         }
 
         labels = {
-            'customer' :"ID CUSTOMER",
-            'name': 'GENARAL CUSTOMER NAME',  # Rename the 'name' field to 'Full Name'
-            'Phone': 'Contact Number',  # Rename the 'Phone' field to 'Contact Number'
-            'vehicleno': 'Vehicle Number',  # Rename the 'vehicleno' field to 'Vehicle Number'
-            'companyname': 'Company Name',  # Rename the 'companyname' field to 'Company Name'
-            'companyaddress': 'Company Address',  # Rename the 'companyaddress' field to 'Company Address'
+            'customer' :"ID CLIENT",
+            'address' :"ADDRESS",
+            'name': 'GENARAL CLIENT', 
+             # Rename the 'name' field to 'Full Name'
+             "paid" :"PAID",
+             'discount': 'DISCOUNT',
+             
+            'Phone': 'PHONE ',  # Rename the 'Phone' field to 'Contact Number'
+            'vehicleno': 'VEHICLE NO.',  # Rename the 'vehicleno' field to 'Vehicle Number'
+            'companyname': 'COMPANY NAME',  # Rename the 'companyname' field to 'Company Name'
+            'companyaddress': 'COMPANY ADDRESS',  # Rename the 'companyaddress' field to 'Company Address'
         }
 
 
