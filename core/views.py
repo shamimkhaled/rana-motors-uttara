@@ -4913,6 +4913,10 @@ def sales_dashboard(request):
     sold_items = sold.objects.all()
     
     # Calculate total sales and profit
+    total_sales = sum(item.quantity * (item.price1 or 0) + (item.exchange_ammount or 0) for item in sold_items)
+    total_profit = sum((item.quantity * (item.price1 or 0) + (item.exchange_ammount or 0) - (item.costprice or 0)) for item in sold_items)
+    
+    # Aggregations by product, user, and date
     sales_by_product = list(sold_items.values('product__name').annotate(total_sales=Sum(F('quantity') * F('price1') + F('exchange_ammount'))).order_by('-total_sales'))
     sales_by_user = list(sold_items.values('user__username').annotate(total_sales=Sum(F('quantity') * F('price1') + F('exchange_ammount'))).order_by('-total_sales'))
     sales_by_date = list(sold_items.values('added__date').annotate(total_sales=Sum(F('quantity') * F('price1') + F('exchange_ammount'))).order_by('added__date'))
