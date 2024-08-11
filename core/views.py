@@ -4862,3 +4862,30 @@ def product_list_grouped_by_category(request):
         'products_by_category': products_by_category
     }
     return render(request, 'core/soldreportgroup.html', context)
+
+
+
+def menu_view(request):
+    menus = [
+        {"name": "ADMIN", "url": "/admin/core/customer/", "icon": "fa-solid fa-user-tie"},
+        {"name": "MRR LIST", "url": "/mrinvoicelist", "icon": "fa-solid fa-file-invoice"},
+        {"name": "INVOICE/BILL LIST", "url": "/soldlist", "icon": "fa-solid fa-file-invoice"},
+        {"name": "RETURN LIST", "url": "/returnlist", "icon": "fa-solid fa-list"},
+        {"name": "BILL RECEIVE LIST", "url": "bill_list", "icon": "fa-solid fa-list"},
+        {"name": "ADD PRODUCT", "url": "/productcreate", "icon": "fa-solid fa-plus"},
+        {"name": "ADD CLIENT", "url": "/customercreate", "icon": "fa-solid fa-plus"},
+        {"name": "ADD SUPPLIER", "url": "/suppliercreate", "icon": "fa-solid fa-plus"},
+        {"name": "NEW EXPENSE CATEGORY", "url": "/paybillcategorycreate", "icon": "fa-solid fa-plus"},
+        {"name": "NEW CORPORATE CATEGORY", "url": "/corpocategorycreate", "icon": "fa-solid fa-plus"},
+        {"name": "CLIENT LEDGER", "url": "/customerlist", "icon": "fa-solid fa-people-group"},
+        {"name": "SUPPLIER LEDGER", "url": "/suplierlist", "icon": "fa-solid fa-people-group"},
+        {"name": "MRR ENTRY", "url": "/mr", "icon": "fa-solid fa-file-invoice"},
+        {"name": "EXPENSE", "url": "/expense", "icon": "fa-solid fa-coins"},
+        {"name": "DAILY REPORT", "url": "/daily", "icon": "fa-solid fa-file-pen"},
+        {"name": "SALES REPORT", "url": "/salesreport", "icon": "fa-solid fa-file-pen"},
+        {"name": "EXPENSE REPORT", "url": "/expensereport", "icon": "fa-solid fa-wallet"},
+        {"name": "PRODUCT REPORT", "url": "/plreport", "icon": "ion-icon name='documents-outline'"},
+        {"name": "CURRENT PRODUCT", "url": "/currentproduct", "icon": "ion-icon name='documents-outline'"},
+        {"name": "SMS", "url": "/sms", "icon": "fa-solid fa-comments"},
+    ]
+    return render(request, 'menu.html', {'menus': menus})    

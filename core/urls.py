@@ -147,6 +147,8 @@ urlpatterns = [
 
      path('soldreportgroup', views.product_list_grouped_by_category, name='product_list_grouped'),
 
+     path('menu', views.menu_view, name='sms'),
+
 
      
 ]

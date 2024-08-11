@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="grid grid-cols-3 gap-4 p-4">
+    {% for menu in menus %}
+    <div class="bg-gray-800 rounded-lg shadow-lg hover:bg-sky-950 transition duration-300 ease-in-out">
+        <a href="{{ menu.url }}" class="block p-6 text-center">
+            <i class="{{ menu.icon }}" style="color: #b1d03e; font-size: 2rem;"></i>
+            <span class="block mt-4 text-white font-bold text-lg">{{ menu.name }}</span>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
