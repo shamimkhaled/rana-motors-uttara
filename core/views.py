@@ -4867,7 +4867,7 @@ def product_list_grouped_by_category(request):
 
 def menu_view(request):
     menus = [
-        {"name": "INVOICE/BILL ENTRY", "url": "cart", "icon": "fa-solid fa-file-invoice"},
+        {"name": "INVOICE/BILL ENTRY", "url": "", "icon": "fa-solid fa-file-invoice"},
         {"name": "ADMIN", "url": "/admin", "icon": "fa-solid fa-user-tie"},
         {"name": "MRR LIST", "url": "/mrinvoicelist", "icon": "fa-solid fa-file-invoice"},
         {"name": "INVOICE/BILL LIST", "url": "/soldlist", "icon": "fa-solid fa-file-invoice"},
