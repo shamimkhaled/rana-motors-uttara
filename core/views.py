@@ -4922,6 +4922,19 @@ def sales_dashboard(request):
     sales_by_date = list(sold_items.values('added__date').annotate(total_sales=Sum(F('quantity') * F('price1') + F('exchange_ammount'))).order_by('added__date'))
     profit_by_product = list(sold_items.values('product__name').annotate(total_profit=Sum(F('quantity') * F('price1') + F('exchange_ammount') - F('costprice'))).order_by('-total_profit'))
 
+    # Convert Decimal values to float
+    def convert_decimal_to_float(data):
+        for item in data:
+            for key, value in item.items():
+                if isinstance(value, Decimal):
+                    item[key] = float(value)
+        return data
+
+    sales_by_product = convert_decimal_to_float(sales_by_product)
+    sales_by_user = convert_decimal_to_float(sales_by_user)
+    sales_by_date = convert_decimal_to_float(sales_by_date)
+    profit_by_product = convert_decimal_to_float(profit_by_product)
+
     context = {
         'total_sales': total_sales,
         'total_profit': total_profit,
@@ -4930,4 +4943,5 @@ def sales_dashboard(request):
         'sales_by_date': json.dumps(sales_by_date),
         'profit_by_product': json.dumps(profit_by_product),
     }
+    return render(request, 'dashboard/sales_dashboard.html', context)
     return render(request, 'core/sales_dashboard.html', context)
