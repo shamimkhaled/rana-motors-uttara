@@ -4922,18 +4922,20 @@ def sales_dashboard(request):
     sales_by_date = list(sold_items.values('added__date').annotate(total_sales=Sum(F('quantity') * F('price1') + F('exchange_ammount'))).order_by('added__date'))
     profit_by_product = list(sold_items.values('product__name').annotate(total_profit=Sum(F('quantity') * F('price1') + F('exchange_ammount') - F('costprice'))).order_by('-total_profit'))
 
-    # Convert Decimal values to float
-    def convert_decimal_to_float(data):
+    # Convert Decimal and Date values to appropriate formats
+    def convert_data(data):
         for item in data:
             for key, value in item.items():
                 if isinstance(value, Decimal):
                     item[key] = float(value)
+                elif isinstance(value, (date, datetime)):
+                    item[key] = value.isoformat()  # Convert to ISO format string
         return data
 
-    sales_by_product = convert_decimal_to_float(sales_by_product)
-    sales_by_user = convert_decimal_to_float(sales_by_user)
-    sales_by_date = convert_decimal_to_float(sales_by_date)
-    profit_by_product = convert_decimal_to_float(profit_by_product)
+    sales_by_product = convert_data(sales_by_product)
+    sales_by_user = convert_data(sales_by_user)
+    sales_by_date = convert_data(sales_by_date)
+    profit_by_product = convert_data(profit_by_product)
 
     context = {
         'total_sales': total_sales,
