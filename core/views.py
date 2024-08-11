@@ -4904,14 +4904,14 @@ def menu_view(request):
 
 from django.shortcuts import render
 from django.db.models import Sum, Avg, Count
-from .models import Sold
+from .models import sold
 
 
 
 def sales_dashboard(request):
     # Aggregate data
     total_sales = sold.objects.aggregate(total_sales=Sum('total_price'))
-    total_profit = Sold.objects.aggregate(total_profit=Sum('totalprofit'))
+    total_profit = sold.objects.aggregate(total_profit=Sum('totalprofit'))
     sales_by_product = sold.objects.values('product__name').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
     sales_by_user = sold.objects.values('user__username').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
     sales_by_date = sold.objects.values('added__date').annotate(total_sales=Sum('total_price')).order_by('added__date')
