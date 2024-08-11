@@ -111,7 +111,7 @@ class soldfilter(django_filters.FilterSet):
         model = Order
         fields = ['customer', 'invoicenumber', 'Phone', 'name', 'vehicleno']
         labels = {
-            'customer': 'Customer',
+            'customer': 'Client',
             'invoicenumber': 'Invoice Number',
             'Phone': 'Phone',
             'name': 'Name',
