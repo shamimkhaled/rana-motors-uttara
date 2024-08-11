@@ -4911,7 +4911,7 @@ from .models import sold
 
 def sales_dashboard(request):
     # Fetch all sold items
-    sold_items = Sold.objects.all()
+    sold_items = sold.objects.all()
     
     # Calculate total sales and profit
     total_sales = sum(item.quantity * (item.price1 or 0) + (item.exchange_ammount or 0) for item in sold_items)
