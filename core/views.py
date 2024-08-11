@@ -4910,26 +4910,17 @@ from .models import sold
 
 def sales_dashboard(request):
     # Aggregate data
-    sold_items = sold.objects.annotate(
-        total_price=ExpressionWrapper(
-            F('quantity') * F('price1') + F('exchange_ammount'), 
-            output_field=DecimalField()
-        ),
-        total_profit=ExpressionWrapper(
-            (F('quantity') * F('price1') + F('exchange_ammount')) - F('costprice'), 
-            output_field=DecimalField()
-        )
-    )
+    sold_items = Sold.objects.all()
     
-    # Aggregate totals
-    total_sales = sold_items.aggregate(total_sales=Sum('total_price'))['total_sales']
-    total_profit = sold_items.aggregate(total_profit=Sum('total_profit'))['total_profit']
+    # Calculate total sales and profit
+    total_sales = sum(item.quantity * (item.price1 or 0) + (item.exchange_ammount or 0) for item in sold_items)
+    total_profit = sum((item.quantity * (item.price1 or 0) + (item.exchange_ammount or 0) - (item.costprice or 0)) for item in sold_items)
     
     # Aggregations by product, user, and date
-    sales_by_product = sold_items.values('product__name').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
-    sales_by_user = sold_items.values('user__username').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
-    sales_by_date = sold_items.values('added__date').annotate(total_sales=Sum('total_price')).order_by('added__date')
-    profit_by_product = sold_items.values('product__name').annotate(total_profit=Sum('total_profit')).order_by('-total_profit')
+    sales_by_product = sold_items.values('product__name').annotate(total_sales=Sum(F('quantity') * F('price1') + F('exchange_ammount'))).order_by('-total_sales')
+    sales_by_user = sold_items.values('user__username').annotate(total_sales=Sum(F('quantity') * F('price1') + F('exchange_ammount'))).order_by('-total_sales')
+    sales_by_date = sold_items.values('added__date').annotate(total_sales=Sum(F('quantity') * F('price1') + F('exchange_ammount'))).order_by('added__date')
+    profit_by_product = sold_items.values('product__name').annotate(total_profit=Sum(F('quantity') * F('price1') + F('exchange_ammount') - F('costprice'))).order_by('-total_profit')
 
     context = {
         'total_sales': total_sales,
