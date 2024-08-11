@@ -526,7 +526,7 @@
 
                                     <div class="form-group">
                                         <label for="spareName">ENGINE NO:</label>
-                                        <input type="text" class="form-control" id="spareName" name="spareName" required>
+                                        <input type="text" class="form-control" id="engine_no" name="engine_no" required>
                                     </div>
 
 
@@ -977,7 +977,8 @@ const addToCart = () => {
     var exchangeAmount = document.getElementById("exchangeAmount").value;
     var spareName = document.getElementById("spareName").value;
     var remarks = document.getElementById("remarks").value;
-
+    
+    var engine_no = document.getElementById("engine_no").value;
     console.log(productId)
 
 
@@ -991,7 +992,8 @@ const addToCart = () => {
   engine: engine,
   exchangeAmount: exchangeAmount,
   spareName: spareName,
-  remarks: remarks
+  remarks: remarks,
+  engine_no :engine_no,
 };
 
 // Make a POST request to the Django API endpoint
