@@ -116,6 +116,23 @@ class soldformm(forms.ModelForm):
         model = sold
         fields = '__all__'
         exclude = ['product','order','user','Phone','customer','discount']
+        labels = {
+            'quantity': 'Quantity',
+            'returnquantity': 'Return Quantity',
+            'added': 'Date Added',
+            'paid': 'Amount Paid',
+            'exchange_ammount': 'Exchange Amount',
+            'costprice': 'Cost Price',
+            'left': 'Quantity Left',
+            'remarks': 'Remarks',
+            'price1': 'Price 1',
+            'price2': 'Price 2',
+            'name': 'Product Name',
+            'engine_no': 'Engine Number',
+            'sparename': 'Spare Name',
+            'groupproduct': 'Group Product',
+            'datetime': 'Date and Time',
+        }
 
 
 
