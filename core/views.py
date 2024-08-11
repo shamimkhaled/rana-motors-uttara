@@ -4902,14 +4902,14 @@ def menu_view(request):
 
 
 
+import json
+from decimal import Decimal
 from django.shortcuts import render
-from django.db.models import Sum, Avg, Count
+from django.db.models import Sum, F
 from .models import sold
 
-
-
 def sales_dashboard(request):
-    # Aggregate data
+    # Fetch all sold items
     sold_items = sold.objects.all()
     
     # Calculate total sales and profit
@@ -4944,4 +4944,3 @@ def sales_dashboard(request):
         'profit_by_product': json.dumps(profit_by_product),
     }
     return render(request, 'dashboard/sales_dashboard.html', context)
-    return render(request, 'core/sales_dashboard.html', context)
