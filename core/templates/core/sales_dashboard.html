@@ -46,15 +46,21 @@
     </div>
 
     <script>
+        // Helper function to convert Django QuerySet to JSON
+        function toJson(data) {
+            return JSON.parse(data);
+        }
+
         // Sales by Product Chart
+        const salesByProductData = JSON.parse('{{ sales_by_product|safe }}');
         const salesByProductCtx = document.getElementById('salesByProductChart').getContext('2d');
         const salesByProductChart = new Chart(salesByProductCtx, {
             type: 'bar',
             data: {
-                labels: {{ sales_by_product.values_list('product__name', flat=True) | safe }},
+                labels: salesByProductData.map(item => item.product__name),
                 datasets: [{
                     label: 'Total Sales',
-                    data: {{ sales_by_product.values_list('total_sales', flat=True) | safe }},
+                    data: salesByProductData.map(item => item.total_sales),
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
@@ -70,14 +76,15 @@
         });
 
         // Sales by User Chart
+        const salesByUserData = JSON.parse('{{ sales_by_user|safe }}');
         const salesByUserCtx = document.getElementById('salesByUserChart').getContext('2d');
         const salesByUserChart = new Chart(salesByUserCtx, {
             type: 'bar',
             data: {
-                labels: {{ sales_by_user.values_list('user__username', flat=True) | safe }},
+                labels: salesByUserData.map(item => item.user__username),
                 datasets: [{
                     label: 'Total Sales',
-                    data: {{ sales_by_user.values_list('total_sales', flat=True) | safe }},
+                    data: salesByUserData.map(item => item.total_sales),
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
@@ -93,14 +100,15 @@
         });
 
         // Sales by Date Chart
+        const salesByDateData = JSON.parse('{{ sales_by_date|safe }}');
         const salesByDateCtx = document.getElementById('salesByDateChart').getContext('2d');
         const salesByDateChart = new Chart(salesByDateCtx, {
             type: 'line',
             data: {
-                labels: {{ sales_by_date.values_list('added__date', flat=True) | safe }},
+                labels: salesByDateData.map(item => item.added__date),
                 datasets: [{
                     label: 'Total Sales',
-                    data: {{ sales_by_date.values_list('total_sales', flat=True) | safe }},
+                    data: salesByDateData.map(item => item.total_sales),
                     backgroundColor: 'rgba(153, 102, 255, 0.2)',
                     borderColor: 'rgba(153, 102, 255, 1)',
                     borderWidth: 1
