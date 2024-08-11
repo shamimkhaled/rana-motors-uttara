@@ -139,23 +139,23 @@
         <div class="details-box">
             <table class="details-table">
                 <tr>
-                    <th class="w-32">Invoice No.</th>
+                    <th class="w-24">Invoice No.</th>
                     <td>{{ bills.datetime | date:"dmy-gi" }}</td>
                 </tr>
                 <tr>
-                    <th class="w-32">Client Name:</th>
+                    <th class="w-24">Client Name:</th>
                     <td>{{ bills.order.name }} {{ bills.customer.name }} | ID: {{ bills.customer.id }}</td>
                 </tr>
                 <tr>
-                    <th class="w-32">Address:</th>
+                    <th class="w-24">Address:</th>
                     <td>{{ bills.order.address }} {{ bills.customer.address }}</td>
                 </tr>
                 <tr>
-                    <th class="w-32">Mobile No:</th>
+                    <th class="w-24">Mobile No:</th>
                     <td>{{ bills.order.Phone }} {{ bills.customer.Phone }}</td>
                 </tr>
                 <tr>
-                    <th class="w-32">In Words:</th>
+                    <th class="w-24">In Words:</th>
                     <td>{{ text|title }} Only</td>
                 </tr>
             </table>
@@ -218,10 +218,10 @@
           </tbody>
           <tfoot>
             <tr>
-              <th class="w-32">Total Cash Amount:</th>
-              <td></td>
+              <th class="w-24">Total Cash Amount:</th>
+              <!-- <td></td> -->
               <td >{{bills.ammount}} TK</td>
-              <td colspan="2">Received By: _______________________</td>
+              <td colspan="2"> <strong>Received By: </strong> _______________________</td>
             </tr>
 
             <!-- <tr>
@@ -232,8 +232,8 @@
         
         
         <div class="message">
-            If you do not get any confirmation SMS with number & ammount within 24 hours from RANA MOTORS Ltd.Please 
-            contact with us for verification 01815644860
+            If you do not get any confirmation SMS with number & amount within 24 hours from RANA MOTORS LTD. Please 
+            contact with us for verification <span class="text-xl font-bold">01815644860</span>
         </div>
     </div>
 </body>
