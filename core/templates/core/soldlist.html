@@ -107,21 +107,30 @@
             font-family: 'Arial', sans-serif;
         }
         .summary-box {
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin: 20px 0;
-            background-color: #ffffff;
-        }
-        .summary-box h3 {
-            margin-bottom: 20px;
-            color: #343a40;
-        }
-        .summary-box p {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #007bff;
-        }
+        background-color: #f9f9f9; /* Light background for a soothing effect */
+        border: 1px solid #e0e0e0; /* Light gray border */
+        border-radius: 10px; /* Smooth, rounded corners */
+    }
+    .box-title {
+        font-family: 'Roboto', sans-serif; /* Clean, modern font */
+        color: #333; /* Darker text for contrast */
+        font-weight: 700; /* Bold font for emphasis */
+        margin-bottom: 0.5rem; /* Spacing below the title */
+    }
+    .box-content {
+        font-family: 'Open Sans', sans-serif; /* Complementary font for content */
+        color: #555; /* Slightly lighter text color */
+        font-size: 1.5rem; /* Larger font size for readability */
+        margin-bottom: 0.5rem; /* Spacing below the content */
+    }
+    .summary-box hr {
+        border-top: 2px solid #e0e0e0; /* Subtle line to separate sections */
+        width: 50%; /* Centered line */
+        margin: 1.5rem auto; /* Space around the line */
+    }
+    .shadow-sm {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    }
 
 
 
@@ -255,21 +264,20 @@ closeButton.addEventListener('click', function() {
 
   
 
-  <div class="container">
-    <!-- Summary Boxes Row -->
-    <div class="container">
-      <div class="row">
-          <div class="col-md-12">
-              <div class="summary-box text-center">
-                  <h1>GENERAL ID DUE</h1>
-                  <p>{{ without_customers }}</p>
-                  <hr>
-                  <h1>ID DUE</h1>
-                  <p>{{ with_customers }}</p>
-              </div>
+<div class="container mt-5">
+  <!-- Summary Boxes Row -->
+  <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+          <div class="summary-box text-center p-4 shadow-sm rounded">
+              <h1 class="box-title">GENERAL ID DUE</h1>
+              <p class="box-content">{{ without_customers }}</p>
+              <hr class="my-4">
+              <h1 class="box-title">ID DUE</h1>
+              <p class="box-content">{{ with_customers }}</p>
           </div>
       </div>
   </div>
+</div>
 
     <!-- Form Row -->
     <div class="row">
