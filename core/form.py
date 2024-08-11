@@ -176,7 +176,7 @@ class billfrom(forms.ModelForm):
             'billinvoiceid': 'Bill Invoice ID',
             'datetime': 'Date and Time',
             'bankname': 'Bank Name',
-            'branchname': 'Branch Name',
+            'brunchname': 'Branch Name',
             'ChequeNo': 'Cheque Number',
             'issueDate': 'Issue Date',
             'ClearingDate': 'Clearing Date',
