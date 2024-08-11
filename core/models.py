@@ -302,7 +302,7 @@ class bill(models.Model):
         validators=[MinValueValidator(0)],
         null=True
     )
-     billinvoiceid= models.TextField(max_length=20,null=True)
+     billinvoiceid= models.TextField(max_length=20,null=True,blank=True)
      added = models.DateTimeField(auto_now_add=True,null=True,blank=True)
      customer = models.ForeignKey(Customer, on_delete=models.CASCADE,null=True,blank=True) 
      smssend= models.BooleanField(null=True,blank=True,default=False)
