@@ -4910,16 +4910,24 @@ from .models import sold
 
 def sales_dashboard(request):
     # Aggregate data
-    total_sales = sold.objects.aggregate(total_sales=Sum('total_price'))
-    total_profit = sold.objects.aggregate(total_profit=Sum('totalprofit'))
-    sales_by_product = sold.objects.values('product__name').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
-    sales_by_user = sold.objects.values('user__username').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
-    sales_by_date = sold.objects.values('added__date').annotate(total_sales=Sum('total_price')).order_by('added__date')
-    profit_by_product = sold.objects.values('product__name').annotate(total_profit=Sum('totalprofit')).order_by('-total_profit')
+    sold_items = sold.objects.annotate(
+        total_price=ExpressionWrapper(F('quantity') * F('price1') + F('exchange_ammount'), output_field=DecimalField()),
+        total_profit=ExpressionWrapper((F('quantity') * F('price1') + F('exchange_ammount')) - F('costprice'), output_field=DecimalField())
+    )
+
+    # Aggregate totals
+    total_sales = sold_items.aggregate(total_sales=Sum('total_price'))['total_sales']
+    total_profit = sold_items.aggregate(total_profit=Sum('total_profit'))['total_profit']
+    
+    # Aggregations by product, user, and date
+    sales_by_product = sold_items.values('product__name').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
+    sales_by_user = sold_items.values('user__username').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
+    sales_by_date = sold_items.values('added__date').annotate(total_sales=Sum('total_price')).order_by('added__date')
+    profit_by_product = sold_items.values('product__name').annotate(total_profit=Sum('total_profit')).order_by('-total_profit')
 
     context = {
-        'total_sales': total_sales['total_sales'],
-        'total_profit': total_profit['total_profit'],
+        'total_sales': total_sales,
+        'total_profit': total_profit,
         'sales_by_product': sales_by_product,
         'sales_by_user': sales_by_user,
         'sales_by_date': sales_by_date,
