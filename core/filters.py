@@ -79,15 +79,44 @@ class OrderFilter(django_filters.FilterSet):
 
 class soldfilter(django_filters.FilterSet):
   
-  start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
-  end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
-  #start_time = DateTimeFilter(field_name="added", lookup_expr='time__gte', widget=AdminTimeWidget())
-  #end_time = DateTimeFilter(field_name="added", lookup_expr='time__lte', widget=AdminTimeWidget())
-  invoicenumber = CharFilter(field_name='invoicenumber', lookup_expr='icontains')
-  Phone= CharFilter(field_name='Phone', lookup_expr='icontains')
-  class Meta:
-   model = Order
-   fields = ['customer','invoicenumber','Phone','name','vehicleno']
+    start_date = DateFilter(
+        field_name="datetime", 
+        lookup_expr='gte',
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="Start Date"
+    )
+    end_date = DateFilter(
+        field_name="datetime", 
+        lookup_expr='lte',
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="End Date"
+    )
+    invoicenumber = CharFilter(
+        field_name='invoicenumber', 
+        lookup_expr='icontains',
+        label="Invoice Number"
+    )
+    Phone = CharFilter(
+        field_name='Phone', 
+        lookup_expr='icontains',
+        label="Phone"
+    )
+    name = CharFilter(
+        field_name='name', 
+        lookup_expr='icontains',
+        label="Name"
+    )
+
+    class Meta:
+        model = Order
+        fields = ['customer', 'invoicenumber', 'Phone', 'name', 'vehicleno']
+        labels = {
+            'customer': 'ID Client',
+            'invoicenumber': 'Invoice Number',
+            'Phone': 'Phone',
+            'name': 'Name',
+            'vehicleno': 'Vehicle Number',
+        }
 
 
 
