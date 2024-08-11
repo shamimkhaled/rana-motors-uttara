@@ -20,15 +20,18 @@
 
     <!-- Form Section -->
     <div class="container mt-5">
-        <div class="card shadow-lg p-4">
-           
-            <form method="POST">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <div class="text-center mt-4">
-                    <input class="btn btn-primary btn-lg" type="submit" value="Update">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-lg p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="text-center mt-4">
+                            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Update">
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -81,6 +84,10 @@
     .btn-primary:hover {
         background-color: #0056b3;
         box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+    }
+    .container .row .col-md-6, 
+    .container .row .col-lg-4 {
+        max-width: 100%;
     }
     </style>
 {% endblock %}
