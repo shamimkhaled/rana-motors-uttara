@@ -2756,12 +2756,12 @@ def fianaleditcashmemo(request, id):
                         print(f"Updated balance sheet for {i.id} to {i.balance}")
 
 
-                else:
+                elif newdue < shopcart.order.due:
 # Remove or comment out the print statements once you have confirmed the logic works correctly
                    
 
                 # Update the customer's balance
-                     b=(cus.balance - shopcart.order.due) - newdue
+                     b=(cus.balance + shopcart.order.due) - newdue
                      cus.balance = b
                      cus.save()
 
@@ -2776,7 +2776,7 @@ def fianaleditcashmemo(request, id):
                      for i in balance_sheets:
                         # Update balance sheet
                         
-                        c=(i.balance -shopcart.order.due) - newdue
+                        c=(i.balance + shopcart.order.due) - newdue
                         i.balance =c
                         i.save()
 
