@@ -4909,7 +4909,7 @@ from django.db.models import Sum, F
 from .models import sold
 
 def sales_dashboard(request):
-    # Fetch all sold items
+
     sold_items = sold.objects.all()
     
     # Calculate total sales and profit
@@ -4946,3 +4946,4 @@ def sales_dashboard(request):
         'profit_by_product': json.dumps(profit_by_product),
     }
     return render(request, 'dashboard/sales_dashboard.html', context)
+   
