@@ -4910,11 +4910,17 @@ from .models import sold
 
 def sales_dashboard(request):
     # Aggregate data
-    sold_items = sold.objects.annotate(
-        total_price=ExpressionWrapper(F('quantity') * F('price1') + F('exchange_ammount'), output_field=DecimalField()),
-        total_profit=ExpressionWrapper((F('quantity') * F('price1') + F('exchange_ammount')) - F('costprice'), output_field=DecimalField())
+   sold_items = sold.objects.annotate(
+        total_price=ExpressionWrapper(
+            F('quantity') * F('price1') + F('exchange_ammount'), 
+            output_field=DecimalField()
+        ),
+        total_profit=ExpressionWrapper(
+            (F('quantity') * F('price1') + F('exchange_ammount')) - F('costprice'), 
+            output_field=DecimalField()
+        )
     )
-
+    
     # Aggregate totals
     total_sales = sold_items.aggregate(total_sales=Sum('total_price'))['total_sales']
     total_profit = sold_items.aggregate(total_profit=Sum('total_profit'))['total_profit']
