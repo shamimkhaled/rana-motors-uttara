@@ -4888,4 +4888,4 @@ def menu_view(request):
         {"name": "CURRENT PRODUCT", "url": "/currentproduct", "icon": "ion-icon name='documents-outline'"},
         {"name": "SMS", "url": "/sms", "icon": "fa-solid fa-comments"},
     ]
-    return render(request, 'menu.html', {'menus': menus})    
+    return render(request, 'core/menu.html', {'menus': menus})    
