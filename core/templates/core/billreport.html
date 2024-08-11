@@ -143,19 +143,19 @@
                     <td>{{ bills.datetime | date:"dmy-gi" }}</td>
                 </tr>
                 <tr>
-                    <th>Name:</th>
+                    <th class="w-32">Name:</th>
                     <td>{{ bills.order.name }} {{ bills.customer.name }} | ID: {{ bills.customer.id }}</td>
                 </tr>
                 <tr>
-                    <th>Address:</th>
+                    <th class="w-32">Address:</th>
                     <td>{{ bills.order.address }} {{ bills.customer.address }}</td>
                 </tr>
                 <tr>
-                    <th>Mobile No:</th>
+                    <th class="w-32">Mobile No:</th>
                     <td>{{ bills.order.Phone }} {{ bills.customer.Phone }}</td>
                 </tr>
                 <tr>
-                    <th>In Words:</th>
+                    <th class="w-32">In Words:</th>
                     <td>{{ text }} tk</td>
                 </tr>
             </table>
@@ -192,7 +192,7 @@
               <td>200 tk</td>
               <td></td>
               <td></td>
-              <td>Cheque Number</td>
+              <td>Cheque No</td>
               <td>{{bills.ChequeNo|default:""}}</td>
             </tr>
             <tr>
@@ -218,7 +218,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <th>Total Cash Amount:</th>
+              <th class="w-32">Total Cash Amount:</th>
               <td></td>
               <td >{{bills.ammount}} TK</td>
               <td colspan="2">Received By: _______________________</td>
