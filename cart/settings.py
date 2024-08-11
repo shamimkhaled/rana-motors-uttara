@@ -158,7 +158,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS=True
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = 'cart'
+LOGIN_REDIRECT_URL = 'menu'
 LOGOUT_REDIRECT_URL = 'login'
 
 
