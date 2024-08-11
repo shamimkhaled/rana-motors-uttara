@@ -171,6 +171,7 @@
         <th scope="col">Remarks</th>
         <th scope="col">BILL INVOICEID</th>
         <th scope="col">BILL INVOICE</th>
+        <th scope="col">SMS</th>
     </thead>
     <tbody>
       {% for rs in returns %}
@@ -179,8 +180,8 @@
 
         <td>{{ rs.order.invoicenumber}}</td>
         
-        <td>{{ rs.customer.name}} {{ rs.supplier.name}}</td>
-        <td>{{ rs.name}}</td>
+        <td>{{ rs.customer.name}} </td>
+        <td>{{ rs.order.name}} | {{ rs.name}}</td>
         <td>{{ rs.ammount}}</td>
         <td>{{ rs.datetime}}</td>
         <td>{{ rs.remarks}}</td>
