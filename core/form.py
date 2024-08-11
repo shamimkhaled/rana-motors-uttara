@@ -170,6 +170,17 @@ class billfrom(forms.ModelForm):
     class Meta:
         model = bill
         fields = ['name','ammount','billinvoiceid','datetime','bankname','brunchname','ChequeNo','issueDate','ClearingDate']
+        labels = {
+            'name': 'Name',
+            'amount': 'Amount',
+            'billinvoiceid': 'Bill Invoice ID',
+            'datetime': 'Date and Time',
+            'bankname': 'Bank Name',
+            'branchname': 'Branch Name',
+            'ChequeNo': 'Cheque Number',
+            'issueDate': 'Issue Date',
+            'ClearingDate': 'Clearing Date',
+        }
         widgets = {
             'name': forms.TextInput(attrs={'size': 20}),  # Adjust the size as needed
             'ammount': forms.NumberInput(attrs={'size': 10}),  # Adjust the size as needed
