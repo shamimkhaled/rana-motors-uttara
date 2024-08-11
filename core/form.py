@@ -2,17 +2,31 @@ from django import forms
 from core.models import Order, UserItem,Product,mrentry,returnn,sold,bill,dailyreport,temppaybill,mrentryrecord,corportepay,Customer,supplier,paybillcatogory,corpocatagory,paybill
 from dal import autocomplete
 from django.forms.widgets import DateTimeInput
-class mrr(forms.ModelForm):  
-    datetime= forms.DateTimeField(
-        label=" Date Time Field",
-        widget=DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
+
+class mrr(forms.ModelForm):
+    datetime = forms.DateTimeField(
+        label="Date and Time",
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
     )
-    class Meta:  
-        model = mrentry 
-        fields = ['supplier','name','address','paid',"discount","datetime"]
+
+    class Meta:
+        model = mrentry
+        fields = ['supplier', 'name', 'address', 'paid', 'discount', 'datetime']
+        labels = {
+            'supplier': 'Supplier',
+            'name': 'Name',
+            'address': 'Address',
+            'paid': 'Paid Amount',
+            'discount': 'Discount',
+            'datetime': 'Date and Time',
+        }
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Name'}),
-           
+            'supplier': forms.Select(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Address'}),
+            'paid': forms.NumberInput(attrs={'placeholder': 'Paid Amount'}),
+            'discount': forms.NumberInput(attrs={'placeholder': 'Discount'}),
+            # datetime widget is already customized above
         }
 
 
@@ -71,23 +85,25 @@ class GeeksForm(forms.ModelForm):
           "productype","quantity","engine_no","status","enginecomplete","price1","price2","exchange_ammount","engine_no","remarks","sparename"
         ]
 
-
 class returnnform(forms.ModelForm):
-    datetime= forms.DateTimeField(
-        label="Date Time ",
-        widget=DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
+    datetime = forms.DateTimeField(
+        label="Date Time",
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
     )
  
-    # create meta class
     class Meta:
-        # specify model to be used
         model = returnn
- 
-        # specify fields to be used
         fields = [
-           
-          "quantity","returnreason","status","cashreturnprice","duereturnprice","datetime",
+            "quantity", "returnreason", "status", "cashreturnprice", "duereturnprice", "datetime",
         ]
+        labels = {
+            "quantity": "Quantity",
+            "returnreason": "Return Reason",
+            "status": "Status",
+            "cashreturnprice": "Cash Return Price",
+            "duereturnprice": "Due Return Price",
+            "datetime": "Date and Time",
+        }
 
         
 
