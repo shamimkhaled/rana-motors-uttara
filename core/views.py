@@ -4904,7 +4904,7 @@ def menu_view(request):
 
 import json
 from decimal import Decimal
-from datetime import date, datetime
+from datetime import date
 from django.shortcuts import render
 from django.db.models import Sum, F
 from .models import sold
