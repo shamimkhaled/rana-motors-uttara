@@ -139,11 +139,11 @@
         <div class="details-box">
             <table class="details-table">
                 <tr>
-                    <th class="sl-no">SL No.</th>
+                    <th class="w-32">Invoice No.</th>
                     <td>{{ bills.datetime | date:"dmy-gi" }}</td>
                 </tr>
                 <tr>
-                    <th class="w-32">Name:</th>
+                    <th class="w-32">Client Name:</th>
                     <td>{{ bills.order.name }} {{ bills.customer.name }} | ID: {{ bills.customer.id }}</td>
                 </tr>
                 <tr>
