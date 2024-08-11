@@ -107,11 +107,7 @@ class soldfilter(django_filters.FilterSet):
         label="Name"
     )
 
-    customer = CharFilter(
-        field_name='customer', 
-        
-        label="Client"
-    )
+   
     vehicleno = CharFilter(
         field_name='vehicleno', 
         lookup_expr='icontains',
