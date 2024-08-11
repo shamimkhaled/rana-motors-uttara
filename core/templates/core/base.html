@@ -149,8 +149,10 @@ body {
         </a>
 
 
-        <p>ID: {{ request.user.id }}</p>
-                <p>Name: {{ request.user.get_full_name }}</p>
+        <a href="{% url 'cart' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+          <i class="fa-solid fa-power-off" style="color: #b1d03e;"></i> Name: {{ request.user.get_full_name }}
+        </a>
+              
         {% else %}
         <a href="{% url 'login' %}" class="block mt-4 lg:inline-block lg:mt-0 text-orange-200 hover:text-white mr-4">
           Login
