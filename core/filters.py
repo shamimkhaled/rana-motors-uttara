@@ -107,6 +107,17 @@ class soldfilter(django_filters.FilterSet):
         label="Name"
     )
 
+    customer = CharFilter(
+        field_name='customer', 
+        lookup_expr='icontains',
+        label="Client"
+    )
+    vehicleno = CharFilter(
+        field_name='vehicleno', 
+        lookup_expr='icontains',
+        label="Vehicle Number"
+    )
+
     class Meta:
         model = Order
         fields = ['customer', 'invoicenumber', 'Phone', 'name', 'vehicleno']
