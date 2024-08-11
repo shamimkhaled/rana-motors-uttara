@@ -149,6 +149,8 @@ urlpatterns = [
 
      path('menu', views.menu_view, name='menu'),
 
+     path('dashboard', views.sales_dashboard, name='sales_dashboard'),
+
 
      
 ]

@@ -4899,3 +4899,30 @@ def menu_view(request):
         {"name": "SMS", "url": "/sms", "icon": "fa-solid fa-comments"},
     ]
     return render(request, 'core/menu.html', {'menus': menus})    
+
+
+
+from django.shortcuts import render
+from django.db.models import Sum, Avg, Count
+from .models import Sold
+
+
+
+def sales_dashboard(request):
+    # Aggregate data
+    total_sales = sold.objects.aggregate(total_sales=Sum('total_price'))
+    total_profit = Sold.objects.aggregate(total_profit=Sum('totalprofit'))
+    sales_by_product = sold.objects.values('product__name').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
+    sales_by_user = sold.objects.values('user__username').annotate(total_sales=Sum('total_price')).order_by('-total_sales')
+    sales_by_date = sold.objects.values('added__date').annotate(total_sales=Sum('total_price')).order_by('added__date')
+    profit_by_product = sold.objects.values('product__name').annotate(total_profit=Sum('totalprofit')).order_by('-total_profit')
+
+    context = {
+        'total_sales': total_sales['total_sales'],
+        'total_profit': total_profit['total_profit'],
+        'sales_by_product': sales_by_product,
+        'sales_by_user': sales_by_user,
+        'sales_by_date': sales_by_date,
+        'profit_by_product': profit_by_product,
+    }
+    return render(request, 'core/sales_dashboard.html', context)
