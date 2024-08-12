@@ -3399,18 +3399,12 @@ def expense(request):
 
 
 
-         if request.method=='POST' and 'btnform5' in request.POST:
+         if request.method=='POST' and 'btnform6' in request.POST:
             if  form5.is_valid() :
-
-
-
-               
-               
-    
-  
-
-
-                fs1 = form5.save(commit=False)
+              fs1 = form5.save(commit=False)
+              fs1.user= request.user
+              fs1.save()
+              return HttpResponseRedirect("/expense")
 
 
          products =  paybillcatogory.objects.all()
