@@ -228,7 +228,7 @@ class tempbilformm2(forms.ModelForm):
             'paybillcatogory': autocomplete.ModelSelect2(url='paybillcatogoryAutocomplete'),
         }
 
-    paybillcatogoryAutocomplete
+    
     class Meta:  
         model =temppaybill
         fields = ['paybillcatogory','ammount','remarks','datetime']                       
