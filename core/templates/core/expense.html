@@ -21,6 +21,13 @@
 {%load crispy_forms_tags %} 
 
 
+{% load static %}
+<link href="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}" rel="stylesheet">
+<script src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
+{{ form.media }}
+
+
+
 {% if messages %}
     <div class="fixed top-4 right-4 w-64 bg-green-500 p-4 rounded-md flex items-center justify-between shadow-md">
         <ul class="messages">
