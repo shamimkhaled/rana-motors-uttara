@@ -245,7 +245,7 @@ class TempPayBillForm(forms.ModelForm):
     )
     class Meta:
         model = temppaybill
-        fields = ['paybillcatogory', 'user', 'ammount', 'remarks', 'datetime']
+        fields = ['paybillcatogory', 'ammount', 'remarks', 'datetime']
         widgets = {
             'paybillcatogory': autocomplete.ModelSelect2(url='paybillcatogory-autocomplete')
         }
