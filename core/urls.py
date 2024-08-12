@@ -125,7 +125,7 @@ urlpatterns = [
     path('api_mruseritemstore/', views.mruserItemstore, name="mruserItemstore"),
 
      path('customer-autocomplete/', CustomerAutocomplete.as_view(), name='customer-autocomplete'),
-     path('paybillcatogoryAutocomplete/', paybillcatogoryAutocomplete.as_view(), name='paybillcatogoryAutocomplete'),
+     path('paybillcatogoryAutocomplete/', paybillcatogoryAutocompleteview.as_view(), name='paybillcatogoryAutocomplete'),
      
 
 
