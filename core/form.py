@@ -224,7 +224,7 @@ class tempbilformm2(forms.ModelForm):
     )
     class Meta:  
         model =temppaybill
-        fields = ['paybillcatogory',ammount','remarks','datetime']                       
+        fields = ['paybillcatogory','ammount','remarks','datetime']                       
   
 
 

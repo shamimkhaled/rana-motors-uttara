@@ -3400,15 +3400,12 @@ def expense(request):
 
 
          if request.method=='POST' and 'btnform5' in request.POST:
-            if  form4.is_valid() :
+            if  form5.is_valid() :
 
 
 
                
-                petteyCash_total = orders.petteyCash-total
-                if petteyCash_total < 0:
-                    messages.error(request, " The petty cash total is less than zero.")
-                    return HttpResponseRedirect("/expense")  # replace with your actual URL for redirection
+               
     
   
 
