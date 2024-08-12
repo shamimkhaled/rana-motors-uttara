@@ -4345,7 +4345,7 @@ from django.http import JsonResponse
 from django.views.generic import View
 
 
-class paybillcatogoryAutocompletevie(autocomplete.Select2QuerySetView):
+class paybillcatogoryAutocompleteview(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         qs = paybillcatogory.objects.all()
 
