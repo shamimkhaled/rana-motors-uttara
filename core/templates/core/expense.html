@@ -1,3 +1,30 @@
+
+
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Paybill</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 CSS -->
+    <link href="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}" rel="stylesheet">
+    <link href="{% static 'autocomplete_light/vendor/select2-bootstrap-theme/dist/select2-bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Select2 JS -->
+    <script src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
+
+    <!-- Django Autocomplete Light media -->
+    {{ form.media }}
+</head>
+<body>
 <script>
     function closeMessage(button) {
         var messageContainer = button.parentElement;
@@ -9,12 +36,7 @@
     }
 </script>
 
-{% extends 'core/base.html' %}
 
-
-
-
-{% block content %}
 
 
 {% load static %}
@@ -254,12 +276,55 @@
                         <br>
                         <button type="submit" class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" name="btnform2">Submit</button>
                     </form>
+
+
+
+                    
                </div>
               
             </div>
         </div>
     </div>
 </div>
+
+
+
+<h1>Create a Paybill</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="id_paybillcatogory">Paybill Category:</label>
+            {{ form.paybillcatogory }}
+        </div>
+        <div>
+            <label for="id_user">User:</label>
+            {{ form.user }}
+        </div>
+        <div>
+            <label for="id_ammount">Amount:</label>
+            {{ form.ammount }}
+        </div>
+        <div>
+            <label for="id_remarks">Remarks:</label>
+            {{ form.remarks }}
+        </div>
+        <div>
+            <label for="id_datetime">Date and Time:</label>
+            {{ form.datetime }}
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Initialize Select2 -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#id_paybillcatogory').select2({
+                theme: "bootstrap"
+            });
+        });
+    </script>
+</body>
+</html>
 
 
 <script type="text/javascript">
