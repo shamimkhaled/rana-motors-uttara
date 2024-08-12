@@ -307,7 +307,7 @@ def cart(request):
    
     
     context = {'category':category,'products': products,'form':form,'user_products':user_products,'pro':pro,'total':total,'form2':form2}
-    return render(request, 'core/cart.html', context)
+    return render(request, 'core/expense.html', context)
 
 
 
