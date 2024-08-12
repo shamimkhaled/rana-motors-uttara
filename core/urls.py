@@ -124,33 +124,33 @@ urlpatterns = [
     path('api_useritemstore/', views.userItemstore, name="userItemstore"),
     path('api_mruseritemstore/', views.mruserItemstore, name="mruserItemstore"),
 
-     path('customer-autocomplete/', CustomerAutocomplete.as_view(), name='customer-autocomplete'),
-     path('paybillcatogoryAutocomplete/', paybillcatogoryAutocompleteview.as_view(), name='paybillcatogoryAutocomplete'),
+    path('customer-autocomplete/', CustomerAutocomplete.as_view(), name='customer-autocomplete'),
+    path('paybillcatogoryAutocomplete/', paybillcatogoryAutocompleteview.as_view(), name='paybillcatogoryAutocomplete'),
      
 
 
-     path('productcreate', views.product_create, name='product_create'),
-     path('autocomplete-groupnamecopy/', views.autocomplete_groupnamecopy, name='autocomplete-groupnamecopy'),
+    path('productcreate', views.product_create, name='product_create'),
+    path('autocomplete-groupnamecopy/', views.autocomplete_groupnamecopy, name='autocomplete-groupnamecopy'),
      
-     path('autocomplete_category/', views.autocomplete_category, name='autocomplete_category'),
-     path('customercreate', views.customer_create_view, name='customer_create'),
-     path('suppliercreate', views.supplier_create_view, name='supplier_create'),
-     path('paybillcategorycreate', views.paybillcategory_create_view, name='paybillcategory_create'),
-     path('corpocategorycreate', views.corpocategory_create_view, name='corpocategory_create'),
-     path('paybill/update/<int:pk>/', views.update_paybill, name='update_paybill'),
+    path('autocomplete_category/', views.autocomplete_category, name='autocomplete_category'),
+    path('customercreate', views.customer_create_view, name='customer_create'),
+    path('suppliercreate', views.supplier_create_view, name='supplier_create'),
+    path('paybillcategorycreate', views.paybillcategory_create_view, name='paybillcategory_create'),
+    path('corpocategorycreate', views.corpocategory_create_view, name='corpocategory_create'),
+    path('paybill/update/<int:pk>/', views.update_paybill, name='update_paybill'),
      
-     path('delete-all-products/', views.delete_all_products, name='delete_all_products'),
+    path('delete-all-products/', views.delete_all_products, name='delete_all_products'),
 
 
 
-     path('currentproduct', views.grouped_products, name='grouped_products'),
+    path('currentproduct', views.grouped_products, name='grouped_products'),
 
 
-     path('soldreportgroup', views.product_list_grouped_by_category, name='product_list_grouped'),
+    path('soldreportgroup', views.product_list_grouped_by_category, name='product_list_grouped'),
 
-     path('menu', views.menu_view, name='menu'),
+    path('menu', views.menu_view, name='menu'),
 
-     path('dashboard', views.sales_dashboard, name='sales_dashboard'),
+    path('dashboard', views.sales_dashboard, name='sales_dashboard'),
 
 
      
