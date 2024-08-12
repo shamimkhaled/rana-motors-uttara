@@ -126,7 +126,7 @@
 
     
 
-
+   
     <form method="POST" class="post-form">
         {% csrf_token %}
         {{ form2|crispy }}
@@ -242,6 +242,9 @@
                 <button type="submit" class="save btn btn-info" name="btnform6"> OFFFICE EXPENSE ADD</button>
             </form>
 
+
+
+            {{ form.media }}
 
             {% load crispy_forms_tags %}
                     <form method="POST" class="post-form">
