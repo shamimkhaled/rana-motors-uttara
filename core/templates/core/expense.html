@@ -1040,6 +1040,14 @@ $(function() {
 });
 
 
+$(function() {
+    $("#paybillcatogory-autocomplete").autocomplete({
+        source: "{% url 'paybillcatogory-autocomplete' %}",
+        minLength: 2,
+    });
+});
+
+
 </script>
 
 
