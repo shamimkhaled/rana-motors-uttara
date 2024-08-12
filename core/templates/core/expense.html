@@ -198,6 +198,15 @@
             </div>
 
             <div>
+
+
+                {{ form5.media }}
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form5|crispy }}
+                <br>
+                <button type="submit" class="save btn btn-info" name="btnform6"> OFFFICE EXPENSE ADD</button>
+            </form>
                 
 
             
@@ -234,13 +243,7 @@
                 <br>
                 <button type="submit" class="save btn btn-info" name="btnform5">OFFFICE EXPENSE</button>
             </form>
-            {{ form5.media }}
-            <form method="POST" class="post-form">
-                {% csrf_token %}
-                {{ form5|crispy }}
-                <br>
-                <button type="submit" class="save btn btn-info" name="btnform6"> OFFFICE EXPENSE ADD</button>
-            </form>
+            
 
 
 
