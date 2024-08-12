@@ -223,15 +223,13 @@ class tempbilformm2(forms.ModelForm):
         widget=DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
     )
 
-    widgets = {
-            
-            'paybillcatogory': autocomplete.ModelSelect2(url='paybillcatogoryAutocomplete'),
-        }
-
-    
     class Meta:  
         model =temppaybill
-        fields = ['paybillcatogory','ammount','remarks','datetime']                       
+        fields = ['paybillcatogory','ammount','remarks','datetime'] 
+        widgets = {
+            
+            'paybillcatogory': autocomplete.ModelSelect2(url='paybillcatogoryAutocomplete'),
+        }                      
   
 
 
