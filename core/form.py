@@ -215,7 +215,16 @@ class tempbilformm(forms.ModelForm):
     )
     class Meta:  
         model =temppaybill
-        fields = ['ammount','remarks','datetime']                  
+        fields = ['ammount','remarks','datetime']     
+
+class tempbilformm2(forms.ModelForm):  
+    datetime= forms.DateTimeField(
+        label="Extra Date Time Field",
+        widget=DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
+    )
+    class Meta:  
+        model =temppaybill
+        fields = ['paybillcatogory',ammount','remarks','datetime']                       
   
 
 

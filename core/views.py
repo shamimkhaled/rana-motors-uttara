@@ -5,7 +5,7 @@ from core.models import Product,UserItem,sold,Order,mrentry,mrentryrecord,return
 from .filters import OrderFilter,soldfilter,dailyreportfilter,expensefilter,paybillfilter,mrfilter,returnfilter,billfilter,Customerbalacesheetfilter,corportepayfilter,supplierbalanecesheetfilter,plreportfilter
 from django.db.models import Count, F, Value
 from django.db import connection
-from core.form import soldformm, useritem,GeeksForm,mrr,returnnform,billfrom,dailyreportt,tempbilformm,mreditformm,CorportepayForm,tempform,ProductForm,CustomerForm,SupplierForm,PayBillCategoryForm,CorpoCategoryForm,PaybillForm
+from core.form import soldformm, useritem,GeeksForm,mrr,returnnform,billfrom,dailyreportt,tempbilformm,mreditformm,CorportepayForm,tempform,ProductForm,CustomerForm,SupplierForm,PayBillCategoryForm,CorpoCategoryForm,PaybillForm,tempbilformm,tempbilformm2
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -3395,7 +3395,25 @@ def expense(request):
 
 
 
-         
+         form5 = tempbilformm2(request.POST or None, request.FILES or None)
+
+
+
+         if request.method=='POST' and 'btnform5' in request.POST:
+            if  form4.is_valid() :
+
+
+
+               
+                petteyCash_total = orders.petteyCash-total
+                if petteyCash_total < 0:
+                    messages.error(request, " The petty cash total is less than zero.")
+                    return HttpResponseRedirect("/expense")  # replace with your actual URL for redirection
+    
+  
+
+
+                fs1 = form5.save(commit=False)
 
 
          products =  paybillcatogory.objects.all()
@@ -3412,6 +3430,7 @@ def expense(request):
                'form2':form2,
                'form3':form3,
                'form4' :form4,
+               'form5' :form5,
                }
 
 

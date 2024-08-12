@@ -234,6 +234,13 @@
                 <br>
                 <button type="submit" class="save btn btn-info" name="btnform5"> office expense</button>
             </form>
+
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form5|crispy }}
+                <br>
+                <button type="submit" class="save btn btn-info" name="btnform5"> office expense</button>
+            </form>
                </div>
               
             </div>
