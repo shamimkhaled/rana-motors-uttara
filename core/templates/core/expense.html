@@ -38,37 +38,32 @@
 
     <div class="basis-3/4">
         <!-- put component code here -->
-        <div class="grid grid-cols-3 gap-2 m-2 ">
+        <div class="grid grid-cols-2 gap-2 m-2">
             <a href="#"
-        class="w-[47%] p-4 max-w-sm bg-red-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            SALE CASH
-        </h5>
-        <div class="flex justify-between">
-            <p class="font-normal text-gray-700 dark:text-gray-400 px-1">
-                {{ orders.ammount}}
-            </p>
-            
-            
-            
-            
+                class="w-full p-3 bg-red-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
+                <h5 class="mb-1 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    SALE CASH
+                </h5>
+                <div class="flex justify-between">
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                        {{ orders.ammount }}
+                    </p>
+                </div>
+            </a>
+        
+            <a href="#"
+                class="w-full p-3 bg-red-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
+                <h5 class="mb-1 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    Petty Cash
+                </h5>
+                <div class="flex justify-between">
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                        {{ orders.petteyCash }}
+                    </p>
+                </div>
+            </a>
         </div>
-    </a>
-
-    <a href="#"
-        class="w-[47%] p-4 max-w-sm bg-red-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Pettey Cash
-        </h5>
-        <div class="flex justify-between">
-            <p class="font-normal text-gray-700 dark:text-gray-400 px-1">
-                {{ orders.petteyCash}}
-            </p>
-            
-            
-            
-            
-        </div>
+        
     </a>
             <div class="col-span-2 m-1">
                 
@@ -242,10 +237,11 @@
 
 
             <form method="POST" class="post-form">
+                <h2 class="text-xl font-bold mb-4">ADD OFFFICE EXPENSE</h2>
                 {% csrf_token %}
                 {{ form4|crispy }}
                 <br>
-                <button type="submit" class="save btn btn-info" name="btnform5">OFFFICE EXPENSE</button>
+                <button type="submit" class="save btn btn-info" name="btnform5">Submit</button>
             </form>
             
 
