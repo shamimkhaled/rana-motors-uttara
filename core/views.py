@@ -5,7 +5,7 @@ from core.models import Product,UserItem,sold,Order,mrentry,mrentryrecord,return
 from .filters import OrderFilter,soldfilter,dailyreportfilter,expensefilter,paybillfilter,mrfilter,returnfilter,billfilter,Customerbalacesheetfilter,corportepayfilter,supplierbalanecesheetfilter,plreportfilter
 from django.db.models import Count, F, Value
 from django.db import connection
-from core.form import soldformm, useritem,GeeksForm,mrr,returnnform,billfrom,dailyreportt,tempbilformm,mreditformm,CorportepayForm,tempform,ProductForm,CustomerForm,SupplierForm,PayBillCategoryForm,CorpoCategoryForm,PaybillForm,tempbilformm,tempbilformm2
+from core.form import soldformm, useritem,GeeksForm,mrr,returnnform,billfrom,dailyreportt,tempbilformm,mreditformm,CorportepayForm,tempform,ProductForm,CustomerForm,SupplierForm,PayBillCategoryForm,CorpoCategoryForm,PaybillForm,tempbilformm,tempbilformm2,TempPayBillForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -3395,7 +3395,7 @@ def expense(request):
 
 
 
-         form5 = tempbilformm2(request.POST or None, request.FILES or None)
+         form5 = TempPayBillForm(request.POST or None, request.FILES or None)
 
 
 
@@ -4353,7 +4353,25 @@ class paybillcatogoryAutocompleteview(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__icontains=self.q)
 
         return qs       
-    
+
+
+
+
+
+from dal import autocomplete
+from .models import paybillcatogory
+
+class PayBillCategoryAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return paybillcatogory.objects.none()
+
+        qs = paybillcatogory.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+
+        return qs       
 
 
 def groupproductstore(request):

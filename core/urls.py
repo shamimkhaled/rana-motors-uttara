@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path,include
-from .views import  update_view,ggroup,group,mrupdate_view,customersolddeatails,chalan,billcustomer,groupupdate_view,dalyreport,dalyreportsearch,expenseform,expensestore,addproduct,addproductgroup,CountryAutocomplete,sms,salesreport,expensereport,api_productlist,delete_user_item,apiaddproduct,userItemstore,mreditcashmemo,smssend,supplierbalancesheetlist,CustomerAutocomplete,bothcashmemo,groupproductstore,smssendcustomer,sendsmssupplier,product_create,autocomplete_groupnamecopy,customer_create_view,supplier_create_view,paybillcategory_create_view,corpocategory_create_view,update_paybill,sales_dashboard,menu_view,paybillcatogoryAutocompleteview
+from .views import  update_view,ggroup,group,mrupdate_view,customersolddeatails,chalan,billcustomer,groupupdate_view,dalyreport,dalyreportsearch,expenseform,expensestore,addproduct,addproductgroup,CountryAutocomplete,sms,salesreport,expensereport,api_productlist,delete_user_item,apiaddproduct,userItemstore,mreditcashmemo,smssend,supplierbalancesheetlist,CustomerAutocomplete,bothcashmemo,groupproductstore,smssendcustomer,sendsmssupplier,product_create,autocomplete_groupnamecopy,customer_create_view,supplier_create_view,paybillcategory_create_view,corpocategory_create_view,update_paybill,sales_dashboard,menu_view,paybillcatogoryAutocompleteview,PayBillCategoryAutocomplete
 
 from django.urls import re_path as url
 from django.urls import reverse
@@ -126,7 +126,7 @@ urlpatterns = [
 
     path('customer-autocomplete/', CustomerAutocomplete.as_view(), name='customer-autocomplete'),
     path('paybillcatogoryAutocomplete/', paybillcatogoryAutocompleteview.as_view(), name='paybillcatogoryAutocomplete'),
-     
+    path('paybillcatogory-autocomplete/', PayBillCategoryAutocomplete.as_view(), name='paybillcatogory-autocomplete'),
 
 
     path('productcreate', views.product_create, name='product_create'),
