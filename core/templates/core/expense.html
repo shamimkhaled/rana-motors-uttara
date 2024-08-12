@@ -198,14 +198,14 @@
             </div>
 
             <div>
-
+                <h2 class="text-xl font-bold mb-4">ADD OFFFICE EXPENSE</h2>
 
                 {{ form5.media }}
             <form method="POST" class="post-form">
                 {% csrf_token %}
                 {{ form5|crispy }}
                 <br>
-                <button type="submit" class="save btn btn-info" name="btnform6"> OFFFICE EXPENSE ADD</button>
+                <button type="submit" class="save btn btn-info" name="btnform6"> Submit </button>
             </form>
                 
 
