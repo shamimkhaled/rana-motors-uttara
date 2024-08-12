@@ -155,10 +155,26 @@
 </div>
 
 <script type="text/javascript">
-    $(function() {
-        $("#paybillcatogory-autocomplete").autocomplete({
-            source: "{% url 'paybillcatogory-autocomplete' %}",
-            minLength: 2,
+    $(document).ready(function() {
+        $('#id_paybillcatogory').select2({
+            theme: "bootstrap",
+            ajax: {
+                url: "{% url 'paybillcatogory-autocomplete' %}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.results
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 1,
         });
     });
 </script>
