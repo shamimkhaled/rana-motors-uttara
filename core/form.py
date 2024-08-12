@@ -215,7 +215,12 @@ class tempbilformm(forms.ModelForm):
     )
     class Meta:  
         model =temppaybill
-        fields = ['ammount','remarks','datetime']     
+        fields = ['ammount','remarks','datetime']   
+
+
+from django import forms
+from dal import autocomplete
+from .models import temppaybill, paybillcatogory         
 
 class tempbilformm2(forms.ModelForm):  
     datetime= forms.DateTimeField(

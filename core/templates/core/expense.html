@@ -254,4 +254,19 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+
+$(function() {
+    $("#customer-autocomplete").autocomplete({
+        source: "{% url 'paybillcatogoryAutocomplete' %}",
+        minLength: 1,
+    });
+});
+
+
+
+</script>
 {% endblock %}
