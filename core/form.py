@@ -222,6 +222,13 @@ class tempbilformm2(forms.ModelForm):
         label="Extra Date Time Field",
         widget=DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
     )
+
+    widgets = {
+            
+            'paybillcatogory': autocomplete.ModelSelect2(url='paybillcatogoryAutocomplete'),
+        }
+
+    paybillcatogoryAutocomplete
     class Meta:  
         model =temppaybill
         fields = ['paybillcatogory','ammount','remarks','datetime']                       

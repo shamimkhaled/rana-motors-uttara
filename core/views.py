@@ -4338,6 +4338,21 @@ class CustomerAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__icontains=self.q)
 
         return qs
+
+
+
+from django.http import JsonResponse
+from django.views.generic import View
+
+
+class paybillcatogoryAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = paybillcatogory.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+
+        return qs       
     
 
 
@@ -4906,7 +4921,7 @@ def menu_view(request):
         {"name": "PRODUCT REPORT", "url": "/plreport", "icon": "ion-icon name='documents-outline'"},
         {"name": "CURRENT PRODUCT", "url": "/currentproduct", "icon": "ion-icon name='documents-outline'"},
         {"name": "ADMIN", "url": "/admin", "icon": "fa-solid fa-user-tie"},
-        {"name": "SMS", "url": "/sms", "icon": "fa-solid fa-comments"},
+        {"name": "CLOSING SMS", "url": "/sms", "icon": "fa-solid fa-comments"},
     ]
     return render(request, 'core/menu.html', {'menus': menus})    
 
