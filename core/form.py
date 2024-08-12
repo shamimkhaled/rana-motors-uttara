@@ -296,7 +296,7 @@ class CorportepayForm(forms.ModelForm):
 class tempform(forms.ModelForm):
 
     datetime= forms.DateTimeField(
-        label="Extra Date Time Field",
+        label=" Date Time ",
         widget=DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M')
     )
     class Meta:

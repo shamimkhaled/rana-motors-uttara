@@ -248,6 +248,15 @@
                 <br>
                 <button type="submit" class="save btn btn-info" name="btnform6"> OFFFICE EXPENSE ADD</button>
             </form>
+
+
+            {% load crispy_forms_tags %}
+                    <form method="POST" class="post-form">
+                        {% csrf_token %}
+                        {{ form5|crispy}}
+                        <br>
+                        <button type="submit" class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" name="btnform2">Submit</button>
+                    </form>
                </div>
               
             </div>
@@ -260,9 +269,9 @@
 
 
 $(function() {
-    $("#customer-autocomplete").autocomplete({
-        source: "{% url 'paybillcatogoryAutocomplete' %}",
-        minLength: 1,
+    $("#paybillcatogory-autocomplete").autocomplete({
+        source: "{% url 'paybillcatogory-autocomplete' %}",
+        minLength: 2,
     });
 });
 
