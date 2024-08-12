@@ -1,0 +1,293 @@
+<script>
+    function closeMessage(button) {
+        var messageContainer = button.parentElement;
+        messageContainer.style.opacity = '0';
+        setTimeout(function () {
+            messageContainer.style.display = 'none';
+            messageContainer.remove();  // Remove the element from the DOM
+        }, 500);  // Adjust the delay as needed
+    }
+</script>
+
+{% extends 'core/base.html' %}
+
+
+{% block content %}
+
+{% load static %}
+{%load crispy_forms_tags %} 
+
+
+
+
+
+{% if messages %}
+    <div class="fixed top-4 right-4 w-64 bg-green-500 p-4 rounded-md flex items-center justify-between shadow-md">
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="text-white">
+                    {{ message }}
+                    <button class="ml-2 text-white" onclick="closeMessage(this)">Close</button>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
+
+    <div class="basis-3/4">
+        <!-- put component code here -->
+        <div class="grid grid-cols-3 gap-2 m-2 ">
+            <a href="#"
+        class="w-[47%] p-4 max-w-sm bg-red-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            SALE CASH
+        </h5>
+        <div class="flex justify-between">
+            <p class="font-normal text-gray-700 dark:text-gray-400 px-1">
+                {{ orders.ammount}}
+            </p>
+            
+            
+            
+            
+        </div>
+    </a>
+
+    <a href="#"
+        class="w-[47%] p-4 max-w-sm bg-red-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Pettey Cash
+        </h5>
+        <div class="flex justify-between">
+            <p class="font-normal text-gray-700 dark:text-gray-400 px-1">
+                {{ orders.petteyCash}}
+            </p>
+            
+            
+            
+            
+        </div>
+    </a>
+            <div class="col-span-2 m-1">
+                
+                
+                {% load crispy_forms_tags %}
+
+<style>
+    .form-container {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px;
+    }
+
+    .post-form {
+        width: 300px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .save {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .save:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="form-container">
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <br>
+        <button type="submit" class="save btn btn-info" name="btnform1">FUND TRANSFER TO PETTY CASH</button>
+    </form>
+
+   
+
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form3|crispy }}
+        <br>
+        <button type="submit" class="save btn btn-info" name="btnform3">COMMISSION + Discount</button>
+    </form>
+
+
+    
+
+   
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form2|crispy }}
+        <br>
+        <button type="submit" class="save btn btn-info" name="btnform2">CORPORATE PAYMENT</button>
+    </form>
+
+
+    
+</div>
+
+
+ 
+<!-- {% load crispy_forms_tags %}
+{{ form.media }}
+  <form method="get">
+    
+    {{myFilter.form|crispy }}
+
+    <button class="bg-transparent hover:bg-gray-800 text-blue-900 font-semibold hover:text-gray-900 py-2 px-4 border border-blue-500 hover:border-transparent rounded">Search</button>
+</form>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-2">
+    {% for product in pro %}
+    <a href="#"
+        class="p-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {{ product.name }}
+        </h5>
+        <div class="flex justify-between items-center">
+            <p class="font-normal text-gray-700 dark:text-gray-400">
+                TK{{ product.price }}
+            </p>
+            <p class="font-normal text-red-500">
+                Qty: {{ product.quantity }}
+            </p>
+            <button
+                class="save btn btn-info"
+                onclick="window.location.href = '{{product.id}}/expenseform'">
+                Add 
+            </button>
+        </div>
+    </a>
+    {% endfor %}
+</div> -->
+
+    
+
+                <!-- <div class="pagination">
+                    <span class="step-links">
+                        {% if pro.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ pro.previous_page_number }}">previous</a>
+                        {% endif %}
+                
+                        <span class="current">
+                            Page {{ pro.number }} of {{ pro.paginator.num_pages }}.
+                        </span>
+                
+                        {% if pro.has_next %}
+                            <a href="?page={{ pro.next_page_number }}">next</a>
+                            <a href="?page={{ pro.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div> -->
+
+
+
+            </div>
+
+            <div>
+                
+
+            
+                <div class="flex flex-col justify-between block  rounded-lg shadow-lg bg-white max-w-sm p-3">
+                    {% for product in user_products %}
+                    <div class="flex justify-between my-1">
+                        <p>
+                            {{ product.ammount }}  tk {{ product.paybillcatogory.name }}</b>
+                        </p>
+                        <button class="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold px-1 rounded"
+                        onclick="window.location.href = '/{{product.paybillcatogory_id}}/deletexpense'">
+                                        X
+                                    </button>
+                    </div>
+                    {% endfor %}
+
+                
+                <div class="mt-2 border-t-2">
+                    <div class="mt-2 flex justify-between">
+                        <p class="font-bold">TOTAL</p>
+                        <p class="font-bold">{{ total }} tk</p>
+                    </div>
+                </div>
+                <!-- <button
+                class="save btn btn-info mx-2"
+                onclick="window.location.href = 'expensestore'">
+                Add 
+            </button> -->
+
+
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form4|crispy }}
+                <br>
+                <button type="submit" class="save btn btn-info" name="btnform5">OFFFICE EXPENSE</button>
+            </form>
+
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form5|crispy }}
+                <br>
+                <button type="submit" class="save btn btn-info" name="btnform6"> OFFFICE EXPENSE ADD</button>
+            </form>
+
+
+
+            {{ form.media }}
+
+            {% load crispy_forms_tags %}
+                    <form method="POST" class="post-form">
+                        {% csrf_token %}
+                        {{ form5|crispy}}
+                        <br>
+                        <button type="submit" class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" name="btnform2">Submit</button>
+                    </form>
+               </div>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+
+    <div id="task-container">
+        <div id="form-wrapper">
+            
+        </div>
+
+        <div id="list-wrapper">
+        
+        </div>	
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+
+$(function() {
+    $("#paybillcatogory-autocomplete").autocomplete({
+        source: "{% url 'paybillcatogory-autocomplete' %}",
+        minLength: 2,
+    });
+});
+
+
+
+</script>
+{% endblock %}

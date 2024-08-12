@@ -1,14 +1,3 @@
-<script>
-    function closeMessage(button) {
-        var messageContainer = button.parentElement;
-        messageContainer.style.opacity = '0';
-        setTimeout(function () {
-            messageContainer.style.display = 'none';
-            messageContainer.remove();  // Remove the element from the DOM
-        }, 500);  // Adjust the delay as needed
-    }
-</script>
-
 {% extends 'core/base.html' %}
 
 
@@ -21,244 +10,174 @@
 
 
 
+
+
+
+
+
+
+
+
+
+<style>
+    .pagination a {
+        background-color: #1aaa21; /* Change to your desired button color */
+        color: #000000; /* Black text color */
+        border: 1px solid #007bff; /* Add a border with the same color as the background */
+        padding: 6px 12px; /* Adjust padding as needed */
+        margin: 2px; /* Add some margin for spacing */
+        text-decoration: none; /* Remove underline from links */
+        border-radius: 4px; /* Optional: Add rounded corners */
+    }
+
+    .pagination a:hover {
+        background-color: #0056b3; /* Change to your desired button color on hover */
+        color: #000000; /* Black text color on hover */
+        border-color: #0056b3; /* Change to your desired border color on hover */
+    }
+
+    .pagination .current {
+        background-color: #249110; /* Change to your desired button color for the current page */
+        color: #000000; /* Black text color for the current page */
+        border: 1px solid #007bff; /* Add a border with the same color as the background */
+        padding: 6px 12px; /* Adjust padding as needed */
+        margin: 2px; /* Add some margin for spacing */
+        border-radius: 4px; /* Optional: Add rounded corners */
+    }
+</style>
+
+
+
+
 {% if messages %}
-    <div class="fixed top-4 right-4 w-64 bg-green-500 p-4 rounded-md flex items-center justify-between shadow-md">
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="text-white">
-                    {{ message }}
-                    <button class="ml-2 text-white" onclick="closeMessage(this)">Close</button>
-                </li>
-            {% endfor %}
+    <div class="messages">
+        <ul>
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                <span class="message-content">{{ message }}</span>
+                <button type="button" class="close-btn" aria-label="Close message">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </li>
+        {% endfor %}
         </ul>
     </div>
 {% endif %}
 
 
 
-    <div class="basis-3/4">
-        <!-- put component code here -->
-        <div class="grid grid-cols-3 gap-2 m-2 ">
-            <a href="#"
-        class="w-[47%] p-4 max-w-sm bg-red-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            SALE CASH
-        </h5>
-        <div class="flex justify-between">
-            <p class="font-normal text-gray-700 dark:text-gray-400 px-1">
-                {{ orders.ammount}}
-            </p>
+
+
+
+
+
+
+
+
+
+            
+
+            
+       
+
+
+
+            
+     
+
+
             
             
+
+            
+     
+
             
             
-        </div>
-    </a>
-
-    <a href="#"
-        class="w-[47%] p-4 max-w-sm bg-red-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 m-1">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Pettey Cash
-        </h5>
-        <div class="flex justify-between">
-            <p class="font-normal text-gray-700 dark:text-gray-400 px-1">
-                {{ orders.petteyCash}}
-            </p>
-            
-            
-            
-            
-        </div>
-    </a>
-            <div class="col-span-2 m-1">
-                
-                
-                {% load crispy_forms_tags %}
-
-<style>
-    .form-container {
-        display: flex;
-        justify-content: space-around;
-        margin: 20px;
-    }
-
-    .post-form {
-        width: 300px;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    .save {
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .save:hover {
-        background-color: #0056b3;
-    }
-</style>
-
-<div class="form-container">
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <br>
-        <button type="submit" class="save btn btn-info" name="btnform1">FUND TRANSFER TO PETTY CASH</button>
-    </form>
-
-   
-
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {{ form3|crispy }}
-        <br>
-        <button type="submit" class="save btn btn-info" name="btnform3">COMMISSION + Discount</button>
-    </form>
+        
 
 
     
 
-   
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {{ form2|crispy }}
-        <br>
-        <button type="submit" class="save btn btn-info" name="btnform2">CORPORATE PAYMENT</button>
-    </form>
+
+
+
 
 
     
-</div>
-
-
- 
-<!-- {% load crispy_forms_tags %}
-{{ form.media }}
-  <form method="get">
-    
-    {{myFilter.form|crispy }}
-
-    <button class="bg-transparent hover:bg-gray-800 text-blue-900 font-semibold hover:text-gray-900 py-2 px-4 border border-blue-500 hover:border-transparent rounded">Search</button>
-</form>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-2">
-    {% for product in pro %}
-    <a href="#"
-        class="p-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {{ product.name }}
-        </h5>
-        <div class="flex justify-between items-center">
-            <p class="font-normal text-gray-700 dark:text-gray-400">
-                TK{{ product.price }}
-            </p>
-            <p class="font-normal text-red-500">
-                Qty: {{ product.quantity }}
-            </p>
-            <button
-                class="save btn btn-info"
-                onclick="window.location.href = '{{product.id}}/expenseform'">
-                Add 
-            </button>
-        </div>
-    </a>
-    {% endfor %}
-</div> -->
-
-    
-
-                <!-- <div class="pagination">
-                    <span class="step-links">
-                        {% if pro.has_previous %}
-                            <a href="?page=1">&laquo; first</a>
-                            <a href="?page={{ pro.previous_page_number }}">previous</a>
-                        {% endif %}
                 
-                        <span class="current">
-                            Page {{ pro.number }} of {{ pro.paginator.num_pages }}.
-                        </span>
-                
-                        {% if pro.has_next %}
-                            <a href="?page={{ pro.next_page_number }}">next</a>
-                            <a href="?page={{ pro.paginator.num_pages }}">last &raquo;</a>
-                        {% endif %}
-                    </span>
-                </div> -->
+               
+
+                {{ form.media }}
 
 
-
-            </div>
-
-            <div>
                 
 
+                
+                    
+                   
+                       
+                    
+              
+
+
+
+
+<!-- Modal -->
+
+
+
+
+
+
+
+
+
+                
+                                    
+                                    
+                                    
             
-                <div class="flex flex-col justify-between block  rounded-lg shadow-lg bg-white max-w-sm p-3">
-                    {% for product in user_products %}
-                    <div class="flex justify-between my-1">
-                        <p>
-                            {{ product.ammount }}  tk {{ product.paybillcatogory.name }}</b>
-                        </p>
-                        <button class="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold px-1 rounded"
-                        onclick="window.location.href = '/{{product.paybillcatogory_id}}/deletexpense'">
-                                        X
-                                    </button>
+
+
+
+
+
+                
+
+                
+                
+                <div  class="flex flex-col justify-between block  rounded-lg shadow-lg bg-white max-w-sm p-3">
+                    
+
+                   
+
+
+                    <div id="product-container">
+                        <!-- Products will be inserted here by JavaScript -->
                     </div>
-                    {% endfor %}
 
-                
-                <div class="mt-2 border-t-2">
-                    <div class="mt-2 flex justify-between">
-                        <p class="font-bold">TOTAL</p>
-                        <p class="font-bold">{{ total }} tk</p>
+                    <div class="mt-2 border-t-2">
+                        <div class="mt-2 flex justify-between">
+                            <p class="font-bold">TOTAL</p>
+                            <p class="font-bold" id="totalAmount"></p>
+                        </div>
                     </div>
-                </div>
-                <!-- <button
-                class="save btn btn-info mx-2"
-                onclick="window.location.href = 'expensestore'">
-                Add 
-            </button> -->
-
-
-            <form method="POST" class="post-form">
-                {% csrf_token %}
-                {{ form4|crispy }}
-                <br>
-                <button type="submit" class="save btn btn-info" name="btnform5">OFFFICE EXPENSE</button>
-            </form>
-
-            <form method="POST" class="post-form">
-                {% csrf_token %}
-                {{ form5|crispy }}
-                <br>
-                <button type="submit" class="save btn btn-info" name="btnform6"> OFFFICE EXPENSE ADD</button>
-            </form>
-
-
-
-            {{ form.media }}
-
-            {% load crispy_forms_tags %}
+                    {% load crispy_forms_tags %}
                     <form method="POST" class="post-form">
                         {% csrf_token %}
                         {{ form5|crispy}}
                         <br>
                         <button type="submit" class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" name="btnform2">Submit</button>
                     </form>
-               </div>
-              
+
+                </div>
+                
             </div>
         </div>
     </div>
 </div>
+
 
 
 
@@ -277,17 +196,433 @@
 </div>
 
 
+
+
 <script type="text/javascript">
+    /*
+        KEY COMPONENTS:
+        "activeItem" = null until an edit button is clicked. Will contain object of item we are editing
+        "list_snapshot" = Will contain previous state of list. Used for removing extra rows on list update
+        
+        PROCESS:
+        1 - Fetch Data and build rows "buildList()"
+        2 - Create Item on form submit
+        3 - Edit Item click - Prefill form and change submit URL
+        4 - Delete Item - Send item id to delete URL
+        5 - Cross out completed task - Event handle updated item
+
+        NOTES:
+        -- Add event handlers to "edit", "delete", "title"
+        -- Render with strike through items completed
+        -- Remove extra data on re-render
+        -- CSRF Token
+    */
+
+
+
+    $(document).ready(function() {
+        $("#country").autocomplete({
+            source: "{% url 'autocomplete' %}",
+            minLength: 2,
+            select: function(event, ui) {
+                $("#country").val(ui.item.label);
+               
+                return false;
+            }
+        });
+    });
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    var activeItem = null
+    var list_snapshot = []
+
+
+    loadProducts()
+
+    function buildList(){
+        var wrapper = document.getElementById('list-wrapper')
+        //wrapper.innerHTML = ''
+
+
+
+        var url = 'http://127.0.0.1:8000/api_productlist/'
+
+        fetch(url)
+        .then((resp) => resp.json())
+        .then(function(data){
+            console.log('Data:', data)
+
+            var list = data
+            for (var i in list){
+
+
+                try{
+                    document.getElementById(`data-row-${i}`).remove()
+                }catch(err){
+
+                }
+        
+
+
+                var title = `<span class="title">${list[i].productype}</span>`
+                
+              
+                
+
+                var item = `
+                    <div id="data-row-${i}" class="task-wrapper flex-wrapper">
+                        <div style="flex:7">
+                            ${title}
+                        </div>
+                        <div style="flex:1">
+                            <button class="btn btn-sm btn-outline-info edit">Edit </button>
+                        </div>
+                        <div style="flex:1">
+                            <button class="btn btn-sm btn-outline-dark delete">-</button>
+                        </div>
+                    </div>
+
+                `
+                wrapper.innerHTML += item
+
+            }
+
+            if (list_snapshot.length > list.length){
+                for (var i = list.length; i < list_snapshot.length; i++){
+                    document.getElementById(`data-row-${i}`).remove()
+                }
+            }
+
+            list_snapshot = list
+
+
+            for (var i in list){
+                var editBtn = document.getElementsByClassName('edit')[i]
+                var deleteBtn = document.getElementsByClassName('delete')[i]
+                var title = document.getElementsByClassName('title')[i]
+
+                // editBtn.addEventListener('click', (function(item){
+                // 	return function(){
+                // 		editItem(item)
+                // 	}
+                // })(list[i]))
+
+                //Immediatly Invoked Function (IIF) + Closure for saving current loop item in memory
+                editBtn.addEventListener('click', (() => {
+
+                    let item = list[i]
+                    return () => {
+                        editItem(item)
+                    }
+                })())
+
+
+                deleteBtn.addEventListener('click', (function(item){
+                    return function(){
+                        deleteItem(item)
+                    }
+                })(list[i]))
+
+
+
+                
+                title.addEventListener('click', (function(item){
+                    return function(){
+                        strikeUnstrike(item)
+                    }
+                })(list[i]))
+
+
+            }
+
+
+        })
+    }
+
+
+    var form = document.getElementById('form-wrapper')
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('Form submitted')
+        var url = 'http://127.0.0.1:8000/api/task-create/'
+        if (activeItem != null){
+            var url = `http://127.0.0.1:8000/api/task-update/${activeItem.id}/`
+            activeItem = null
+        }
+
+
+
+        var title = document.getElementById('title').value
+        fetch(url, {
+            method:'POST',
+            headers:{
+                'Content-type':'application/json',
+                'X-CSRFToken':csrftoken,
+            },
+            body:JSON.stringify({'title':title})
+        }
+        ).then(function(response){
+            buildList()
+            document.getElementById('form').reset()
+        })
+    })
+
+
+
+
+    function editItem(item){
+        console.log('Item clicked:', item)
+        activeItem = item
+        document.getElementById('title').value = activeItem.title
+    }
+
+
+    
+
+
+    function loadProducts() {
+    fetch('/api_productlist/')
+        .then(response => response.json())
+        .then(data => {
+            let productContainer = document.getElementById('product-container');
+            productContainer.innerHTML = ''; // Clear existing products
+            console.log(data);
+            const total = data.total_sum;
+            document.getElementById('totalAmount').textContent = `$${total}`;
+
+            // Loop through the tasks and create product elements
+            for (let i = 0; i < data.tasks.length; i++) {
+                let item = data.tasks[i];
+                let productDiv = document.createElement('div');
+                productContainer.appendChild(productDiv);
+                productDiv.innerHTML = `
+                <div id="data-row-${i}" class="task-wrapper flex-wrapper">
+                    ${item.quantity} x ${item.price1} <a href='${item.product.id}/update'> <b>${item.product.name}</b> </a>
+                    <span>${item.quantity * item.price1} TK</span>
+                    ${item.product.mother ? '<a href="' + item.product.id + '/group"><button class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-1 px-1 rounded w-10 mr-px" onclick="groupProduct(' + item.product.id + ')">Group</button></a>' : ''}
+
+                    <button class="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold px-1 rounded delete" data-index="${i}">X</button>
+                </div>
+                `;
+            }
+
+            // Delete excess rows
+            if (list_snapshot.length > data.tasks.length) {
+                for (let i = data.tasks.length; i < list_snapshot.length; i++) {
+                    let rowToRemove = document.getElementById(`data-row-${i}`);
+                    if (rowToRemove) {
+                        rowToRemove.remove();
+                    }
+                }
+            }
+
+            list_snapshot = data.tasks;
+
+            // Attach event listeners to delete buttons
+            let deleteButtons = document.getElementsByClassName('delete');
+            for (let i = 0; i < deleteButtons.length; i++) {
+                deleteButtons[i].addEventListener('click', function () {
+                    let index = this.getAttribute('data-index');
+                    deleteItem(data.tasks[index]);
+                });
+            }
+        });
+}
+
+
+
+
+
+function deleteItem(item) {
+        console.log('Delete clicked');
+        console.log(item)
+        fetch(`/api-delete/${item.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Log the response from the server
+            loadProducts(); // Reload the products list after successful deletion
+        })
+        .catch(error => {
+            console.error('Error:', error); // Log any errors that occurred
+        });
+    }
+
+
+    function addItemcart(item) {
+        console.log('Delete clicked');
+        console.log(item)
+        fetch(`/apiaddproduct/${item.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Log the response from the server
+            loadProducts(); // Reload the products list after successful deletion
+        })
+        .catch(error => {
+            console.error('Error:', error); // Log any errors that occurred
+        });
+    }   
+
+
+ 
+    function deleteproduct(id) {
+    console.log('Delete clicked');
+    console.log(id);
+    fetch(`/api-delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Log the response from the server
+        loadProducts(); // Reload the products list after successful deletion
+    })
+    .catch(error => {
+        console.error('Error:', error); // Log any errors that occurred
+    });
+}   
+
+
+
+   
+
+
+    const openModal = (productId, productName, productPrice, productQuantity) => {
+    const modal = document.getElementById("myModal");
+    const modalTitle = modal.querySelector("#myModalLabel");
+    
+    const myModalprice = modal.querySelector("#myModalprice");
+    const myModalquantity = modal.querySelector("#myModalquantity");
+    const productIdField = modal.querySelector("#productId");
+    const quantityField = modal.querySelector("#quantity");
+    const priceField = modal.querySelector("#price");
+    const modalprice = modal.querySelector("#myModalprice");
+
+    modalTitle.textContent = productName  ;
+    productIdField.value = productId;
+    myModalprice.textContent = productPrice ;
+    myModalquantity.textContent = productQuantity;
+    quantityField.value = "";
+    priceField.value = "";
+
+    modal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+};
+
+const closeModal = () => {
+    const modal = document.getElementById("myModal");
+    modal.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+};
+
+const addToCart = () => {
+    const modal = document.getElementById("myModal");
+    
+
+    const productId = modal.querySelector("#productId").value;
+    var product = document.getElementById("product").value;
+    var quantity = document.getElementById("quantity").value;
+    var price1 = document.getElementById("price").value;
+    var price2 = document.getElementById("price2").value;
+    var status = document.getElementById("status").value;
+    var engine = document.getElementById("engine").value;
+    var exchangeAmount = document.getElementById("exchangeAmount").value;
+    var spareName = document.getElementById("spareName").value;
+    var remarks = document.getElementById("remarks").value;
+    
+    var engine_no = document.getElementById("engine_no").value;
+    console.log(productId)
+
+
+    const formData = {
+  productId: productId,
+  product: product,
+  quantity: quantity,
+  price1: price1,
+  price2: price2,
+  status: status,
+  engine: engine,
+  exchangeAmount: exchangeAmount,
+  spareName: spareName,
+  remarks: remarks,
+  engine_no :engine_no,
+};
+
+// Make a POST request to the Django API endpoint
+fetch('/api_useritemstore/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(formData)
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log("API response:", data);
+    loadProducts();
+    // Handle the API response here
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    // Handle the error here
+  });
+
+
+
+   
+
+    closeModal();
+    
+
+    // Perform any additional validation or processing here
+
+    // Submit the form or make an AJAX request to add the product to the cart
+    //const form = modal.querySelector("#modalForm");
+    //form.submit(); // Submit the form
+    // Alternatively, make an AJAX request to add the product to the cart
+};  
+
 
 
 $(function() {
-    $("#paybillcatogory-autocomplete").autocomplete({
-        source: "{% url 'paybillcatogory-autocomplete' %}",
+    $("#customer-autocomplete").autocomplete({
+        source: "{% url 'customer-autocomplete' %}",
         minLength: 2,
     });
 });
 
 
-
 </script>
+
+
 {% endblock %}
