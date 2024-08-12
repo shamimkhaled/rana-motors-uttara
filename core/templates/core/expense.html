@@ -198,16 +198,21 @@
             </div>
 
             <div>
-                <h2 class="text-xl font-bold mb-4">ADD OFFFICE EXPENSE</h2>
-
-                {{ form5.media }}
-            <form method="POST" class="post-form">
-                {% csrf_token %}
-                {{ form5|crispy }}
-                <br>
-                <button type="submit" class="save btn btn-info" name="btnform6"> Submit </button>
-            </form>
-                
+                <div class="bg-white shadow-lg rounded-lg p-6 max-w-lg mx-auto">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Add Office Expense</h2>
+            
+                    <form method="POST" class="space-y-6">
+                        {% csrf_token %}
+            
+                        <!-- Form Fields -->
+                        {{ form5|crispy }}
+            
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300">
+                            Submit
+                        </button>
+                    </form>
+                </div>
 
             
                 <div class="flex flex-col justify-between block  rounded-lg shadow-lg bg-white max-w-sm p-3">
