@@ -2144,7 +2144,7 @@ def mr(request):
                 if rs.credit == 'noncredit':
                     # Increment the product's quantity
                     product.quantity += rs.quantity
-                    pre=(product.price * product.quantity)+ (rs.price1* rs.quantity)
+                    add=(product.price * product.quantity)+ (rs.price1* rs.quantity)
                     product.avg_price=add/(product.quantity+rs.quantity)
                     
                     # Filter items in the shopping cart that match the product ID
