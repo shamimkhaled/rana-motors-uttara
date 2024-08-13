@@ -80,7 +80,7 @@ class SwitchModelAdmin1(ImportExportModelAdmin):
         list_display = ('name','balance')
         search_fields = ['name']
         resource_class = SwitchModelResource1
-        inlines = [OrderProductline]
+        
        
 
 admin.site.register(Customer,SwitchModelAdmin1)

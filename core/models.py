@@ -81,10 +81,18 @@ class Customer(models.Model):
         null=True,
         blank=True
     )
+    balance2 = models.DecimalField(
+        decimal_places=0,
+        max_digits=10,
+        validators=[MinValueValidator(0)],
+        default=0,
+        null=True,
+        blank=True
+    )
     
        
     def __str__(self):
-        return self.name +" "+str(self.id)
+        return self.name if self.name else 'Unnamed Customer'
 
 
 
