@@ -121,6 +121,10 @@ def cart(request):
         fs.totalprice=total-fs.discount
         fs.totalprice1=total1-fs.discount
         fs.due=total-(fs.paid+fs.discount)
+
+        if (total1-fs.discount)<fs.paid:
+            messages.error(request, 'Paid price is greater')
+            return redirect('cart') 
      
         formatted_date_time = fs.datetime.strftime(date_time_format)
         
