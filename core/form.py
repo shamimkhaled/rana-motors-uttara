@@ -347,7 +347,7 @@ from crispy_forms.layout import Submit
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['name', 'address','Phone','balance']
+        fields = ['name', 'address','Phone','Phone2','balance']
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -362,7 +362,7 @@ class CustomerForm(forms.ModelForm):
 class SupplierForm(forms.ModelForm):
     class Meta:
         model = supplier
-        fields = ['name', 'address', 'Phone', 'balance']
+        fields = ['name', 'address', 'Phone','Phone2', 'balance']
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

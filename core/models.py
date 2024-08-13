@@ -72,7 +72,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=200)
    
     Phone = models.CharField(max_length=200)
-    
+    Phone2 = models.CharField(max_length=200,null=True,blank=True)
     balance = models.DecimalField(
         decimal_places=0,
         max_digits=10,
@@ -354,7 +354,7 @@ class supplier(models.Model):
     address = models.CharField(max_length=200)
    
     Phone = models.CharField(max_length=200)
-    
+    Phone2 = models.CharField(max_length=200,null=True,blank=True)
     balance = models.DecimalField(
         decimal_places=0,
         max_digits=10,
