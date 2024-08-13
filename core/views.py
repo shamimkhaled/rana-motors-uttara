@@ -222,18 +222,18 @@ def cart(request):
                      # Replace with your current product's ID
                     current_product = Product.objects.get(id=rs.product_id)
 # Filter UserItem based on the related Product's groupname and mother field
-                    user_items = UserItem.objects.filter(
+                    user_itemstemp = UserItem.objects.filter(
                             product__groupname=current_product.groupname,
-                            
+                            groupproduct =False
                         )
                     grouptotalprice=0
-                    print(user_items)
                    
-                    for  ns in user_items:
+                   
+                    for  ns in user_itemstemp:
                         
                             grouptotalprice += ns.product.price * ns.quantity
                             print(grouptotalprice)
-                            print("rohan")
+                            
 
 
                     detail.costprice =grouptotalprice        
