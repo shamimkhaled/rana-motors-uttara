@@ -236,7 +236,7 @@ def cart(request):
                             print("rohan")
 
 
-                    detail.costprice =grouptotalprice-product.price        
+                    detail.costprice =grouptotalprice        
 
 
                 item, created =plreport.objects.get_or_create(
