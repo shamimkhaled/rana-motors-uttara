@@ -21,6 +21,7 @@ class Product(models.Model):
     )
 
     pcode = models.CharField(max_length=200, null=True, blank=True)
+   
     productcatagory = models.CharField(max_length=200, null=True)
     name = models.TextField(max_length=30, null=True)
     status = models.CharField(max_length=10, choices=PRODUCT, default='public', null=True)
@@ -67,10 +68,11 @@ class Product(models.Model):
        
 class Customer(models.Model):
     name = models.CharField(max_length=200)
+    
     address = models.CharField(max_length=200)
    
     Phone = models.CharField(max_length=200)
-    Phone2 = models.CharField(max_length=200, null=True, blank=True)
+    
     balance = models.DecimalField(
         decimal_places=0,
         max_digits=10,
@@ -344,7 +346,7 @@ class supplier(models.Model):
     address = models.CharField(max_length=200)
    
     Phone = models.CharField(max_length=200)
-    Phone2 = models.CharField(max_length=200, null=True, blank=True)
+    
     balance = models.DecimalField(
         decimal_places=0,
         max_digits=10,
