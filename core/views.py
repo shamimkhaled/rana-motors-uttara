@@ -231,12 +231,12 @@ def cart(request):
                    
                     for  ns in user_itemstemp:
                         
-                            grouptotalprice += (ns.product.price * ns.quantity)-product.price
+                            grouptotalprice += (ns.product.price * ns.quantity)
                             print(grouptotalprice)
                             
 
 
-                    detail.costprice =grouptotalprice        
+                    detail.costprice =grouptotalprice-product.price       
 
 
                 item, created =plreport.objects.get_or_create(
