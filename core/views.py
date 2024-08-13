@@ -224,14 +224,14 @@ def cart(request):
 # Filter UserItem based on the related Product's groupname and mother field
                     user_itemstemp = UserItem.objects.filter(
                             product__groupname=current_product.groupname,
-                            groupproduct =False
+                           
                         )
                     grouptotalprice=0
                    
                    
                     for  ns in user_itemstemp:
                         
-                            grouptotalprice += ns.product.price * ns.quantity
+                            grouptotalprice += (ns.product.price * ns.quantity)-product.price
                             print(grouptotalprice)
                             
 
