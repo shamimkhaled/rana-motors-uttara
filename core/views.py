@@ -231,7 +231,7 @@ def cart(request):
                    
                     for  ns in user_items:
                         
-                            grouptotalprice += user_items.product.price * user_items.quantity
+                            grouptotalprice += ns.product.price * ns.quantity
                             print(grouptotalprice)
                             print("rohan")
 
