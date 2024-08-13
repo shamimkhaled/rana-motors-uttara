@@ -211,12 +211,33 @@ def cart(request):
                 detail.groupproduct = rs.groupproduct
                 detail.datetime=fs.datetime
                 
-                shopcart.delete()    
-                user_products.delete()
+                
                 product = Product.objects.get(id=rs.product_id)
                 product.quantity -= rs.quantity
                 detail.exchange_ammount=rs.exchange_ammount
                 detail.costprice=product.price
+
+                if product.mother==1:
+
+                     # Replace with your current product's ID
+                    current_product = Product.objects.get(id=rs.product_id)
+# Filter UserItem based on the related Product's groupname and mother field
+                    user_items = UserItem.objects.filter(
+                            product__groupname=current_product.groupname,
+                            
+                        )
+                    grouptotalprice=0
+                    print(user_items)
+                   
+                    for  ns in user_items:
+                        
+                            grouptotalprice += 6000
+                            print(grouptotalprice)
+                            print("rohan")
+
+
+                    detail.costprice =grouptotalprice        
+
 
                 item, created =plreport.objects.get_or_create(
                      product_id=rs.product_id,
@@ -232,6 +253,8 @@ def cart(request):
                     )
                 detail.save()
                 product.save()
+                shopcart.delete()    
+                user_products.delete()
 
 
                 
