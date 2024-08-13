@@ -217,7 +217,7 @@ closeButton.addEventListener('click', function() {
 <nav class="bg-emerald-800 p-4 flex items-center justify-between flex-wrap">
   <div class="flex items-center flex-shrink-0 text-white">
     <img src="http://www.ranamotorsbd.com/images/Rana-Motors-Logo.png" class="h-10 ml-auto" alt="Rana Motors Logo">
-    <span class="font-semibold text-xl tracking-tight mr-auto">RANA MOTORS</span>
+    <span class="font-semibold text-xl tracking-tight mr-auto">RANA MOTORS </span>
     
   </div>
   <div class="block lg:hidden">
@@ -232,9 +232,14 @@ closeButton.addEventListener('click', function() {
     <div class="lg:flex lg:items-center">
       {% if user.is_authenticated %}
       
-      <a href="{% url 'cart' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
-        <i class="fa-solid fa-house" style="color: #b1d03e;""></i> HOME
+      <a href="{% url 'menu' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+        <i class="fa-solid fa-house" style="color: #b1d03e;""></i> MENU
       </a>
+    
+
+              <a href="{% url 'cart' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+                <i class="fa-solid fa-file-invoice" style="color: #b1d03e;""></i> INVOICE/BILL ENTRY
+              </a>       
       <a href="{% url 'soldlist' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
         <i class="fa-solid fa-file-invoice" style="color: #b1d03e;""></i> INVOICE LIST
       </a>
@@ -247,7 +252,7 @@ closeButton.addEventListener('click', function() {
 
 
       <a href="{% url 'cart' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
-        <i class="fa-solid fa-power-off" style="color: #b1d03e;"></i> Name: {{ request.user.get_full_name }}
+        <i class="fa-solid " style="color: #b1d03e;"></i> LOG IN NAME: {{ request.user.get_full_name }}
       </a>
             
       {% else %}
@@ -258,6 +263,7 @@ closeButton.addEventListener('click', function() {
     </div>
   </div>
 </nav>
+
 
 
   
@@ -299,14 +305,14 @@ closeButton.addEventListener('click', function() {
 
         <th scope="col">ID</th>
         <th scope="col">GN</th>
-        <th scope="col">price due</th>
+        <th scope="col">PRICE | DUE</th>
         <th scope="col">OFFFICE COPY</th>
         <th scope="col">CLIENT COPY</th>
         <th scope="col">BOTH MEMO</th>
         <th scope="col">CHALAN</th>
         <th scope="col">RETURN</th>
         <th scope="col">EDIT CASHMEMO</th>
-        <th scope="col">bill</th>
+        <th scope="col"> GENERAL BILL RECEIVE</th>
         <th scope="col">DELETE</th>
         <th scope="col">TIME</th>
         <th scope="col">SMS</th>
@@ -372,7 +378,7 @@ closeButton.addEventListener('click', function() {
       {% if  not rs.customer.name %}
       <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
         onclick="window.location.href = '{{rs.id}}/bill'">
-        Bill
+        Bill Receive
 
       </button>
       </td>
