@@ -1808,7 +1808,7 @@ def mrfianaleditcashmemo(request, id):
                 print(cus)  # Debugging step
                 
                    
-                newprice = (orders.totalprice - shopcart.price1) + fs.price1
+                newprice = (orders.totalprice - shopcart.price1*shopcart.quantity) + fs.price1*fs.quantity
 
                 newdue=newprice- orders.paid
                     
@@ -1840,12 +1840,12 @@ def mrfianaleditcashmemo(request, id):
                         print(f"Updated balance sheet for {i.id} to {i.balance}")
 
 
-                else:
+                elif newdue< shopcart.mrentry.due:
 # Remove or comment out the print statements once you have confirmed the logic works correctly
                    
 
                 # Update the customer's balance
-                     b=(cus.balance - shopcart.mrentry.due) - newdue
+                     b=(cus.balance + shopcart.mrentry.due) - newdue
                      cus.balance = b
                      cus.save()
 
@@ -1895,7 +1895,7 @@ def mrfianaleditcashmemo(request, id):
         messages.success(request, 'Form submitted successfully')
 
         # Redirect to the updated URL
-        return redirect('editcashmemo', id=shopcart.mrentry.id)
+        return redirect('mreditcashmemo', id=shopcart.mrentry.id)
 
     # add form dictionary to context
     context["form"] = form
@@ -2751,7 +2751,7 @@ def fianaleditcashmemo(request, id):
                 print(cus)  # Debugging step
                 
                    
-                newprice = (orders.totalprice - shopcart.price1) + fs.price1
+                newprice = (orders.totalprice - shopcart.price1*shopcart.quantity) + fs.price1*fs.quantity
 
                 newdue=newprice- orders.paid
                     
