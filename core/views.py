@@ -1860,7 +1860,7 @@ def mrfianaleditcashmemo(request, id):
                      for i in balance_sheets:
                         # Update balance sheet
                         
-                        c=(i.balance -shopcart.mrentry.due) - newdue
+                        c=(i.balance + shopcart.mrentry.due) - newdue
                         i.balance =c
                         i.save()
 
