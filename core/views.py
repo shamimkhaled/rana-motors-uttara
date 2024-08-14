@@ -227,9 +227,10 @@ def cart(request):
                     current_product = Product.objects.get(id=rs.product_id)
 # Filter UserItem based on the related Product's groupname and mother field
                     user_itemstemp = UserItem.objects.filter(
-                            product__groupname=current_product.groupname,
-                           
-                        )
+    product__groupname=current_product.groupname
+).exclude(
+    product__main=True
+)
                     grouptotalprice=0
                    
                    
@@ -240,7 +241,7 @@ def cart(request):
                             
 
 
-                    detail.costprice =grouptotalprice-product.price       
+                    detail.costprice =grouptotalprice      
 
 
                 item, created =plreport.objects.get_or_create(
