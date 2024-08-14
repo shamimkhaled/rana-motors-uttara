@@ -1564,12 +1564,14 @@ def mreditcashmemo(request,id):
             
            daily_reports_after_id =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime')
                 # daily report ammount update
+
+           for i in  daily_reports_after_id:
+                i.ammount = i.ammount + fs.paid  
+                i.save()     
            for i in  daily_reports_after_id:
                 i.ammount = i.ammount - daily.mrentry.paid
                 i.save()
-           for i in  daily_reports_after_id:
-                i.ammount = i.ammount + fs.paid  
-                i.save()
+           
         
           
            for rs in shopcart:
