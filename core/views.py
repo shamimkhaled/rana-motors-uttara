@@ -3341,15 +3341,16 @@ def expense(request):
 
 
                
-                
-                if orders.petteyCash-total < 0:
-                    messages.error(request, " The petty cash total is less than zero.")
-                    return HttpResponseRedirect("/expense")  # replace with your actual URL for redirection
+                # replace with your actual URL for redirection
     
   
-                petteyCash_total = orders.petteyCash-total
 
+                
                 fs1 = form4.save(commit=False)
+                petteyCash_total = orders.petteyCash-total
+                if petteyCash_total < 0:
+                    messages.error(request, " The petty cash total is less than zero.")
+                    return HttpResponseRedirect("/expense")
                 #myFilter =dailyreportfilter(request.GET,queryset=orders)
                 user_products = temppaybill.objects.filter(user=request.user)
                 
