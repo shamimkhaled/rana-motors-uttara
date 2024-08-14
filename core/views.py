@@ -3504,14 +3504,14 @@ def expense(request):
                         detail.ammount  = rs.ammount 
                         detail.remarks    = rs.remarks
                         detail.user  = request.user
-                        detail.typecat="payment"
-                        detail.datetime = rs.datetime 
+                        detail.typecat="OFFICE EXPENSE"
+                        detail.datetime = fs1.datetime 
 
 
-                        if paybilllast.datetime == rs.datetime:
-                            detail.datetime = rs.datetime + timedelta(minutes=1)
-                        else:
-                            detail.datetime = rs.datetime 
+                        # if paybilllast.datetime == rs.datetime:
+                        #     detail.datetime = rs.datetime + timedelta(minutes=1)
+                        # else:
+                        #     detail.datetime = rs.datetime 
                         detail.save()
 
                        

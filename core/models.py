@@ -498,7 +498,7 @@ class temppaybill(models.Model):
         default=0,
     )
    remarks = models.CharField(max_length=800,null=True,blank=True)
-   datetime= models.DateTimeField(null=True)
+   
 
 
 
