@@ -109,8 +109,10 @@ urlpatterns = [
 
 
 
-    path("<id>/expenseform", views.expenseform ,name=""),
+    path("<id>/expenseform", views.expenseform ,name="expenseform"),
+
     path("expensestore", views.expensestore ,name=""),
+    path("<id>/paybilledit", views.temppaybill_edit ,name="paybilledit"),
    # path("dailysearchresult", views.dalyreportsearch, name="search_results"),
     #path("corporatepay", views.corporatepayment ,name=""),
 

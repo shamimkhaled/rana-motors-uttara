@@ -1039,6 +1039,22 @@ def expenseform(request,id):
 
 
 
+
+def temppaybill_edit(request, id):
+    temp_paybill = get_object_or_404(temppaybill, id=id)
+    
+    if request.method == 'POST':
+        form = tempbilformm(request.POST, instance=temp_paybill)
+        if form.is_valid():
+            temp_paybill = form.save(commit=False)
+            temp_paybill.user = request.user  # Update the user if necessary
+            temp_paybill.save()
+            return redirect('success_url')  # Replace with the actual success URL or view name
+    else:
+        form = tempbilformm(instance=temp_paybill)
+    
+    return render(request, 'core/update_view.html', {'form': form})
+
 def groupupdate_view(request,id):
     # dictionary for initial data with
     # field names as keys
@@ -5194,4 +5210,6 @@ def sales_dashboard(request):
         'profit_by_product': json.dumps(profit_by_product),
     }
     return render(request, 'dashboard/sales_dashboard.html', context)
-   
+
+
+
