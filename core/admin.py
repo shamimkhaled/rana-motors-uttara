@@ -40,6 +40,7 @@ admin.site.register(UserItem)
 admin.site.register(mrentryrecord)
 admin.site.register(mrentry)
 admin.site.register(Order)
+admin.site.register(plreport)
 #admin.site.register(supplier)
 
 
@@ -122,4 +123,3 @@ admin.site.register(supplierbalancesheet)
 #admin.site.register(Customerbalacesheet)
 
 
-admin.site.register(plreport)

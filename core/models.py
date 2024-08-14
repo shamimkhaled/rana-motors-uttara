@@ -195,6 +195,8 @@ class Order(models.Model):
         return (self.quantity * self.UserItem.price2)
     
     
+    
+    
 
 
 
@@ -203,7 +205,7 @@ class Order(models.Model):
 
 class sold(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE,null=True,blank=True)
+    order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     returnquantity = models.PositiveIntegerField(default=0)
@@ -400,6 +402,7 @@ class mrentry(models.Model):
     @property
     def total_price(self):
         return (self.quantity * self.UserItem.price1)
+    
            
 
 
@@ -573,7 +576,7 @@ class plreport(models.Model):
       price1= models.PositiveIntegerField(default=0)
       price2= models.PositiveIntegerField(default=0)
       changequanitity =models.PositiveIntegerField(default=0)
-      reporttype= models.CharField(max_length=500,blank=True,null=True)
+     
       added = models.DateTimeField(auto_now_add=True,null=True,blank=True)
       datetime= models.DateTimeField(null=True) 
       reporttype = models.CharField(max_length=800,null=True,blank=True)

@@ -4831,18 +4831,18 @@ def update_paybill(request, pk):
 
 
 def delete_all_products(request):
-    # Product.objects.all().delete()
+    Product.objects.all().delete()
 
-    products = Product.objects.all()
-    updated_count = 0
+    # products = Product.objects.all()
+    # updated_count = 0
 
-    for product in products:
-            if product.price is not None and (product.avg_price is None or product.avg_price != product.price):
-                product.avg_price = product.price
-                product.save()
-                updated_count += 1
+    # for product in products:
+    #         if product.price is not None and (product.avg_price is None or product.avg_price != product.price):
+    #             product.avg_price = product.price
+    #             product.save()
+    #             updated_count += 1
 
-    delete_all_products
+    # delete_all_products
     return render(request, 'core/customer_form.html')
 
 
