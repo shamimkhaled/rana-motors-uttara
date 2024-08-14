@@ -1819,7 +1819,9 @@ def mrfianaleditcashmemo(request, id):
         #     return redirect('fianaleditcashmemo', id=id)  # Replace 'update_view' with your actual URL name
 
         
-
+        if qua + fs.quantity < 0:
+                    messages.error(request, " Do not have that Quantity")
+                    return redirect('mrfianaleditcashmemo', id=id) 
         # Update product quantity
         productnew.quantity = qua + fs.quantity
         productnew.price=fs.price1
