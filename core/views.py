@@ -1049,7 +1049,7 @@ def temppaybill_edit(request, id):
             temp_paybill = form.save(commit=False)
             temp_paybill.user = request.user  # Update the user if necessary
             temp_paybill.save()
-            return redirect('success_url')  # Replace with the actual success URL or view name
+            return redirect('expense')  # Replace with the actual success URL or view name
     else:
         form = tempbilformm(instance=temp_paybill)
     
