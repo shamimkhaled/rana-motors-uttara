@@ -241,7 +241,19 @@ def cart(request):
                             
 
 
-                    detail.costprice =grouptotalprice      
+                    detail.costprice =grouptotalprice  
+                    item, created =plreport.objects.get_or_create(
+                     product_id=rs.product_id,
+                     order_id=fs.id,
+                     datetime=fs.datetime,
+                     costprice= grouptotalprice,
+                     price1=rs.price1,
+                     price2=rs.price2,
+                     reporttype="invoice",
+                     stockquantity=product.quantity,
+                     changequanitity = rs.quantity,
+                     user=request.user,
+                    )    
 
 
                 item, created =plreport.objects.get_or_create(
