@@ -229,7 +229,7 @@ def cart(request):
                     user_itemstemp = UserItem.objects.filter(
     product__groupname=current_product.groupname
 ).exclude(
-    product__main=True
+    product__mother=True
 )
                     grouptotalprice=0
                    
