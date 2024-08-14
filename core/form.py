@@ -115,7 +115,7 @@ class soldformm(forms.ModelForm):
     class Meta:
         model = sold
         fields = '__all__'
-        exclude = ['product','order','user','Phone','customer','discount']
+        exclude = ['product','order','user','Phone','customer','discount','name']
         labels = {
             'quantity': 'Quantity',
             'returnquantity': 'Return Quantity',
@@ -127,7 +127,7 @@ class soldformm(forms.ModelForm):
             'remarks': 'Remarks',
             'price1': 'Price 1',
             'price2': 'Price 2',
-            'name': 'Product Name',
+            
             'engine_no': 'Engine Number',
             'sparename': 'Spare Name',
             'groupproduct': 'Group Product',
