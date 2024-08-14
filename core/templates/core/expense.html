@@ -229,7 +229,7 @@
 
                 
                 <div class="mt-2 border-t-2">
-                    <h2 class="text-xl font-bold mb-4">ADD OFFFICE EXPENSE</h2>
+                    <h2 class="text-xl font-bold mb-4">SUBMIT OFFFICE EXPENSE</h2>
                     <div class="mt-2 flex justify-between">
                         <p class="font-bold">TOTAL</p>
                         <p class="font-bold">{{ total }} tk</p>
@@ -257,8 +257,18 @@
 
             
                </div>
+
+
+               
               
             </div>
+            <form method="POST" class="post-form">
+                <h2 class="text-xl font-bold mb-4">REVERSE TO CLOSING BALANCE</h2>
+                {% csrf_token %}
+                {{ form6|crispy }}
+                <br>
+                <button type="submit" class="save btn btn-info" name="btnform7">Submit</button>
+            </form>
         </div>
     </div>
 </div>

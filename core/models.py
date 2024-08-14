@@ -488,7 +488,7 @@ class paybillcatogory(models.Model):
 
 
 class temppaybill(models.Model):    
-   paybillcatogory = models.ForeignKey(paybillcatogory, on_delete=models.CASCADE,null=True,blank=True) 
+   paybillcatogory = models.ForeignKey(paybillcatogory, on_delete=models.CASCADE,null=True) 
    user = models.ForeignKey(User, on_delete=models.CASCADE)  
    ammount = models.DecimalField(
         decimal_places=0,
@@ -541,6 +541,7 @@ class dailyreport(models.Model):
 			('DISCOUNT', 'DISCOUNT'),
             ('FUND TRANSFER','FUND TRANSFER'),
             ('CORPORATE','CORPORATE'),
+            ('FUND REVERSE','FUND REVERSE'),
 			  )   
    order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True,blank=True)  
    mrentry = models.ForeignKey(mrentry,on_delete=models.CASCADE,null=True,blank=True)

@@ -3160,12 +3160,21 @@ def expense(request):
            if form.is_valid() :
            
              fs = form.save(commit=False)
+             if orders.ammount - fs.petteyCash < 0:
+                    messages.error(request, " Do not have that balance.")
+                    return HttpResponseRedirect("/expense")
+             
              item, created =paybill.objects.get_or_create(
              datetime =fs.datetime,
              pettycashbalance=orders.petteyCash +fs.petteyCash,
              reloadpetteycash=fs.petteyCash,
              typecat="receive"
              )
+
+
+
+
+             
              fs.billexpense = fs.petteyCash
              fs.ammount =orders.ammount -fs.petteyCash
              print(fs.petteyCash)
@@ -3174,6 +3183,70 @@ def expense(request):
              
              
              fs.save()
+
+
+             after_report =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime').first()
+
+
+             if after_report : 
+                    #insert_position = after_report.id
+                    print(1)
+                    
+                    
+
+                    try:
+                        # Get the last object
+                        last_report = dailyreport.objects.latest('id')
+                        previous_report =dailyreport.objects.filter(datetime__lt=fs.datetime).order_by('-datetime').first()
+                        print(previous_report)
+                        print(last_report)
+                        last_report.ammount= previous_report.ammount - last_report.billexpense
+                        last_report.save()
+
+                        daily_reports_after_id =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime')
+                    # daily report ammount update
+                        for i in  daily_reports_after_id:
+                            i.ammount = i.ammount -last_report.billexpense
+                            i.save()
+
+                        
+                        
+                    except ObjectDoesNotExist:
+                        # Handle the case where there are no objects in the database
+                        print("No objects found in the database.")
+                        last_report = None 
+             
+             
+
+
+
+             paybills = paybill.objects.all().order_by('datetime')
+             previous_pettycashbalance = paybills[0].pettycashbalance
+             if not paybills.exists():
+               return  # If there are no paybill records, exit the function
+        
+        # Set the first paybill's pettycashbalance as the starting point and skip updating it
+             for pb in paybills[1:]:
+                print(f"Previous pettycashbalance: {previous_pettycashbalance}")
+        
+        # Initialize the current pettycashbalance with the previous balance
+                pb.pettycashbalance = previous_pettycashbalance
+        
+        # Subtract the amount from pettycashbalance if amount is not None
+                if pb.ammount is not None:
+                  pb.pettycashbalance -= pb.ammount
+        
+        # Add the reloadpetteycash to pettycashbalance if reloadpetteycash is not None
+                if pb.reloadpetteycash is not None:
+                    pb.pettycashbalance += pb.reloadpetteycash
+        
+                print(f"Updated pettycashbalance: {pb.pettycashbalance}")    
+        
+        # Save the updated pettycashbalance
+                pb.save()
+    
+    # Update the previous_pettycashbalance for the next iteration
+                previous_pettycashbalance = pb.pettycashbalance
              messages.success(request, 'FUND TRANSFERFER COMPLETE')
              return HttpResponseRedirect("/expense")
          
@@ -3183,6 +3256,9 @@ def expense(request):
            if form2.is_valid() :
            
              fs1 = form2.save(commit=False)
+             if orders.ammount - fs1.ammount < 0:
+                    messages.error(request, " Do not have that balance.")
+                    return HttpResponseRedirect("/expense")
             #  fs1.billexpense = fs1.petteyCash
             #  fs1.ammount =orders.ammount -fs1.petteyCash
             #  fs1.petteyCash =orders.petteyCash
@@ -3261,6 +3337,9 @@ def expense(request):
             if form3.is_valid() :
            
              fs1 = form3.save(commit=False)
+             if orders.ammount - fs1.ammount < 0:
+                    messages.error(request, " Do not have that balance.")
+                    return HttpResponseRedirect("/expense")
              fs1.billexpense = fs1.petteyCash
              fs1.ammount =orders.ammount -fs1.petteyCash
              fs1.petteyCash =orders.petteyCash
@@ -3365,7 +3444,34 @@ def expense(request):
                     billexpense=total,
                     ammount=orders.ammount,
                     reporttype="office expense"
-                    )   
+                    )  
+                paybills = paybill.objects.all().order_by('datetime')
+                previous_pettycashbalance = paybills[0].pettycashbalance
+                if not paybills.exists():
+                   return  # If there are no paybill records, exit the function
+            
+            # Set the first paybill's pettycashbalance as the starting point and skip updating it
+                for pb in paybills[1:]:
+                    print(f"Previous pettycashbalance: {previous_pettycashbalance}")
+            
+            # Initialize the current pettycashbalance with the previous balance
+                    pb.pettycashbalance = previous_pettycashbalance
+            
+            # Subtract the amount from pettycashbalance if amount is not None
+                    if pb.ammount is not None:
+                      pb.pettycashbalance -= pb.ammount
+            
+            # Add the reloadpetteycash to pettycashbalance if reloadpetteycash is not None
+                    if pb.reloadpetteycash is not None:
+                        pb.pettycashbalance += pb.reloadpetteycash
+            
+                    print(f"Updated pettycashbalance: {pb.pettycashbalance}")    
+            
+            # Save the updated pettycashbalance
+                    pb.save()
+        
+        # Update the previous_pettycashbalance for the next iteration
+                    previous_pettycashbalance = pb.pettycashbalance 
 
                 
 
@@ -3446,6 +3552,34 @@ def expense(request):
               fs1.user= request.user
               fs1.save()
               return HttpResponseRedirect("/expense")
+            
+
+         form6 = dailyreportt(request.POST or None, request.FILES or None)
+         total=0
+        
+         for gs in user_products:
+           total+=gs.ammount 
+         if request.method=='POST' and 'btnform7' in request.POST:
+           
+           if form.is_valid() :
+           
+             fs = form.save(commit=False)
+             item, created =paybill.objects.get_or_create(
+             datetime =fs.datetime,
+             pettycashbalance=orders.petteyCash - fs.petteyCash,
+             reloadpetteycash=fs.petteyCash,
+             typecat="reverse"
+             )
+             fs.billexpense = fs.petteyCash
+             fs.ammount =orders.ammount +fs.petteyCash
+             print(fs.petteyCash)
+             fs.petteyCash =orders.petteyCash-fs.petteyCash 
+             fs.reporttype='FUND REVERSE'
+             
+             
+             fs.save()
+             messages.success(request, 'FUND REVERSE COMPLETE')
+             return HttpResponseRedirect("/expense")   
 
 
          products =  paybillcatogory.objects.all()
@@ -3463,6 +3597,7 @@ def expense(request):
                'form3':form3,
                'form4' :form4,
                'form5' :form5,
+               'form6' :form6,
                }
 
 
@@ -3906,7 +4041,33 @@ def expensereport(request):
          credit1 =0
          debit1= 0
           
-
+         paybills = paybill.objects.all().order_by('datetime')
+         previous_pettycashbalance = paybills[0].pettycashbalance
+         if not paybills.exists():
+                return  # If there are no paybill records, exit the function
+            
+            # Set the first paybill's pettycashbalance as the starting point and skip updating it
+         for pb in paybills[1:]:
+              print(f"Previous pettycashbalance: {previous_pettycashbalance}")
+            
+            # Initialize the current pettycashbalance with the previous balance
+              pb.pettycashbalance = previous_pettycashbalance
+            
+            # Subtract the amount from pettycashbalance if amount is not None
+              if pb.ammount is not None:
+                      pb.pettycashbalance -= pb.ammount
+            
+            # Add the reloadpetteycash to pettycashbalance if reloadpetteycash is not None
+              if pb.reloadpetteycash is not None:
+                        pb.pettycashbalance += pb.reloadpetteycash
+            
+                     
+            
+            # Save the updated pettycashbalance
+              pb.save()
+        
+        # Update the previous_pettycashbalance for the next iteration
+              previous_pettycashbalance = pb.pettycashbalance
          orders=paybill.objects.all().order_by('datetime')
          myFilter =paybillfilter(request.GET, queryset=orders)
          orders = myFilter.qs 
