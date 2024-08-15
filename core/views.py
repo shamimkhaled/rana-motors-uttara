@@ -2,7 +2,7 @@ from itertools import product
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from core.models import Product,UserItem,sold,Order,mrentry,mrentryrecord,returnn,Customer,dailyreport,paybillcatogory,temppaybill,paybill,bill,mrentryrecord,supplier,Customerbalacesheet,corportepay,supplierbalancesheet,plreport
-from .filters import OrderFilter,soldfilter,dailyreportfilter,expensefilter,paybillfilter,mrfilter,returnfilter,billfilter,Customerbalacesheetfilter,corportepayfilter,supplierbalanecesheetfilter,plreportfilter
+from .filters import OrderFilter,soldfilter,dailyreportfilter,expensefilter,paybillfilter,mrfilter,returnfilter,billfilter,Customerbalacesheetfilter,corportepayfilter,supplierbalanecesheetfilter,plreportfilter,CorportepayFilter
 from django.db.models import Count, F, Value
 from django.db import connection
 from core.form import soldformm, useritem,GeeksForm,mrr,returnnform,billfrom,dailyreportt,tempbilformm,mreditformm,CorportepayForm,tempform,ProductForm,CustomerForm,SupplierForm,PayBillCategoryForm,CorpoCategoryForm,PaybillForm,tempbilformm,tempbilformm2,TempPayBillForm
@@ -5327,6 +5327,7 @@ def menu_view(request):
         {"name": "DAILY REPORT", "url": "/daily", "icon": "fa-solid fa-file-pen"},
         {"name": "SALES REPORT", "url": "/salesreport", "icon": "fa-solid fa-file-pen"},
         {"name": "EXPENSE REPORT", "url": "/expensereport", "icon": "fa-solid fa-wallet"},
+        {"name": "CORPORATE PAYMENTLIST", "url": "/corporatepaylist", "icon": "fa-solid fa-wallet"},
         {"name": "PRODUCT REPORT", "url": "/plreport", "icon": "ion-icon name='documents-outline'"},
         {"name": "CURRENT PRODUCT", "url": "/currentproduct", "icon": "ion-icon name='documents-outline'"},
         {"name": "ADMIN", "url": "/admin", "icon": "fa-solid fa-user-tie"},
@@ -5381,6 +5382,107 @@ def sales_dashboard(request):
         'profit_by_product': json.dumps(profit_by_product),
     }
     return render(request, 'dashboard/sales_dashboard.html', context)
+
+
+
+def corporatepay(request):
+         credit1 =0
+         debit1= 0
+          
+
+         orders=corportepay.objects.all().order_by('datetime')
+         myFilter =CorportepayFilter(request.GET, queryset=orders)
+         orders = myFilter.qs 
+         
+         
+       
+        
+         context = {#'category': category,
+               'orders': orders,
+               'myFilter':myFilter,
+               
+               }
+
+
+         return render(request, 'core/corporatepaymentlist.html',context)
+
+
+from django.http import HttpResponse
+@login_required
+def corpo(request,id):
+         
+         try:
+            daily = dailyreport.objects.get(corportepay_id=id) 
+            corportepayv = corportepay.objects.get(id=id)  # Use `get()` instead of `filter()`
+         except Exception as e:
+                form.add_error(None, f"DO NOT HAVE BALANCE : {e}")
+         previous =corportepay.ammount
+                   
+         form = CorportepayForm(request.POST or None, request.FILES or None, instance = corportepayv)
+         if request.method == "POST":
+        
+             fs = form.save(commit=False)
+             try:
+                daily.ammount = (daily.ammount+daily.corportepay.ammount) - fs.ammount
+                daily.save()
+                  
+                    
+                daily_reports_after_id =dailyreport.objects.filter(datetime__gt=corportepayv.datetime).order_by('datetime')
+                        # daily report ammount update
+
+                for i in  daily_reports_after_id:
+                        i.ammount = i.ammount +  previous 
+                        i.save()     
+           
+                # Second operation
+                for i in daily_reports_after_id:
+                    i.ammount = i.ammount - fs.ammount
+                    i.save()
+                fs.save()    
+             except Exception as e:
+                form.add_error(None, f"DO NOT HAVE BALANCE : {e}")
+             try:
+                if fs.supplier:
+                            cus =supplier.objects.filter(id=daily.corportepay.supplier_id).first()
+
+                           
+                        
+
+            # Update the customer's balance
+                        
+                            cus.balance = (cus.balance - previous) + fs.ammount
+
+                # Save the updated customer object
+                            cus.save()
+
+                            order_creation_date = daily.datetime
+                            balance_sheets = supplierbalancesheet.objects.filter(datetime__gte=order_creation_date, supplier=fs.supplier) 
+                            
+                            for i in balance_sheets:
+                                
+                                # if(newdue-olddue)>0 :
+                                #     i.balance = i.balance - (newdue-olddue)
+                                #     i.save()
+                                # else :
+                                    
+                                    i.balance = (i.balance- previous)+  fs.ammount
+                                    i.save() 
+             except Exception as e:
+                form.add_error(None, f"DO NOT HAVE BALANCE : {e}")       
+         
+         
+       
+        
+         context = {#'category': category,
+               'form': form,
+               
+               
+               }
+
+
+         return render(request, 'core/update_view.html',context)
+
+
 
 
 

@@ -245,6 +245,20 @@ class supplierbalanecesheetfilter(django_filters.FilterSet):
 
 
 
+import django_filters
+from .models import corportepay
+
+class CorportepayFilter(django_filters.FilterSet):
+      start_date = DateFilter(field_name="datetime", lookup_expr='gte' ,widget=forms.DateInput(attrs={'type': 'date'}),)
+      end_date = DateFilter(field_name="datetime", lookup_expr='lte',widget=forms.DateInput(attrs={'type': 'date'}))
+
+      class Meta:
+        model = corportepay
+        fields = ['supplier', 'corpocatagory']
+
+
+
+
 
 
 
