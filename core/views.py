@@ -3379,7 +3379,7 @@ def expense(request):
          if request.method=='POST' and 'btnform2' in request.POST:
            if form2.is_valid() :
            
-               fs1 = form2.save(commit=False)
+               
              
             #  fs1.billexpense = fs1.petteyCash
             #  fs1.ammount =orders.ammount -fs1.petteyCash
@@ -3387,18 +3387,33 @@ def expense(request):
             #  fs1.reporttype='CORPORATE'
              
                try:
-                    item, created = dailyreport.objects.get_or_create(
-                    billexpense=fs1.ammount,
-                    datetime = fs1.datetime,
-                    ammount=orders.ammount - fs1.ammount,
-                    petteyCash=orders.petteyCash,
-                    reporttype = 'CORPORATE',
-                    corportepay=fs1.id
-                    )
+                    # Create the corportepay instance
+                    fs1 = form2.save(commit=False)
                     fs1.save()
+
+                    try:
+                        # Create the dailyreport instance without the corportepay field
+                        item, created = dailyreport.objects.get_or_create(
+                            billexpense=fs1.ammount,
+                            datetime=fs1.datetime,
+                            ammount=orders.ammount - fs1.ammount,
+                            petteyCash=orders.petteyCash,
+                            reporttype='CORPORATE'
+                        )
+
+                        try:
+                            # Update the dailyreport instance with the corportepay reference
+                            item.corportepay = fs1
+                            item.save()
+                        except Exception as e:
+                            form.add_error(None, f"Failed to update dailyreport with corportepay: {e}")
+                    
+                    except Exception as e:
+                        form.add_error(None, f"Failed to create dailyreport: {e}")
+
                except Exception as e:
-                 form2.add_error(None, f"CORPORATE PAYMENT NOT POSSIBLE ON THAT TIME")   
-              
+                    form.add_error(None, f"Failed to create corportepay: {e}")
+                            
                    #
 
     # Query the supplier from the Supplier model

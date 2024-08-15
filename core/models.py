@@ -569,7 +569,8 @@ class corpocatagory(models.Model):
 class corportepay(models.Model):    
     ammount = models.PositiveIntegerField(default=0)
     supplier= models.ForeignKey(supplier,on_delete=models.CASCADE,null=True,blank=True)
-    added = models.DateTimeField(auto_now_add=True,null=True) 
+    added = models.DateTimeField(auto_now_add=True,null=True)
+    
     remarks = models.TextField(max_length=100,null=True)
     corpocatagory= models.ForeignKey(corpocatagory,on_delete=models.CASCADE,null=True,blank=True)
     datetime= models.DateTimeField(null=True)  
