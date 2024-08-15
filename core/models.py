@@ -533,34 +533,7 @@ class paybill(models.Model):
 
 
 
-class dailyreport(models.Model):  
 
-
-   category = (
-			('COMMISION', 'COMMISION'),
-			('DISCOUNT', 'DISCOUNT'),
-            ('FUND TRANSFER','FUND TRANSFER'),
-            ('CORPORATE','CORPORATE'),
-            ('FUND REVERSE','FUND REVERSE'),
-			  )   
-   order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True,blank=True)  
-   mrentry = models.ForeignKey(mrentry,on_delete=models.CASCADE,null=True,blank=True)
-   added = models.DateTimeField(auto_now_add=True,null=True) 
-   ammount = models.PositiveIntegerField(default=0,null=True)
-   petteyCash = models.PositiveIntegerField(default=0,null=True)
-   returnn = models.ForeignKey(returnn,on_delete=models.CASCADE,null=True,blank=True)
-   
-   bill = models.ForeignKey(bill,on_delete=models.CASCADE,null=True,blank=True)
-   returnprice = models.PositiveIntegerField(default=0)
-   returncostprice = models.PositiveIntegerField(default=0)
-   billexpense = models.PositiveIntegerField(default=0)
-   remarks = models.TextField(max_length=200,null=True,blank= True)
-   reporttype = models.CharField(max_length=800,choices=category,null=True,blank=True)
-   datetime= models.DateTimeField(null=True) 
-
-   @property
-   def paiddtotal(self):
-        return self.order.paid
 
 
 
@@ -600,6 +573,37 @@ class corportepay(models.Model):
     remarks = models.TextField(max_length=100,null=True)
     corpocatagory= models.ForeignKey(corpocatagory,on_delete=models.CASCADE,null=True,blank=True)
     datetime= models.DateTimeField(null=True)  
+
+class dailyreport(models.Model):  
+
+
+   category = (
+			('COMMISION', 'COMMISION'),
+			('DISCOUNT', 'DISCOUNT'),
+            ('FUND TRANSFER','FUND TRANSFER'),
+            ('CORPORATE','CORPORATE'),
+            ('FUND REVERSE','FUND REVERSE'),
+			  )   
+   order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True,blank=True)  
+   mrentry = models.ForeignKey(mrentry,on_delete=models.CASCADE,null=True,blank=True)
+   corportepay= models.ForeignKey(corportepay,on_delete=models.CASCADE,null=True,blank=True)
+   added = models.DateTimeField(auto_now_add=True,null=True) 
+   ammount = models.PositiveIntegerField(default=0,null=True)
+   petteyCash = models.PositiveIntegerField(default=0,null=True)
+   returnn = models.ForeignKey(returnn,on_delete=models.CASCADE,null=True,blank=True)
+   
+   bill = models.ForeignKey(bill,on_delete=models.CASCADE,null=True,blank=True)
+   returnprice = models.PositiveIntegerField(default=0)
+   returncostprice = models.PositiveIntegerField(default=0)
+   billexpense = models.PositiveIntegerField(default=0)
+   remarks = models.TextField(max_length=200,null=True,blank= True)
+   reporttype = models.CharField(max_length=800,choices=category,null=True,blank=True)
+   datetime= models.DateTimeField(null=True) 
+
+   @property
+   def paiddtotal(self):
+        return self.order.paid
+
 
 
 

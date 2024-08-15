@@ -187,10 +187,8 @@ def cart(request):
 
                         
                         
-                    except ObjectDoesNotExist:
-                        # Handle the case where there are no objects in the database
-                        print("No objects found in the database.")
-                        last_report = None    
+                    except Exception as e:
+                         form.add_error(None, f"Error during the second operation: {e}")    
 
        
 
@@ -1564,29 +1562,36 @@ def mreditcashmemo(request,id):
            oldid= orderr.supplier.id
 
          if form.is_valid():
+            
            fs= form.save(commit=False)
            fs.user= request.user
+           try:
+                fs.invoice_id=fs.datetime
+                fs.totalprice=total-fs.discount
+                fs.totalprice1=total1-fs.discount
+                fs.due=total-(fs.paid+fs.discount)
+                fs.invoice_id=fs.added
+           except Exception as e:
+               form.add_error(None, f"PAID AMOUNT ISSUE")    
+
+           try:
+                daily.ammount = (daily.ammount+daily.mrentry.paid) - fs.paid
+                daily.save()
+                fs.save()  
+                    
+                daily_reports_after_id =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime')
+                        # daily report ammount update
+
+                for i in  daily_reports_after_id:
+                        i.ammount = i.ammount + fs.paid  
+                        i.save()     
            
-           fs.invoice_id=fs.datetime
-           fs.totalprice=total-fs.discount
-           fs.totalprice1=total1-fs.discount
-           fs.due=total-(fs.paid+fs.discount)
-           fs.invoice_id=fs.added
-
-
-           daily.ammount = (daily.ammount+daily.mrentry.paid) - fs.paid
-           daily.save()
-           fs.save()  
-            
-           daily_reports_after_id =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime')
-                # daily report ammount update
-
-           for i in  daily_reports_after_id:
-                i.ammount = i.ammount + fs.paid  
-                i.save()     
-           for i in  daily_reports_after_id:
-                i.ammount = i.ammount - daily.mrentry.paid
-                i.save()
+                # Second operation
+                for i in daily_reports_after_id:
+                    i.ammount = i.ammount - daily.mrentry.paid
+                    i.save()
+           except Exception as e:
+                form.add_error(None, f"DO NOT HAVE BALANCE : {e}")            
            
         
           
@@ -1654,74 +1659,78 @@ def mreditcashmemo(request,id):
            if fs.supplier:
                 if fs.supplier.id != oldid :
                     print("Updating customer balance...")  # Informative print statement
-
+                    try:
             # Update customer balance if customer changed for the order
-                    cus =supplier.objects.filter(id=oldid).first()
-                    cus.balance -=fs.due
-            
-                    cus.save()
+                        cus =supplier.objects.filter(id=oldid).first()
+                        cus.balance -=fs.due
+                
+                        cus.save()
 
-                    order_creation_date = orderr.datetime
+                        order_creation_date = orderr.datetime
 
-            # Efficiently update related CustomerBalanceSheet objects
-                    supplierbalancesheet.objects.filter(
-                        datetime__gte=order_creation_date, supplier=orderr.supplier
-                    ).update(balance=F('balance') - orderr.due)
+                # Efficiently update related CustomerBalanceSheet objects
+                        supplierbalancesheet.objects.filter(
+                            datetime__gte=order_creation_date, supplier=orderr.supplier
+                        ).update(balance=F('balance') - orderr.due)
                     
                    
                     
                       # F() expression for in-place update
 
             # Delete existing CustomerBalanceSheet objects associated with the previous order
-                    supplierbalancesheet.objects.filter(mrentry=orderr).delete()
+                        supplierbalancesheet.objects.filter(mrentry=orderr).delete()
 
 
-                    cus =supplier.objects.filter(id=fs.supplier_id).first()
-                    cus.balance +=fs.due
-            
-                    cus.save()        
-                    item, created =supplierbalancesheet.objects.get_or_create(
-                        datetime=fs.datetime,
-                        mrentry_id=fs.id,
-                        supplier=cus,
-                        balance=cus.balance,
-                        duebalanceadd =fs.due
-                    )
+                        cus =supplier.objects.filter(id=fs.supplier_id).first()
+                        cus.balance +=fs.due
+                
+                        cus.save()        
+                        item, created =supplierbalancesheet.objects.get_or_create(
+                            datetime=fs.datetime,
+                            mrentry_id=fs.id,
+                            supplier=cus,
+                            balance=cus.balance,
+                            duebalanceadd =fs.due
+                        )
+                    except Exception as e:
+                       form.add_error(None, f" DO NOT HAVE BALANCE {e}")     
 
                     
 
                 else:
             # Handle the case where the customer remains the same (optional logic)
                     print("Customer did not change for the order.")
-       
+                    try:
         # Complete form saving after all checks and updates
     # Save the form data to create the model instance
-                    if fs.supplier:
-                        cus =supplier.objects.filter(id=daily.mrentry.supplier_id).first()
+                        if fs.supplier:
+                            cus =supplier.objects.filter(id=daily.mrentry.supplier_id).first()
 
-                        olddue=old - daily.mrentry.paid
-                        newdue=total - fs.paid
-                    
-
-        # Update the customer's balance
-                    
-                        cus.balance = (cus.balance - olddue) +newdue
-
-            # Save the updated customer object
-                        cus.save()
-
-                        order_creation_date = orderr.datetime
-                        balance_sheets = supplierbalancesheet.objects.filter(datetime__gte=order_creation_date, supplier=fs.supplier) 
+                            olddue=old - daily.mrentry.paid
+                            newdue=total - fs.paid
                         
-                        for i in balance_sheets:
+
+            # Update the customer's balance
+                        
+                            cus.balance = (cus.balance - olddue) +newdue
+
+                # Save the updated customer object
+                            cus.save()
+
+                            order_creation_date = orderr.datetime
+                            balance_sheets = supplierbalancesheet.objects.filter(datetime__gte=order_creation_date, supplier=fs.supplier) 
                             
-                            # if(newdue-olddue)>0 :
-                            #     i.balance = i.balance - (newdue-olddue)
-                            #     i.save()
-                            # else :
+                            for i in balance_sheets:
                                 
-                                i.balance = (i.balance-olddue)+newdue
-                                i.save()     
+                                # if(newdue-olddue)>0 :
+                                #     i.balance = i.balance - (newdue-olddue)
+                                #     i.save()
+                                # else :
+                                    
+                                    i.balance = (i.balance-olddue)+newdue
+                                    i.save() 
+                    except Exception as e:
+                       form.add_error(None, f"Error during the second operation: {e}")             
 
          #total = sum(product.total_price for product in self.user_products)
          context = {#'category': category,
@@ -1823,13 +1832,16 @@ def mrfianaleditcashmemo(request, id):
                     messages.error(request, " Do not have that Quantity")
                     return redirect('mrfianaleditcashmemo', id=id) 
         # Update product quantity
-        productnew.quantity = qua + fs.quantity
-        productnew.price=fs.price1
-      
+        try:
+            productnew.quantity = qua + fs.quantity
+            productnew.price=fs.price1
+        
 
-        orders.totalprice = omitprice1 +(fs.quantity *fs.price1)
-        # orders.totalprice1 = omitprice2 +(fs.quantity *fs.price2)
-        orders.due = orders.totalprice -  orders.paid
+            orders.totalprice = omitprice1 +(fs.quantity *fs.price1)
+            # orders.totalprice1 = omitprice2 +(fs.quantity *fs.price2)
+            orders.due = orders.totalprice -  orders.paid
+        except Exception as e:
+            form.add_error(None, f"QUANTITY ISSUE")    
 
 
 
@@ -1838,67 +1850,71 @@ def mrfianaleditcashmemo(request, id):
             print(111111)  # Debugging step
             cus = supplier.objects.filter(id=shopcart.supplier_id).first()
             if cus:
-                print(cus)  # Debugging step
+                  # Debugging step
                 
-                   
-                newprice = (orders.totalprice - shopcart.price1*shopcart.quantity) + fs.price1*fs.quantity
+                try:  
+                    newprice = (orders.totalprice - shopcart.price1*shopcart.quantity) + fs.price1*fs.quantity
 
-                newdue=newprice- orders.paid
+                    newdue=newprice- orders.paid
+                        
+                    if newdue> shopcart.mrentry.due:
+    # Remove or comment out the print statements once you have confirmed the logic works correctly
                     
-                if newdue> shopcart.mrentry.due:
-# Remove or comment out the print statements once you have confirmed the logic works correctly
-                   
-
-                # Update the customer's balance
-                    b=(cus.balance - shopcart.mrentry.due) + newdue
-                    cus.balance = b
-                    cus.save()
+                
+                    # Update the customer's balance
+                        b=(cus.balance - shopcart.mrentry.due) + newdue
+                        cus.balance = b
+                        cus.save()
 
 
 
-                    # Confirm the balance was updated
-                    print(f"Updated customer balance: {cus.balance}")
+                        # Confirm the balance was updated
+                        print(f"Updated customer balance: {cus.balance}")
 
-                    order_creation_date = shopcart.datetime
-                    balance_sheets = supplierbalancesheet.objects.filter(datetime__gte=order_creation_date,  supplier=shopcart.supplier)
+                        order_creation_date = shopcart.datetime
+                        balance_sheets = supplierbalancesheet.objects.filter(datetime__gte=order_creation_date,  supplier=shopcart.supplier)
 
-                    for i in balance_sheets:
-                        # Update balance sheet
-                        
-                        c=(i.balance -shopcart.mrentry.due) + newdue
-                        i.balance =c
-                        i.save()
+                        for i in balance_sheets:
+                            # Update balance sheet
+                            
+                            c=(i.balance -shopcart.mrentry.due) + newdue
+                            i.balance =c
+                            i.save()
 
-                        # Confirm the balance sheet was updated
-                        print(f"Updated balance sheet for {i.id} to {i.balance}")
-
-
-                elif newdue< shopcart.mrentry.due:
-# Remove or comment out the print statements once you have confirmed the logic works correctly
-                   
-
-                # Update the customer's balance
-                     b=(cus.balance + shopcart.mrentry.due) - newdue
-                     cus.balance = b
-                     cus.save()
+                            # Confirm the balance sheet was updated
+                            print(f"Updated balance sheet for {i.id} to {i.balance}")
+                         
 
 
+                    elif newdue< shopcart.mrentry.due:
+    # Remove or comment out the print statements once you have confirmed the logic works correctly
+                    
 
-                    # Confirm the balance was updated
-                     print(f"Updated customer balance: {cus.balance}")
+                    # Update the customer's balance
+                        b=(cus.balance + shopcart.mrentry.due) - newdue
+                        cus.balance = b
+                        cus.save()
 
-                     order_creation_date = shopcart.datetime
-                     balance_sheets = supplierbalancesheet.objects.filter(datetime__gte=order_creation_date,  supplier=shopcart.supplier)
 
-                     for i in balance_sheets:
-                        # Update balance sheet
-                        
-                        c=(i.balance + shopcart.mrentry.due) - newdue
-                        i.balance =c
-                        i.save()
 
-                        # Confirm the balance sheet was updated
-                        print(f"Updated balance sheet for {i.id} to {i.balance}") 
+                        # Confirm the balance was updated
+                        print(f"Updated customer balance: {cus.balance}")
+
+                        order_creation_date = shopcart.datetime
+                        balance_sheets = supplierbalancesheet.objects.filter(datetime__gte=order_creation_date,  supplier=shopcart.supplier)
+
+                        for i in balance_sheets:
+                            # Update balance sheet
+                            
+                            c=(i.balance + shopcart.mrentry.due) - newdue
+                            i.balance =c
+                            i.save()
+
+                            # Confirm the balance sheet was updated
+                            print(f"Updated balance sheet for {i.id} to {i.balance}") 
+
+                except Exception as e:
+                           form.add_error(None, f"AMOUNT ISSUE")                  
 
                 # Save the updated customer object
                 
@@ -1914,7 +1930,7 @@ def mrfianaleditcashmemo(request, id):
                      costprice= fs.price1,
                      price1=fs.price1,
                      price2=0,
-                     reporttype="mrcashmemo edit",
+                     reporttype="Mrcashmemo Edit",
                      stockquantity=qua + fs.quantity,
                      changequanitity = fs.quantity,
                      user=request.user,
@@ -2403,49 +2419,57 @@ def returnreasonn(request,id):
 
 
             elif fs.status == "DUE RUTURN": 
-                item, created =dailyreport.objects.get_or_create(
-                    datetime=fs.datetime,
-                    returnn_id=fs.id,
-                    ammount=obj.ammount,
-                    returnprice=fs.duereturnprice
+                try:
+                    item, created =dailyreport.objects.get_or_create(
+                        datetime=fs.datetime,
+                        returnn_id=fs.id,
+                        ammount=obj.ammount,
+                        returnprice=fs.duereturnprice
 
 
-                ) 
+                    ) 
+                    
+                    solds.order.due -= fs.duereturnprice 
+                    solds.order.save()
 
-                solds.order.due -= fs.duereturnprice 
-                solds.order.save()
-
-                
-                if solds.order.customer !=None:
-                    solds.customer.balance -= fs.duereturnprice 
-                    solds.customer.save()
-                
+                    
+                    if solds.order.customer !=None:
+                        solds.customer.balance -= fs.duereturnprice 
+                        solds.customer.save()
+                    
 
 
-                    item, created =Customerbalacesheet.objects.get_or_create(
-                    datetime=fs.datetime,
-                    order_id=solds.order.id,
-                    customer=solds.order.customer,
-                    balance=solds.customer.balance,
-                    returnn_id=fs.id
-                
-                )  
-                messages.success(request, 'Return successfully processed!')
-                return redirect('returnreasonn', id=id)      
+                        item, created =Customerbalacesheet.objects.get_or_create(
+                        datetime=fs.datetime,
+                        order_id=solds.order.id,
+                        customer=solds.order.customer,
+                        balance=solds.customer.balance,
+                        returnn_id=fs.id
+                    
+                    )  
+                    messages.success(request, 'Return successfully processed!')
+                    return redirect('returnreasonn', id=id)   
+
+                except Exception as e:
+                    form.add_error(None, f"RETURN DUE  AMOUNT PROBLEM")   
 
 
                 
 
             else :  
-                    item, created =dailyreport.objects.get_or_create(
-                        datetime=fs.datetime,
-                        returnn_id=fs.id,
-                        ammount=obj.ammount,
-                        returnprice=fs.cashreturnprice + fs.duereturnprice
-                    ) 
+                    try:
+                        item, created =dailyreport.objects.get_or_create(
+                            datetime=fs.datetime,
+                            returnn_id=fs.id,
+                            ammount=obj.ammount,
+                            returnprice=fs.cashreturnprice + fs.duereturnprice
+                        ) 
 
-                    solds.order.due -= fs.duereturnprice 
-                    solds.order.save()
+                        solds.order.due -= fs.duereturnprice 
+                        solds.order.save()
+
+                    except Exception as e:
+                         form.add_error(None, f"RETURN DUE  AMOUNT PROBLEM")   
 
 
                     after_report =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime').first()
@@ -2478,21 +2502,24 @@ def returnreasonn(request,id):
                             # Handle the case where there are no objects in the database
                             print("No objects found in the database.")
                             last_report = None  
+                    try:       
 
-                    if solds.order.customer !=None:
-                        solds.customer.balance -= fs.duereturnprice 
-                        solds.customer.save()
-                    
+                        if solds.order.customer !=None:
+                            solds.customer.balance -= fs.duereturnprice 
+                            solds.customer.save()
+                        
 
 
-                        item, created =Customerbalacesheet.objects.get_or_create(
-                        datetime=fs.datetime,
-                        order_id=solds.order.id,
-                        customer=solds.order.customer,
-                        balance=solds.customer.balance,
-                        returnn_id=fs.id
+                            item, created =Customerbalacesheet.objects.get_or_create(
+                            datetime=fs.datetime,
+                            order_id=solds.order.id,
+                            customer=solds.order.customer,
+                            balance=solds.customer.balance,
+                            returnn_id=fs.id)
+                    except Exception as e:
+                        form.add_error(None, f"AMOUNT PROBLEM")        
                 
-                )  
+                 
 
             
                     messages.success(request, 'Return successfully processed!')
@@ -2573,27 +2600,29 @@ def editcashmemo(request,id):
             fs = form.save(commit=False)
             
             fs.user= request.user
-           
-            fs.invoice_id=fs.datetime
-            fs.totalprice=total-fs.discount
-            fs.totalprice1=total1-fs.discount
-            fs.due=(total)-(fs.paid+fs.discount)
-            fs.invoice_id=fs.added
-            #current daily report paid
-            daily.ammount = (daily.ammount-daily.order.paid) + fs.paid
-            daily.save()
-            fs.save()  
-            
-            daily_reports_after_id =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime')
+            try:
+                fs.invoice_id=fs.datetime
+                fs.totalprice=total-fs.discount
+                fs.totalprice1=total1-fs.discount
+                fs.due=(total)-(fs.paid+fs.discount)
+                fs.invoice_id=fs.added
+                #current daily report paid
+                daily.ammount = (daily.ammount-daily.order.paid) + fs.paid
+                daily.save()
+                fs.save()  
+                
+                daily_reports_after_id =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime')
 
 
-            for i in  daily_reports_after_id:
-                i.ammount = i.ammount + fs.paid  
-                i.save()
-                # daily report ammount update
-            for i in  daily_reports_after_id:
-                i.ammount = i.ammount - daily.order.paid
-                i.save()
+                for i in  daily_reports_after_id:
+                    i.ammount = i.ammount + fs.paid  
+                    i.save()
+                    # daily report ammount update
+                for i in  daily_reports_after_id:
+                    i.ammount = i.ammount - daily.order.paid
+                    i.save()
+            except Exception as e:
+                 form.add_error(None, f"PAID AMOUNT NOT CORRECT")        
             
             
 
@@ -2621,19 +2650,48 @@ def editcashmemo(request,id):
                 
                 shopcart.delete()    
                 product = Product.objects.get(id=rs.product_id)
-                   
-                product.quantity -= rs.quantity
-                product.save()
+                try:  
+                    product.quantity -= rs.quantity
+                    product.save()
+                except Exception as e:
+                  form.add_error(None, f"DO NOT HAVE QUANTITY") 
+                try:
+                    product = Product.objects.get(id=rs.product_id)
+                    if product.mother==1:
+
+                        current_product = Product.objects.get(id=rs.product_id)
+        # Filter UserItem based on the related Product's groupname and mother field
+                        user_itemstemp = sold.objects.filter(
+            product__groupname=current_product.groupname,order__id=fs.id
+        ).exclude(
+            product__mother=True
+        )
+                        grouptotalprice=0
+
+                        
+                        
+                        for  ns in user_itemstemp:
+                                
+                                    grouptotalprice += (ns.product.price * ns.quantity)
+                                    print(grouptotalprice)
+                        product.grouptotalprice
+                        product.save()           
+                except Exception as e:
+                    form.add_error(None, f"GROUP PRODUCT ISSUE {e}")                
+                            
+
+
+                detail.costprice =grouptotalprice     
 
 
                 item, created =plreport.objects.get_or_create(
                      product_id=rs.product_id,
                      order_id=fs.id,
                      datetime=fs.datetime,
-                     costprice= product.price,
+                     costprice= grouptotalprice,
                      price1=rs.price1,
                      price2=rs.price2,
-                     reporttype="invoice add",
+                     reporttype="invoice ADD",
                      stockquantity=product.quantity,
                      changequanitity = rs.quantity,
                      user=request.user,
@@ -2643,22 +2701,26 @@ def editcashmemo(request,id):
             if fs.customer:
               if fs.customer.id != oldid :
                 print("Updating customer balance...")  # Informative print statement
-
+                try:  
         # Update customer balance if customer changed for the order
-                cus =Customer.objects.filter(id=oldid).first()
-                cus.balance -=fs.due
-        
-                cus.save()
+                    cus =Customer.objects.filter(id=oldid).first()
+                    cus.balance -=fs.due
+            
+                    cus.save()
+                except Exception as e:
+                    form.add_error(None, f"PAID AMOUNT NOT CORRECT ")    
 
                 order_creation_date = orderr.datetime
-
+                try:
         # Efficiently update related CustomerBalanceSheet objects
-                Customerbalacesheet.objects.filter(
-                    datetime__gt=order_creation_date, customer=orderr.customer
-                ).update(balance=F('balance') - orderr.due)  # F() expression for in-place update
+                    Customerbalacesheet.objects.filter(
+                        datetime__gt=order_creation_date, customer=orderr.customer
+                    ).update(balance=F('balance') - orderr.due)  # F() expression for in-place update
 
-        # Delete existing CustomerBalanceSheet objects associated with the previous order
-                Customerbalacesheet.objects.filter(order=orderr).delete()
+            # Delete existing CustomerBalanceSheet objects associated with the previous order
+                    Customerbalacesheet.objects.filter(order=orderr).delete()
+                except Exception as e:
+                    form.add_error(None, f"PAID AMOUNT NOT CORRECT ")  
 
 
                 cus =Customer.objects.filter(id=fs.customer_id).first()
@@ -2678,35 +2740,37 @@ def editcashmemo(request,id):
               else:
         # Handle the case where the customer remains the same (optional logic)
                 print("Customer did not change for the order.")
-
+                try:
     # Complete form saving after all checks and updates
  # Save the form data to create the model instance
-                if fs.customer:
-                    cus =Customer.objects.filter(id=daily.order.customer_id).first()
+                    if fs.customer:
+                        cus =Customer.objects.filter(id=daily.order.customer_id).first()
 
-                    olddue=old - daily.order.paid
-                    newdue=total - fs.paid
-                
-
-    # Update the customer's balance
-                
-                    cus.balance = (cus.balance - olddue) +newdue
-
-        # Save the updated customer object
-                    cus.save()
-
-                    order_creation_date = orderr.datetime
-                    balance_sheets = Customerbalacesheet.objects.filter(datetime__gte=order_creation_date, customer=fs.customer) 
+                        olddue=old - daily.order.paid
+                        newdue=total - fs.paid
                     
-                    for i in balance_sheets:
+
+        # Update the customer's balance
+                    
+                        cus.balance = (cus.balance - olddue) +newdue
+
+            # Save the updated customer object
+                        cus.save()
+
+                        order_creation_date = orderr.datetime
+                        balance_sheets = Customerbalacesheet.objects.filter(datetime__gte=order_creation_date, customer=fs.customer) 
                         
-                        # if(newdue-olddue)>0 :
-                        #     i.balance = i.balance - (newdue-olddue)
-                        #     i.save()
-                        # else :
+                        for i in balance_sheets:
                             
-                            i.balance = (i.balance-olddue)+ (newdue)
-                            i.save()
+                            # if(newdue-olddue)>0 :
+                            #     i.balance = i.balance - (newdue-olddue)
+                            #     i.save()
+                            # else :
+                                
+                                i.balance = (i.balance-olddue)+ (newdue)
+                                i.save()
+                except Exception as e:
+                           form.add_error(None, f"Error during the second operation: {e}")        
 
 
              
@@ -2769,11 +2833,12 @@ def fianaleditcashmemo(request, id):
         # Update product quantity
         productnew.quantity = qua - fs.quantity
       
-
-        orders.totalprice = omitprice1 +(fs.quantity *fs.price1)
-        orders.totalprice1 = omitprice2 +(fs.quantity *fs.price2)
-        orders.due = orders.totalprice -  orders.paid
-
+        try:
+            orders.totalprice = omitprice1 +(fs.quantity *fs.price1)
+            orders.totalprice1 = omitprice2 +(fs.quantity *fs.price2)
+            orders.due = orders.totalprice -  orders.paid
+        except Exception as e:
+            form.add_error(None, f"PAID AMOUNT NOT CORRECT")
 
 
 
@@ -2791,57 +2856,61 @@ def fianaleditcashmemo(request, id):
                 if newdue> shopcart.order.due:
 # Remove or comment out the print statements once you have confirmed the logic works correctly
                    
-
+                    try:
                 # Update the customer's balance
-                    b=(cus.balance - shopcart.order.due) + newdue
-                    cus.balance = b
-                    cus.save()
+                        b=(cus.balance - shopcart.order.due) + newdue
+                        cus.balance = b
+                        cus.save()
 
 
 
-                    # Confirm the balance was updated
-                    print(f"Updated customer balance: {cus.balance}")
+                        # Confirm the balance was updated
+                        print(f"Updated customer balance: {cus.balance}")
 
-                    order_creation_date = shopcart.datetime
-                    balance_sheets = Customerbalacesheet.objects.filter(datetime__gte=order_creation_date, customer=shopcart.customer)
+                        order_creation_date = shopcart.datetime
+                        balance_sheets = Customerbalacesheet.objects.filter(datetime__gte=order_creation_date, customer=shopcart.customer)
 
-                    for i in balance_sheets:
-                        # Update balance sheet
-                        
-                        c=(i.balance -shopcart.order.due) + newdue
-                        i.balance =c
-                        i.save()
+                        for i in balance_sheets:
+                            # Update balance sheet
+                            
+                            c=(i.balance -shopcart.order.due) + newdue
+                            i.balance =c
+                            i.save()
 
-                        # Confirm the balance sheet was updated
-                        print(f"Updated balance sheet for {i.id} to {i.balance}")
+                            # Confirm the balance sheet was updated
+                            print(f"Updated balance sheet for {i.id} to {i.balance}")
+                    except Exception as e:
+                         form.add_error(None, f"PAID AMOUNT NOT CORRECT ")        
 
 
                 elif newdue < shopcart.order.due:
 # Remove or comment out the print statements once you have confirmed the logic works correctly
                    
-
+                     try:
                 # Update the customer's balance
-                     b=(cus.balance + shopcart.order.due) - newdue
-                     cus.balance = b
-                     cus.save()
+                        b=(cus.balance + shopcart.order.due) - newdue
+                        cus.balance = b
+                        cus.save()
 
 
 
-                    # Confirm the balance was updated
-                     print(f"Updated customer balance: {cus.balance}")
+                        # Confirm the balance was updated
+                        print(f"Updated customer balance: {cus.balance}")
 
-                     order_creation_date = shopcart.datetime
-                     balance_sheets = Customerbalacesheet.objects.filter(datetime__gte=order_creation_date, customer=shopcart.customer)
+                        order_creation_date = shopcart.datetime
+                        balance_sheets = Customerbalacesheet.objects.filter(datetime__gte=order_creation_date, customer=shopcart.customer)
 
-                     for i in balance_sheets:
-                        # Update balance sheet
-                        
-                        c=(i.balance + shopcart.order.due) - newdue
-                        i.balance =c
-                        i.save()
+                        for i in balance_sheets:
+                            # Update balance sheet
+                            
+                            c=(i.balance + shopcart.order.due) - newdue
+                            i.balance =c
+                            i.save()
+                     except Exception as e:
+                          form.add_error(None, f"PAID AMOUNT NOT CORRECT")        
 
                         # Confirm the balance sheet was updated
-                        print(f"Updated balance sheet for {i.id} to {i.balance}") 
+                        
 
                 # Save the updated customer object
                 
@@ -2857,7 +2926,7 @@ def fianaleditcashmemo(request, id):
                      costprice= productnew.price,
                      price1=fs.price1,
                      price2=fs.price2,
-                     reporttype="cashmemo edit",
+                     reporttype="Cashmemo Edit",
                      stockquantity=qua - fs.quantity,
                      changequanitity = fs.quantity,
                      user=request.user,
@@ -2866,6 +2935,32 @@ def fianaleditcashmemo(request, id):
         productnew.save()
         orders.save()
         fs.save()
+
+        try:
+
+            if shopcart.product.mother==1 :
+                current_product = Product.objects.get(id=fs.product_id)
+        # Filter UserItem based on the related Product's groupname and mother field
+                user_itemstemp = sold.objects.filter(
+            product__groupname=current_product.groupname,order__id=orders.id
+        ).exclude(
+            product__mother=True
+        )
+                grouptotalprice=0
+                        
+                        
+                for  ns in user_itemstemp:
+                                
+                                    grouptotalprice += (ns.product.price * ns.quantity)
+                                    print(grouptotalprice)
+                shopcart.product.costprice=grouptotalprice 
+                shopcart.product.save()                  
+        except Exception as e:
+                    form.add_error(None, f"GROUP PRODUCT ISSUE {e}")  
+
+        
+
+        
 
         messages.success(request, 'Form submitted successfully')
 
@@ -3177,38 +3272,39 @@ def expense(request):
            total+=gs.ammount 
          if request.method=='POST' and 'btnform1' in request.POST:
            
-           if form.is_valid() :
-           
-             fs = form.save(commit=False)
-             if orders.ammount - fs.petteyCash < 0:
-                    messages.error(request, " Do not have that balance.")
-                    return HttpResponseRedirect("/expense")
+            if form.is_valid() :
+            
+               fs = form.save(commit=False)
+               try:
+                
+                
+                    item, created =paybill.objects.get_or_create(
+                    datetime =fs.datetime,
+                    pettycashbalance=orders.petteyCash +fs.petteyCash,
+                    reloadpetteycash=fs.petteyCash,
+                    typecat="receive"
+                    )
+
+
+
+
+                    
+                    fs.billexpense = fs.petteyCash
+                    fs.ammount =orders.ammount -fs.petteyCash
+                    print(fs.petteyCash)
+                    fs.petteyCash =fs.petteyCash +orders.petteyCash
+                    fs.reporttype='FUND TRANSFER'
+                    after_report =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime').first()
+                    
+                    fs.save()
+               except Exception as e:
+                     form.add_error(None, f"FUND TRANSFER NOT POSSIBLE ON THAT TIME ")    
+
+
              
-             item, created =paybill.objects.get_or_create(
-             datetime =fs.datetime,
-             pettycashbalance=orders.petteyCash +fs.petteyCash,
-             reloadpetteycash=fs.petteyCash,
-             typecat="receive"
-             )
 
 
-
-
-             
-             fs.billexpense = fs.petteyCash
-             fs.ammount =orders.ammount -fs.petteyCash
-             print(fs.petteyCash)
-             fs.petteyCash =fs.petteyCash +orders.petteyCash
-             fs.reporttype='FUND TRANSFER'
-             
-             
-             fs.save()
-
-
-             after_report =dailyreport.objects.filter(datetime__gt=fs.datetime).order_by('datetime').first()
-
-
-             if after_report : 
+               if after_report : 
                     #insert_position = after_report.id
                     print(1)
                     
@@ -3231,99 +3327,115 @@ def expense(request):
 
                         
                         
-                    except ObjectDoesNotExist:
-                        # Handle the case where there are no objects in the database
-                        print("No objects found in the database.")
+                    except Exception as e:
+                        form.add_error(None, f"FUND TRANSFER NOT POSSIBLE ON THAT TIME ") 
                         last_report = None 
              
              
 
 
 
-             paybills = paybill.objects.all().order_by('datetime')
-             previous_pettycashbalance = paybills[0].pettycashbalance
-             if not paybills.exists():
-               return  # If there are no paybill records, exit the function
-        
-        # Set the first paybill's pettycashbalance as the starting point and skip updating it
-             for pb in paybills[1:]:
-                print(f"Previous pettycashbalance: {previous_pettycashbalance}")
-        
-        # Initialize the current pettycashbalance with the previous balance
-                pb.pettycashbalance = previous_pettycashbalance
-        
-        # Subtract the amount from pettycashbalance if amount is not None
-                if pb.ammount is not None:
-                  pb.pettycashbalance -= pb.ammount
-        
-        # Add the reloadpetteycash to pettycashbalance if reloadpetteycash is not None
-                if pb.reloadpetteycash is not None:
-                    pb.pettycashbalance += pb.reloadpetteycash
-        
-                print(f"Updated pettycashbalance: {pb.pettycashbalance}")    
-        
-        # Save the updated pettycashbalance
-                pb.save()
+               paybills = paybill.objects.all().order_by('datetime')
+               previous_pettycashbalance = paybills[0].pettycashbalance
+               if not paybills.exists():
+                  return  # If there are no paybill records, exit the function
+               try:
+            # Set the first paybill's pettycashbalance as the starting point and skip updating it
+                    for pb in paybills[1:]:
+                        print(f"Previous pettycashbalance: {previous_pettycashbalance}")
+                
+                # Initialize the current pettycashbalance with the previous balance
+                        pb.pettycashbalance = previous_pettycashbalance
+                
+                # Subtract the amount from pettycashbalance if amount is not None
+                        if pb.ammount is not None:
+                            pb.pettycashbalance -= pb.ammount
+                
+                # Add the reloadpetteycash to pettycashbalance if reloadpetteycash is not None
+                        if pb.reloadpetteycash is not None:
+                            pb.pettycashbalance += pb.reloadpetteycash
+            
+                    print(f"Updated pettycashbalance: {pb.pettycashbalance}")    
+            
+            # Save the updated pettycashbalance
+                    pb.save()
+                    previous_pettycashbalance = pb.pettycashbalance
+               except Exception as e:
+                   form.add_error(None, f"EXPENSE PROBLEM {e}")        
     
     # Update the previous_pettycashbalance for the next iteration
-                previous_pettycashbalance = pb.pettycashbalance
-             messages.success(request, 'FUND TRANSFERFER COMPLETE')
-             return HttpResponseRedirect("/expense")
+               if not form.errors:
+                  messages.success(request, 'FUND TRANSFERFER COMPLETE')
+                  return HttpResponseRedirect("/expense") 
+                  
+            
+               
+            else :
+               form=dailyreportt()
+        
          
          form2 = CorportepayForm(request.POST or None, request.FILES or None)
 
          if request.method=='POST' and 'btnform2' in request.POST:
            if form2.is_valid() :
            
-             fs1 = form2.save(commit=False)
-             if orders.ammount - fs1.ammount < 0:
-                    messages.error(request, " Do not have that balance.")
-                    return HttpResponseRedirect("/expense")
+               fs1 = form2.save(commit=False)
+             
             #  fs1.billexpense = fs1.petteyCash
             #  fs1.ammount =orders.ammount -fs1.petteyCash
             #  fs1.petteyCash =orders.petteyCash
             #  fs1.reporttype='CORPORATE'
-             fs1.save()
-             item, created = dailyreport.objects.get_or_create(
-            billexpense=fs1.ammount,
-            datetime = fs1.datetime,
-            ammount=orders.ammount - fs1.ammount,
-            petteyCash=orders.petteyCash,
-            reporttype = 'CORPORATE'
-             )
-             if fs1.supplier : 
-                supplier_id = fs1.supplier.id  #
+             
+               try:
+                    item, created = dailyreport.objects.get_or_create(
+                    billexpense=fs1.ammount,
+                    datetime = fs1.datetime,
+                    ammount=orders.ammount - fs1.ammount,
+                    petteyCash=orders.petteyCash,
+                    reporttype = 'CORPORATE',
+                    corportepay=fs1.id
+                    )
+                    fs1.save()
+               except Exception as e:
+                 form2.add_error(None, f"CORPORATE PAYMENT NOT POSSIBLE ON THAT TIME")   
+              
+                   #
 
     # Query the supplier from the Supplier model
                 #supplier = supplier.objects.get(pk=supplier_id)
+               try:
+                  if fs1.supplier :
+                    supplier_id = fs1.supplier.id   
+                    supp=supplier.objects.filter(id=supplier_id).first()
+                    
+        # Assuming there is a balance field in the Supplier model, deduct the balance
+                    
+                    supp.balance = supp.balance -fs1.ammount
+                    supp.save()
+                   
 
-                supp=supplier.objects.filter(id=supplier_id).first()
+
+
+                    item, created =supplierbalancesheet.objects.get_or_create(
                 
-    # Assuming there is a balance field in the Supplier model, deduct the balance
-                
-                supp.balance = supp.balance -fs1.ammount
-                supp.save()
-
-
-
-                item, created =supplierbalancesheet.objects.get_or_create(
-           
-            supplier=supp,
-            balance=supp.balance,
-            corportepay=fs1
-        )
+                    supplier=supp,
+                    balance=supp.balance,
+                    corportepay=fs1
+                )
+               except Exception as e:
+                    form2.add_error(None, f"Supplier Balance Problem") 
                 
 
-                after_report =dailyreport.objects.filter(datetime__gt=fs1.datetime).order_by('datetime').first()
+               after_report =dailyreport.objects.filter(datetime__gt=fs1.datetime).order_by('datetime').first()
 
 
-                if after_report : 
+               if after_report : 
                     #insert_position = after_report.id
                     print(1)
                     
                     
 
-                    try:
+               try:
                         # Get the last object
                         last_report = dailyreport.objects.latest('id')
                         previous_report =dailyreport.objects.filter(datetime__lt=fs1.datetime).order_by('-datetime').first()
@@ -3340,42 +3452,48 @@ def expense(request):
 
                         
                         
-                    except ObjectDoesNotExist:
+               except ObjectDoesNotExist:
                         # Handle the case where there are no objects in the database
                         print("No objects found in the database.")
                         last_report = None     
 
 
+               if not form2.errors:
+                messages.success(request, 'COPORARTE PAYMENT COMPLETE SUCCESSFULLY')
+                return HttpResponseRedirect("/expense")
+           else :
+               form2=CorportepayForm
+             
 
                 
-             messages.success(request, 'Form submitted successfully')
-             return HttpResponseRedirect("/expense")
+            
 
          form3 = dailyreportt(request.POST or None, request.FILES or None)
 
          if request.method=='POST' and 'btnform3' in request.POST:
             if form3.is_valid() :
            
-             fs1 = form3.save(commit=False)
-             if orders.ammount - fs1.ammount < 0:
-                    messages.error(request, " Do not have that balance.")
-                    return HttpResponseRedirect("/expense")
-             fs1.billexpense = fs1.petteyCash
-             fs1.ammount =orders.ammount -fs1.petteyCash
-             fs1.petteyCash =orders.petteyCash
-             
-             print(fs1.id)
-             fs1.save()
+                fs1 = form3.save(commit=False)
             
-             reports = dailyreport.objects.order_by('id')
+                try:
+                    fs1.billexpense = fs1.petteyCash
+                    fs1.ammount =orders.ammount -fs1.petteyCash
+                    fs1.petteyCash =orders.petteyCash
+                    
+                    print(fs1.id)
+                    fs1.save()
+                    
+                    reports = dailyreport.objects.order_by('id')
+                except Exception as e:
+                    form3.add_error(None, f"COMMISION NOT POSSIBLE ON THAT TIME") 
 
 
-             after_report =dailyreport.objects.filter(datetime__gt=fs1.datetime).order_by('datetime').first()
+                after_report =dailyreport.objects.filter(datetime__gt=fs1.datetime).order_by('datetime').first()
 
 
-             if after_report : 
-                #insert_position = after_report.id
-                print(1)
+                if after_report : 
+                    #insert_position = after_report.id
+                    print(1)
                 
                 
 
@@ -3403,9 +3521,12 @@ def expense(request):
                     last_report = None
 
                
-
-            messages.success(request, 'Form submitted successfully')
-            return HttpResponseRedirect("/expense")   
+                if not form3.errors:
+                    messages.success(request, 'COMMISSION SUCCESSFULLY PAID')
+            
+                    return HttpResponseRedirect("/expense")
+            else:
+                form3 = dailyreportt()   
             
         #  if request.method=='POST' and 'btnform5' in request.POST:
         #     if form3.is_valid() :
@@ -3447,39 +3568,65 @@ def expense(request):
                 
                 fs1 = form4.save(commit=False)
                 petteyCash_total = orders.petteyCash-total
-                if petteyCash_total < 0:
-                    messages.error(request, " The petty cash total is less than zero.")
-                    return HttpResponseRedirect("/expense")
+                
                 #myFilter =dailyreportfilter(request.GET,queryset=orders)
                 user_products = temppaybill.objects.filter(user=request.user)
-                
-                total=0
-                total1=0
-                for gs in user_products:
-                   total+=gs.ammount 
+                try:
+                    total=0
+                    total1=0
+                    for gs in user_products:
+                      total+=gs.ammount 
 
-                item, created =dailyreport.objects.get_or_create(
-                    datetime=fs1.datetime,
-                    petteyCash=orders.petteyCash-total,
-                    billexpense=total,
-                    ammount=orders.ammount,
-                    reporttype="office expense"
-                    )  
+                    item, created =dailyreport.objects.get_or_create(
+                        datetime=fs1.datetime,
+                        petteyCash=orders.petteyCash-total,
+                        billexpense=total,
+                        ammount=orders.ammount,
+                        reporttype="Office Expense"
+                        )  
+                    
+                except Exception as e:
+                    form4.add_error(None, f"PEETTY CASH NOT ENOUGH FUND") 
+                
+                
+                try:
+                    for rs in  user_products:
+                            detail = paybill()
+                            detail.paybillcatogory =rs.paybillcatogory
+                            paybilllast=paybill.objects.all().last()
+                            # Order Id
+                            detail.pettycashbalance=paybilllast.pettycashbalance-rs.ammount
+                            detail.ammount  = rs.ammount 
+                            detail.remarks    = rs.remarks
+                            detail.user  = request.user
+                            detail.typecat="OFFICE EXPENSE"
+                            detail.datetime = fs1.datetime 
+
+
+                            # if paybilllast.datetime == rs.datetime:
+                            #     detail.datetime = rs.datetime + timedelta(minutes=1)
+                            # else:
+                            #     detail.datetime = rs.datetime 
+                            detail.save()
+                except Exception as e:
+                    form4.add_error(None, f"Office Expense On that time not enough fund")            
+
+
                 paybills = paybill.objects.all().order_by('datetime')
                 previous_pettycashbalance = paybills[0].pettycashbalance
                 if not paybills.exists():
-                   return  # If there are no paybill records, exit the function
-            
-            # Set the first paybill's pettycashbalance as the starting point and skip updating it
-                for pb in paybills[1:]:
-                    print(f"Previous pettycashbalance: {previous_pettycashbalance}")
+                    return  # If there are no paybill records, exit the function
+                try:
+        # Set the first paybill's pettycashbalance as the starting point and skip updating it
+                    for pb in paybills[1:]:
+                        print(f"Previous pettycashbalance: {previous_pettycashbalance}")
             
             # Initialize the current pettycashbalance with the previous balance
                     pb.pettycashbalance = previous_pettycashbalance
             
             # Subtract the amount from pettycashbalance if amount is not None
                     if pb.ammount is not None:
-                      pb.pettycashbalance -= pb.ammount
+                        pb.pettycashbalance -= pb.ammount
             
             # Add the reloadpetteycash to pettycashbalance if reloadpetteycash is not None
                     if pb.reloadpetteycash is not None:
@@ -3489,73 +3636,27 @@ def expense(request):
             
             # Save the updated pettycashbalance
                     pb.save()
-        
-        # Update the previous_pettycashbalance for the next iteration
-                    previous_pettycashbalance = pb.pettycashbalance 
-
-                
-
-                for rs in  user_products:
-                        detail = paybill()
-                        detail.paybillcatogory =rs.paybillcatogory
-                        paybilllast=paybill.objects.all().last()
-                        # Order Id
-                        detail.pettycashbalance=paybilllast.pettycashbalance-rs.ammount
-                        detail.ammount  = rs.ammount 
-                        detail.remarks    = rs.remarks
-                        detail.user  = request.user
-                        detail.typecat="OFFICE EXPENSE"
-                        detail.datetime = fs1.datetime 
-
-
-                        # if paybilllast.datetime == rs.datetime:
-                        #     detail.datetime = rs.datetime + timedelta(minutes=1)
-                        # else:
-                        #     detail.datetime = rs.datetime 
-                        detail.save()
-
+                    previous_pettycashbalance = pb.pettycashbalance
+                    user_products.delete() 
+                except Exception as e:
+                        form4.add_error(None, f"EXPENSE PROBLEM {e}")
                        
-                        after_report =paybill.objects.filter(datetime__gt=fs1.datetime).order_by('datetime').first()
-                        
-
-                        if after_report : 
-                            #insert_position = after_report.id
-                            print(1)
-                            
-                            
-
-                            try:
-                                # Get the last object
-                                last_report = paybill.objects.latest('id')
-                                previous_report =paybill.objects.filter(datetime__lte=fs1.datetime).order_by('datetime').last()
-                                print(previous_report)
-                                print(last_report)
-                                last_report.pettycashbalance= previous_report.pettycashbalance - last_report.ammount
-                                last_report.save()
-
-
+                if not form4.errors:
+                       messages.success(request, 'EXPENSE COMPLETE')
+                       return HttpResponseRedirect("/expense")
+                
+                       
                                 
 
-                                daily_reports_after_id =paybill.objects.filter(datetime__gt=fs1.datetime).order_by('datetime')
-                            # daily report ammount update
-                                for i in  daily_reports_after_id:
-                                    i.pettycashbalance = i.pettycashbalance -last_report.ammount
-                                    i.save()
-
-                            except ObjectDoesNotExist:
-                    # Handle the case where there are no objects in the database
-                                print("No objects found in the database.")
-                                last_report = None            
-
 
 
                         
-                user_products.delete()
-
+         else:
+           form4 = tempform()
+            
                       
                         
-
-                return HttpResponseRedirect("/expense")
+           
          
 
 
@@ -3581,26 +3682,60 @@ def expense(request):
            total+=gs.ammount 
          if request.method=='POST' and 'btnform7' in request.POST:
            
-           if form.is_valid() :
+            if form6.is_valid() :
            
-             fs = form.save(commit=False)
-             item, created =paybill.objects.get_or_create(
-             datetime =fs.datetime,
-             pettycashbalance=orders.petteyCash - fs.petteyCash,
-             reloadpetteycash=fs.petteyCash,
-             typecat="reverse"
-             )
-             fs.billexpense = fs.petteyCash
-             fs.ammount =orders.ammount +fs.petteyCash
-             print(fs.petteyCash)
-             fs.petteyCash =orders.petteyCash-fs.petteyCash 
-             fs.reporttype='FUND REVERSE'
-             
-             
-             fs.save()
-             messages.success(request, 'FUND REVERSE COMPLETE')
-             return HttpResponseRedirect("/expense")   
-
+                fs = form6.save(commit=False)
+                try:
+                    item, created =paybill.objects.get_or_create(
+                    datetime =fs.datetime,
+                    pettycashbalance=orders.petteyCash - fs.petteyCash,
+                    reloadpetteycash=fs.petteyCash,
+                    typecat="Reverse"
+                    )
+                    fs.billexpense = fs.petteyCash
+                    fs.ammount =orders.ammount +fs.petteyCash
+                    print(fs.petteyCash)
+                    fs.petteyCash =orders.petteyCash-fs.petteyCash 
+                    fs.reporttype='FUND REVERSE'
+                    
+                    
+                    fs.save()
+                    messages.success(request, 'FUND REVERSE COMPLETE')
+                    return HttpResponseRedirect("/expense")
+                except Exception as e:
+                        form6.add_error(None, f"FUND RESVERSE TIME DO NO HAVE THAT BALANCE") 
+                paybills = paybill.objects.all().order_by('datetime')
+                previous_pettycashbalance = paybills[0].pettycashbalance
+                if not paybills.exists():
+                  return  # If there are no paybill records, exit the function
+                try:
+            # Set the first paybill's pettycashbalance as the starting point and skip updating it
+                    for pb in paybills[1:]:
+                        print(f"Previous pettycashbalance: {previous_pettycashbalance}")
+                
+                # Initialize the current pettycashbalance with the previous balance
+                        pb.pettycashbalance = previous_pettycashbalance
+                
+                # Subtract the amount from pettycashbalance if amount is not None
+                        if pb.ammount is not None:
+                            pb.pettycashbalance -= pb.ammount
+                
+                # Add the reloadpetteycash to pettycashbalance if reloadpetteycash is not None
+                        if pb.reloadpetteycash is not None:
+                            pb.pettycashbalance += pb.reloadpetteycash
+            
+                    print(f"Updated pettycashbalance: {pb.pettycashbalance}")    
+            
+            # Save the updated pettycashbalance
+                    pb.save()
+                    previous_pettycashbalance = pb.pettycashbalance
+                except Exception as e:
+                   form6.add_error(None, f"FUND REVERSE PROBLEM {e}")            
+                if not form6.errors:
+                   messages.success(request, 'FUND REVERSE COMPLETE')
+                   return HttpResponseRedirect("/expense")
+         else:
+           form6 = dailyreportt()    
 
          products =  paybillcatogory.objects.all()
          myFilter = expensefilter(request.GET, queryset=products)
@@ -3745,27 +3880,30 @@ def deleteinvoice(request, id):
     item.delete()      
 
     item1 = get_object_or_404(Order, id=id)
-
-    daily_reports_after_id =dailyreport.objects.filter(datetime__gt=orders.datetime).order_by('datetime')
-    # daily_reports_after_id = dailyreport.objects.filter(order_id__gt=id)
-    
-    # Daily report amount update
-    for i in daily_reports_after_id:
-        i.ammount -= item1.paid
-        i.save()
-
-    if item1.customer != None:
-        item1.customer.balance -= item1.due
-        item1.customer.save()
-        order = Order.objects.get(id=id)
-        order_creation_date = order.added
+    try :
+        daily_reports_after_id =dailyreport.objects.filter(datetime__gt=orders.datetime).order_by('datetime')
+        # daily_reports_after_id = dailyreport.objects.filter(order_id__gt=id)
         
-        # Query all balance sheet entries created after the order's creation date
-        balance_sheets = Customerbalacesheet.objects.filter(added__gt=order_creation_date, customer=order.customer) 
-            
-        for i in balance_sheets:
-            i.balance -= order.due
+        # Daily report amount update
+        for i in daily_reports_after_id:
+            i.ammount -= item1.paid
             i.save()
+
+        if item1.customer != None:
+            item1.customer.balance -= item1.due
+            item1.customer.save()
+            order = Order.objects.get(id=id)
+            order_creation_date = order.added
+            
+            # Query all balance sheet entries created after the order's creation date
+            balance_sheets = Customerbalacesheet.objects.filter(added__gt=order_creation_date, customer=order.customer) 
+                
+            for i in balance_sheets:
+                i.balance -= order.due
+                i.save()
+    except ObjectDoesNotExist:
+                        # Handle the case where there are no objects in the database
+        print("No objects found in the database.")        
     
     item1.delete() 
     messages.success(request, 'invoice deleted  successfully')
@@ -4994,27 +5132,43 @@ def update_paybill(request, pk):
             new_product = form.save(commit=False)
             new_amount = new_product.ammount
             # Commit the updated paybill instance to DB
+
+            paybills = paybill.objects.all().order_by('datetime')
+            previous_pettycashbalance = paybills[0].pettycashbalance
+            if not paybills.exists():
+                return  # If there are no paybill records, exit the function
+            try:
+    # Set the first paybill's pettycashbalance as the starting point and skip updating it
+                for pb in paybills[1:]:
+                   print(f"Previous pettycashbalance: {previous_pettycashbalance}")
+        
+        # Initialize the current pettycashbalance with the previous balance
+                   pb.pettycashbalance = previous_pettycashbalance
+        
+        # Subtract the amount from pettycashbalance if amount is not None
+                   if pb.ammount is not None:
+                        pb.pettycashbalance -= pb.ammount
+        
+        # Add the reloadpetteycash to pettycashbalance if reloadpetteycash is not None
+                   if pb.reloadpetteycash is not None:
+                        pb.pettycashbalance += pb.reloadpetteycash
+        
+                   print(f"Updated pettycashbalance: {pb.pettycashbalance}")    
+        
+        # Save the updated pettycashbalance
+                   pb.save()
+                   previous_pettycashbalance = pb.pettycashbalance
+            except Exception as e:
+                form.add_error(None, f"EXPENSE PROBLEM {e}")
+
+            
+
+
+
             new_product.save()
             
             # Find all paybill entries after the updated one (including itself)
-            daily_reports_after_id = paybill.objects.filter(datetime__gte=paybill_instance.datetime).order_by('datetime')
             
-            # Update the pettycashbalance by subtracting the original amount
-            for i in daily_reports_after_id:
-                i.pettycashbalance += original_amount
-                i.save()
-            
-            # Update the pettycashbalance by adding the new amount
-            for i in daily_reports_after_id:
-                i.pettycashbalance -= new_amount
-                i.save()
-            
-            # Update the last daily report's petty cash
-            if orders:
-                pay=paybill.objects.all().order_by('datetime').last()
-                orders.petteyCash = pay.pettycashbalance
-                
-                orders.save()
             
             return redirect('expensereport')  # Replace with your success URL or view name
     else:

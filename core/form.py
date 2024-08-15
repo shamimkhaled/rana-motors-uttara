@@ -244,7 +244,15 @@ class TempPayBillForm(forms.ModelForm):
         model = temppaybill
         fields = ['paybillcatogory', 'ammount', 'remarks']
         widgets = {
-            'paybillcatogory': autocomplete.ModelSelect2(url='paybillcatogory-autocomplete')
+            'paybillcatogory': autocomplete.ModelSelect2(
+                url='paybillcatogory-autocomplete',
+                attrs={
+                    'class': 'form-control form-control-sm',  # Applying Bootstrap's small input size
+                    'style': 'width: 100px;',  # Adjust the width as needed
+                }
+            ),
+            'ammount': forms.TextInput(attrs={'class': 'form-control form-control-sm'}),
+            
         }
 
   

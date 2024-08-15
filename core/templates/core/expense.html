@@ -21,6 +21,8 @@
 
 
 
+
+
 {% if messages %}
     <div class="fixed top-4 right-4 w-64 bg-green-500 p-4 rounded-md flex items-center justify-between shadow-md">
         <ul class="messages">
@@ -105,6 +107,20 @@
         background-color: #0056b3;
     }
 </style>
+{% if form.errors %}
+    <div class="error">
+        <ul>
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
 
 <div class="form-container">
     <form method="POST" class="post-form">
