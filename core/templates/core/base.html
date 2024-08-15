@@ -149,13 +149,18 @@ body {
         <a href="{% url 'customerlist' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
           <i class="fa-solid fa-people-group" style="color: #b1d03e;""></i> CLIENT LEDGER
         </a>
+
+        <a href="{% url 'expense' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
+          <i class="fa-solid fa-coins" style="color: #b1d03e;""></i> EXPENSE
+        </a>
+       
         <a href="{% url 'logout' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
           <i class="fa-solid fa-power-off" style="color: #b1d03e;"></i> LOGOUT
         </a>
 
 
         <a href="{% url 'cart' %}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4">
-          <i class="fa-solid " style="color: #b1d03e;"></i> LOG IN NAME: {{ request.user.get_full_name }}
+          <i class="fa-solid fa-image-portrait" style="color: #b1d03e;""></i> {{ request.user.get_full_name }}
         </a>
               
         {% else %}
