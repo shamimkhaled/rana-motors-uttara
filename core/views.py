@@ -2494,7 +2494,8 @@ def returnreasonn(request,id):
 
 
                 messages.success(request, 'Return successfully processed!')
-                return redirect('returnn', id=solds.order_id) 
+                return redirect('returnn', id=solds.order_id)
+                 
 
 
             elif fs.status == "DUE RUTURN": 
@@ -2527,7 +2528,7 @@ def returnreasonn(request,id):
                     
                     )  
                     messages.success(request, 'Return successfully processed!')
-                    return redirect('returnreasonn', id=id)   
+                    return redirect('returnn', id=solds.order_id)  
 
                 except Exception as e:
                     form.add_error(None, f"RETURN DUE  AMOUNT PROBLEM")   
@@ -2602,7 +2603,7 @@ def returnreasonn(request,id):
 
             
                     messages.success(request, 'Return successfully processed!')
-                    return redirect('returnreasonn', id=id) 
+                    return redirect('returnn', id=solds.order_id)
             
     # add form dictionary to context
     context = {#'category': category,
