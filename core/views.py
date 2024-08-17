@@ -2494,7 +2494,7 @@ def returnreasonn(request,id):
 
 
                 messages.success(request, 'Return successfully processed!')
-                return redirect('returnn', id=solds.order.id) 
+                return redirect('returnn', id=solds.order_id) 
 
 
             elif fs.status == "DUE RUTURN": 
