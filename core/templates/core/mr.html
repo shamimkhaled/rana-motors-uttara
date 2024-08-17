@@ -465,8 +465,8 @@ closeButtons.forEach(closeButton => {
                             <div class="modal-body">
                                 <form id="modalForm">
                                     <div class="form-group">
-                                        <label for="product">Product Type</label>
-                                        <select id="product" name="product" class="form-control" required>
+                                        <label for="producttype">Product Type</label>
+                                        <select id="producttype" name="producttype" class="form-control" required>
                                             <option value="Local Container">Local Container</option>
                                             <option value="Public Container">Public Container</option>
                                             <!-- Add more options as needed -->
@@ -959,7 +959,8 @@ const addToCart = () => {
     
 
     const productId = modal.querySelector("#productId").value;
-    var product = document.getElementById("product").value;
+   
+    var producttype = document.getElementById("producttype").value;
     var quantity = document.getElementById("quantity").value;
     var price1 = document.getElementById("price").value;
     var price2 = document.getElementById("price2").value;
@@ -974,7 +975,7 @@ const addToCart = () => {
 
     const formData = {
   productId: productId,
-  product: product,
+  producttype: producttype,
   quantity: quantity,
   price1: price1,
   price2: price2,

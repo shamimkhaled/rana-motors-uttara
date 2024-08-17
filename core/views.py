@@ -2180,19 +2180,23 @@ def mr(request):
 
         
         fs.save()
-        if fs.supplier !=None:
-            sup =supplier.objects.filter(id=fs.supplier_id).first()
-            sup.balance +=fs.due
-            sup.save()
+
+        try:
+            if fs.supplier !=None:
+                sup =supplier.objects.filter(id=fs.supplier_id).first()
+                sup.balance +=fs.due
+                sup.save()
 
 
-            item, created =supplierbalancesheet.objects.get_or_create(
-            datetime=fs.datetime,
-            mrentry_id=fs.id,
-            supplier=sup,
-            balance=sup.balance,
-            duebalanceadd =fs.due
-        )
+                item, created =supplierbalancesheet.objects.get_or_create(
+                datetime=fs.datetime,
+                mrentry_id=fs.id,
+                supplier=sup,
+                balance=sup.balance,
+                duebalanceadd =fs.due
+            )
+        except AttributeError as e:
+                    print(f"Error: {e}")          
         
         
 
@@ -2202,6 +2206,7 @@ def mr(request):
                  # Order Id
                  
                 detail.product_id  = rs.product_id
+                detail.conainertype=rs.productype
                 detail.mrentry_id    = fs.id 
                 detail.user  = request.user
                 detail.quantity  = rs.quantity
@@ -2212,32 +2217,78 @@ def mr(request):
                 detail.groupproduct = rs.groupproduct
                 detail.datetime = fs.datetime
                 detail.save()
-                
-                shopcart.delete()    
                 product = Product.objects.get(id=rs.product_id)
 
-                if rs.credit == 'noncredit':
+
+
+
+                   
+                product = Product.objects.get(id=rs.product_id)
+
+                if rs.productype != "Public Container":
                     # Increment the product's quantity
-                    product.quantity += rs.quantity
-                    add=(product.price * product.quantity)+ (rs.price1* rs.quantity)
-                    product.avg_price=add/(product.quantity+rs.quantity)
-                    
-                    # Filter items in the shopping cart that match the product ID
-                    matching_items = shopcart.filter(product_id=rs.product_id)
-                    
-                    if matching_items.exists():
-                        # Calculate the average price of matching items
-                        avg_price = matching_items.aggregate(Avg('price1'))['price1__avg']
-                    else:
-                        # If there are no matching items, use rs.price1
-                        avg_price = rs.price1
-                    
-                    # Set the product's price to the calculated average if avg_price is not 0
-                    if avg_price != 0:
-                        product.price = avg_price
-                    
-                    # Save the updated product
+                     product.quantity += rs.quantity
+                     item, created =plreport.objects.get_or_create(
+                     product_id=rs.product_id,
+                     mrentry_id=fs.id,
+                     datetime=fs.datetime,
+                     costprice= product.price,
+                     price1=rs.price1,
+                     price2=0,
+                     reporttype="MR INVOICE",
+                     stockquantity=product.quantity,
+                     changequanitity = rs.quantity,
+                     user=request.user,
+                    )
+                add=(product.price * product.quantity)+ (rs.price1* rs.quantity)
+                product.avg_price=add/(product.quantity+rs.quantity)
+                
+                # Filter items in the shopping cart that match the product ID
+                matching_items = shopcart.filter(product_id=rs.product_id)
+                
+                if matching_items.exists():
+                    # Calculate the average price of matching items
+                    avg_price = matching_items.aggregate(Avg('price1'))['price1__avg']
+                else:
+                    # If there are no matching items, use rs.price1
+                    avg_price = rs.price1
+                
+                # Set the product's price to the calculated average if avg_price is not 0
+                if avg_price != 0:
+
+
+
+                    product.price = avg_price
+                product = Product.objects.get(id=rs.product_id)
+                print(rs.productype)
+                try:
+                    if rs.productype == "Public Container":
+                        print(rs.productype)
+                        product.publicquantity += rs.quantity 
+                        product.publicprice = rs.price 
+                         # Corrected the typo here
+                        
+
+
+                        item, created =plreport.objects.get_or_create(
+                     product_id=rs.product_id,
+                     order_id=fs.id,
+                     datetime=fs.datetime,
+                     costprice= product.publicprice,
+                     price1=rs.price1,
+                     price2=0,
+                     reporttype=" MRR  Public Container",
+                     stockquantity=product.quantity,
+                     changequanitity = rs.quantity,
+                     user=request.user,
+                    )
                     product.save()
+                except AttributeError as e:
+                    print(f"Error: {e}")                     
+
+                shopcart.delete() 
+                # Save the updated product
+                product.save()
 
 
 
@@ -2247,12 +2298,14 @@ def mr(request):
                      datetime=fs.datetime,
                      costprice= product.price,
                      price1=rs.price1,
-                     price2=rs.price2,
+                     price2=0,
                      reporttype="MR INVOICE",
                      stockquantity=product.quantity,
                      changequanitity = rs.quantity,
                      user=request.user,
                     )
+                
+                                  
 
 
         obj = dailyreport.objects.all().last()
@@ -4580,8 +4633,9 @@ def userItemstore(request):
                 price2=0,
                 groupproduct = True,
                 status= status,
+                productype=productype,
                 remarks = remarks ,
-                exchange_ammount =exchangeAmount ,
+                exchange_ammount =0 ,
                 sparename =spareName ,
                 enginecomplete = engine
 
@@ -4622,7 +4676,7 @@ def mruserItemstore(request):
         json_data = json.loads(request.body)
             # Extract the required fields from the JSON data
         productId = json_data.get('productId')
-        product = json_data.get('product')
+        productype = json_data.get('producttype')
         quantity = json_data.get('quantity')
         price1 = json_data.get('price1')
         price2 = json_data.get('price2')
@@ -4636,7 +4690,7 @@ def mruserItemstore(request):
         # Create an object using the form data
 
 
-      
+        print(productype)
         
         obj = UserItem.objects.create(
                 product_id=productId,
@@ -4646,6 +4700,7 @@ def mruserItemstore(request):
                 price2=0,
                 groupproduct = False,
                 status= status,
+                productype=productype,
                 remarks = remarks ,
                 exchange_ammount =exchangeAmount ,
                 sparename =spareName ,
@@ -4700,7 +4755,7 @@ def mruserItemstore(request):
                 groupproduct = True,
                 status= status,
                 remarks = remarks ,
-                exchange_ammount =exchangeAmount ,
+                exchange_ammount =0 ,
                 sparename =spareName ,
                 enginecomplete = engine
 
