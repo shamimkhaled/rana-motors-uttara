@@ -14,6 +14,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js" integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
@@ -217,7 +218,7 @@ closeButton.addEventListener('click', function() {
 <nav class="bg-emerald-800 p-4 flex items-center justify-between flex-wrap">
   <div class="flex items-center flex-shrink-0 text-white">
     <img src="http://www.ranamotorsbd.com/images/Rana-Motors-Logo.png" class="h-10 ml-auto" alt="Rana Motors Logo">
-    <span class="font-semibold text-xl tracking-tight mr-auto">RANA MOTORS </span>
+    <span class="font-semibold text-xl tracking-tight mr-auto">RANA MOTORS LTD.</span>
     
   </div>
   <div class="block lg:hidden">
@@ -271,15 +272,23 @@ closeButton.addEventListener('click', function() {
   
 
 <div class="container mt-5">
+  <!-- Title -->
+  <div class="row justify-content-center mb-4">
+    <h1 class="text-uppercase text-center font-weight-bold text-gray-1000 text-4xl md:text-5xl">INVOICE LIST</h1>
+</div>
+
   <!-- Summary Boxes Row -->
   <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-          <div class="summary-box text-center p-4 shadow-sm rounded">
-              <h1 class="box-title">GENERAL ID DUE</h1>
-              <p class="box-content">{{ without_customers }}</p>
-              <hr class="my-4">
-              <h1 class="box-title">ID DUE</h1>
-              <p class="box-content">{{ with_customers }}</p>
+      <div class="col-md-6 col-lg-3">
+          <div class="summary-box text-center p-4 shadow-sm rounded bg-white">
+              <h3 class="box-title text-uppercase font-weight-bold text-gray-700">General ID Due</h3>
+              <p class="box-content text-lg text-primary font-weight-bold">{{ without_customers }}</p>
+          </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+          <div class="summary-box text-center p-4 shadow-sm rounded bg-white">
+              <h3 class="box-title text-uppercase font-weight-bold text-gray-700">ID Due</h3>
+              <p class="box-content text-lg text-primary font-weight-bold">{{ with_customers }}</p>
           </div>
       </div>
   </div>
@@ -287,135 +296,114 @@ closeButton.addEventListener('click', function() {
 
     <!-- Form Row -->
     <div class="row">
-        <div class="col-md-12">
-            <form method="get" class="flex items-center space-x-4">
-                <!-- Apply "crispy" filter to your form -->
-                {{ myFilter.form|crispy }}
-                <button class="bg-transparent hover:bg-gray-800 text-blue-900 font-semibold hover:text-gray-900 py-2 px-4 border border-blue-500 hover:border-transparent rounded" type="submit">Search</button>
-            </form>
-        </div>
+    <div class="col-md-12">
+        <form method="get" class="flex items-center space-x-4">
+            <!-- Apply "crispy" filter to your form -->
+            {{ myFilter.form|crispy }}
+            <button class="bg-transparent hover:bg-gray-800 text-blue-900 text-lg font-semibold hover:text-gray-900 py-3 px-6 border border-blue-500 hover:border-transparent rounded-lg" type="submit">Search</button>
+        </form>
     </div>
 </div>
-
-  
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
+</div>
 
 
-        <th scope="col">ID</th>
-        <th scope="col">GN</th>
-        <th scope="col">PRICE | DUE</th>
-        <th scope="col">OFFFICE COPY</th>
-        <th scope="col">CLIENT COPY</th>
-        <th scope="col">BOTH MEMO</th>
-        <th scope="col">CHALAN</th>
-        <th scope="col">RETURN</th>
-        <th scope="col">EDIT CASHMEMO</th>
-        <th scope="col"> GENERAL BILL RECEIVE</th>
-        <th scope="col">DELETE</th>
-        <th scope="col">TIME</th>
-        <th scope="col">SMS</th>
-
-      </tr>
-    </thead>
-    <tbody>
-      {% for rs in orders %}
-      <tr>
-
-
-        <td>{{ rs.customer.name}}</td>
-        <td>{{ rs.name}}</td>
-        <td>{{rs.totalprice}} | {{rs.due}} </td>
-        <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-            onclick="window.location.href = '{{rs.id}}/cashmemo'">
-            Print Cashmemo
-
-          </button>
-        </td>
-       
-
-        <td>
-          <button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-                  onclick="window.location.href = '{{rs.id}}/cashmemo1'">
-            Print Cashmemo 2
-          </button>
-        </td>
-
-
-        <td>
-          <button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-                  onclick="window.location.href = '{{rs.id}}/bothcashmemo'">
-           Both Memo
-          </button>
-        </td>
-        
-      
-
-      <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-        onclick="window.location.href = '{{rs.id}}/chalan'">
-        Chalan
-
-      </button>
-    </td>
-        <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-            onclick="window.location.href = '{{rs.id}}/returnn'">
-            Return
-
-          </button>
-        </td>
-        {% if not rs.smssend %}
-    <td>
-        <button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-                onclick="window.location.href = '{{ rs.id }}/editcashmemo'">
-            Edit Cashmemo
+<table class="w-full border-collapse border border-gray-300 rounded-lg shadow-lg">
+  <thead class="bg-gray-800 text-white">
+    <tr>
+      <th scope="col" class="px-4 py-3 border border-gray-400 w-1/12">DATE TIME</th>
+      <th scope="col" class="px-4 py-3 border border-gray-400 w-2/12 text-xl">ID CLIENT</th>
+      <th scope="col" class="px-4 py-3 border border-gray-400 w-2/12 text-xl">GENERAL CLIENT</th>
+      <th scope="col" class="px-4 py-3 border border-gray-400 w-1/12">TOTAL AMOUNT</th>
+      <th scope="col" class="px-4 py-3 border border-gray-400 w-1/12">DUE AMOUNT</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">OFFICE COPY</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">CLIENT COPY</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">BOTH MEMO</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">CHALAN</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">RETURN</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">EDIT CASHMEMO</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">GENERAL BILL RECEIVE</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">DELETE</th>
+      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">SMS</th>
+    </tr>
+  </thead>
+  <tbody class="bg-white text-gray-700 text-lg">
+    {% for rs in orders %}
+    <tr class="hover:bg-gray-100 transition duration-300">
+      <td class="px-4 py-3 border border-gray-300">{{ rs.datetime }}</td>
+      <td class="px-4 py-3 border border-gray-300 text-xl">{{ rs.customer.name }}</td>
+      <td class="px-4 py-3 border border-gray-300 text-xl">{{ rs.name }}</td>
+      <td class="px-4 py-3 border border-gray-300">{{ rs.totalprice }} </td>
+      <td class="px-4 py-3 border border-gray-300"> {{ rs.due }}</td>
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-cyan-300 hover:bg-yellow-300 text-lg font-bold py-2 px-2 rounded w-40"
+          onclick="window.location.href = '{{ rs.id }}/cashmemo'">
+          <i class="fa-solid fa-print"></i> BILL 1
         </button>
-    </td>
-{% else %}
-    <td>ALREADY POSTED</td>
-{% endif %}
-
-      {% if  not rs.customer.name %}
-      <td><button class="bg-cyan-300 hover:bg-yellow-300  text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-        onclick="window.location.href = '{{rs.id}}/bill'">
-        Bill Receive
-
-      </button>
       </td>
-
-      {% else %}
-    <td> id customer</td>
-
-     
-      {% endif %}
-
-     
-
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-cyan-300 hover:bg-yellow-300 text-lg font-bold py-2 rounded w-40"
+          onclick="window.location.href = '{{ rs.id }}/cashmemo1'">
+          <i class="fa-solid fa-print"></i> BILL 2
+        </button>
+      </td>
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-cyan-300 hover:bg-yellow-300 text-lg font-bold py-2  rounded w-40"
+          onclick="window.location.href = '{{ rs.id }}/bothcashmemo'">
+          <i class="fa-solid fa-print"></i> BOTH BILL
+        </button>
+      </td>
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-cyan-300 hover:bg-yellow-300 text-lg font-bold py-2  rounded w-40"
+          onclick="window.location.href = '{{ rs.id }}/chalan'">
+          <i class="fa-solid fa-file-invoice"></i> CHALAN
+        </button>
+      </td>
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-cyan-300 hover:bg-yellow-300 text-lg font-bold py-2  rounded w-40"
+          onclick="window.location.href = '{{ rs.id }}/returnn'">
+          <i class="fa-solid fa-undo-alt"></i> RETURN
+        </button>
+      </td>
       {% if not rs.smssend %}
-    <td>
-      <button class="bg-red-400 hover:bg-orange-500 text-white text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-      onclick="return confirm('Are you sure you want to delete this invoice?') ? window.location.href = '{{ rs.id }}/deleteinvoice' : false;">
-  Delete invoice
-</button>
-    </td>
-    {% else %}
-    <td>ALREADY POSTED</td>
-{% endif %}
-    </td>
-        <td>{{ rs.datetime}}</td>
-        <td>
-        <button class="bg-green-600 hover:bg-blue-800 text-white text-lg font-bold py-2 px-2 rounded w-48 mr-px"
-        onclick="return confirm('Are you sure you want to send message?') ? window.location.href = '{{ rs.id }}/smssendinvoice' : false;">
-    <i class="fas fa-comment-sms mr-1"></i>  Send Sms
-</button>
-</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-
-  </table>
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-cyan-300 hover:bg-yellow-300 text-lg font-bold py-2  rounded w-40"
+          onclick="window.location.href = '{{ rs.id }}/editcashmemo'">
+          <i class="fa-solid fa-edit"></i> EDIT BILL
+        </button>
+      </td>
+      {% else %}
+      <td class="px-4 py-2 border border-gray-300 text-center">ALREADY POSTED</td>
+      {% endif %}
+      {% if not rs.customer.name %}
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-cyan-300 hover:bg-yellow-300 text-lg font-bold py-2 px-2 rounded w-40"
+          onclick="window.location.href = '{{ rs.id }}/bill'">
+          <i class="fa-solid fa-money-bill-wave"></i> BILL RECEIVE
+        </button>
+      </td>
+      {% else %}
+      <td class="px-4 py-2 border border-gray-300 text-center">ID CUSTOMER</td>
+      {% endif %}
+      {% if not rs.smssend %}
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-red-400 hover:bg-orange-500 text-white text-lg font-bold py-2 px-2 rounded w-40"
+          onclick="return confirm('Are you sure you want to delete this invoice?') ? window.location.href = '{{ rs.id }}/deleteinvoice' : false;">
+          <i class="fa-solid fa-trash-alt"></i> DELETE 
+        </button>
+      </td>
+      {% else %}
+      <td class="px-4 py-2 border border-gray-300 text-center">ALREADY POSTED</td>
+      {% endif %}
+      <td class="px-4 py-2 border border-gray-300">
+        <button class="bg-green-600 hover:bg-blue-800 text-white text-lg font-bold py-2 px-2 rounded w-40"
+          onclick="return confirm('Are you sure you want to send message?') ? window.location.href = '{{ rs.id }}/smssendinvoice' : false;">
+          <i class="fa-solid fa-comment-sms mr-1"></i> SEND SMS
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 
    <!-- Pagination Controls -->
