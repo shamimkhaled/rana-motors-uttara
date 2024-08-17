@@ -57,7 +57,7 @@ urlpatterns = [
         name="mrfianaleditcashmemo",
     ),
     path("<id>/delete", views.delete_item, name="delete"),
-    path("<id>/billcustomer", views.billcustomer, name="bill"),
+    path("<id>/billcustomer", views.billcustomer, name="billcus"),
     path("customerlist", views.customerlist, name="customerlist"),
     # path('customerdetail', views.customersolddeatails, name='bill'),
     path("search/", views.search, name="search_results"),

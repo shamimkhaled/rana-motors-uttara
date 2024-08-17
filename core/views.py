@@ -3119,7 +3119,8 @@ def billt(request,id):
                                 last_report = None   
 
 
-                messages.success(request, 'Form submission successful')                
+                messages.success(request, 'Form submission successful')     
+                return redirect('bill_list')           
 
   context["form"] = form
   return render(request, "core/update_view.html", context)
@@ -3263,6 +3264,7 @@ def billcustomer(request,id):
         )
            
            messages.success(request, 'Form submission successful')
+           return redirect('bill_list')
 
   context["form"] = form
   return render(request, "core/update_view.html", context)
