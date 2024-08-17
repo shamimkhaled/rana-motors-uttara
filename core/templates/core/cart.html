@@ -397,31 +397,43 @@
                     </h5>
                     <div class="flex flex-col mb-3">
                         <p class="font-normal text-gray-700 dark:text-gray-400">
-                            <span class="text-purple-500">Name:</span> {{ product.name }}
+                            <span class="text-green-700">Name:</span> {{ product.name }}
                         </p>
                         <p class="font-normal text-gray-700 dark:text-gray-400">
-                            <span class="text-green-500">Qty:</span> {{ product.quantity }}
+                            <span class="text-green-700">Qty:</span> {{ product.quantity }}
                         </p>
                         <p class="font-normal text-gray-700 dark:text-gray-400">
-                            <span class="text-blue-500">Last Price:</span> TK-{{ product.price }}
+                            <span class="text-green-700">Last Price:</span> TK-{{ product.price }}
                         </p>
 
 
                         <p class="font-normal text-gray-700 dark:text-gray-400">
-                            <span class="text-red-500">AVG- Price:</span> TK-{{ product.avg_price }}
+                            <span class="text-green-700">AVG- Price:</span> TK-{{ product.avg_price }}
                         </p>
                         
                         
                     </div>
                     <div class="flex justify-between items-center">
-                        <button class="save text-white bg-green-600 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 py-1.5 text-center transition duration-300 ease-in-out"
-                            onclick="openModal('{{ product.id }}', '{{ product.name }}', '{{ product.price }}', '{{ product.quantity }} ')">Add to Cart</button>
+                        <button class="save text-white bg-green-600 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 py-1.5 text-center transition duration-300 ease-in-out" 
+        onclick="openModal('{{ product.id }}', '{{ product.name }}', '{{ product.price }}', '{{ product.quantity }} ')">
+    <i class="fa-solid fa-cart-plus"></i> Add to Cart
+</button>
                         
                         {% if product.mother %}
                         <button class="bg-green-950 hover:bg-purple-600 text-white text-xs font-bold rounded-md py-2 px-3 transition duration-300 ease-in-out"
-                            onclick="window.location.href = '/{{ product.id }}/group'">Group </button>
+                            onclick="window.location.href = '/{{ product.id }}/group'"> <i class="fa-solid fa-layer-group"></i>Group </button>
                         {% endif %}
                     </div>
+
+
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                        <span class="text-sky-700">Public QTY</span> {{ product.publicquantity }}
+                    </p>
+
+
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                        <span class="text-sky-700"> Public Price </span>TK-{{ product.publicprice }}
+                    </p>
                 </a>
     
     {% endfor %}
@@ -477,8 +489,8 @@
                             <div class="modal-body">
                                 <form id="modalForm">
                                     <div class="form-group">
-                                        <label for="product">Product Type</label>
-                                        <select id="product" name="product" class="form-control" required>
+                                        <label for="producttype">Product Type</label>
+                                        <select id="producttype" name="producttype" class="form-control" required>
                                             <option value="Local Container">Local Container</option>
                                             <option value="Public Container">Public Container</option>
                                             <!-- Add more options as needed -->
@@ -977,7 +989,9 @@ const addToCart = () => {
     
 
     const productId = modal.querySelector("#productId").value;
-    var product = document.getElementById("product").value;
+   
+    var producttype = document.getElementById("producttype").value;
+   
     var quantity = document.getElementById("quantity").value;
     var price1 = document.getElementById("price").value;
     var price2 = document.getElementById("price2").value;
@@ -993,7 +1007,8 @@ const addToCart = () => {
 
     const formData = {
   productId: productId,
-  product: product,
+  producttype :producttype,
+//   product: product,
   quantity: quantity,
   price1: price1,
   price2: price2,

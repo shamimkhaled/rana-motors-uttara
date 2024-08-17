@@ -40,6 +40,21 @@ class Product(models.Model):
         default=0,
         null=True
     )
+
+    publicquantity = models.DecimalField(
+        decimal_places=0,
+        max_digits=10,
+        validators=[MinValueValidator(0)],
+        default=0,
+        null=True
+    )
+    publicprice= models.DecimalField(
+        decimal_places=0,
+        max_digits=10,
+        validators=[MinValueValidator(0)],
+        default=0,
+        null=True
+    )
     groupname = models.CharField(max_length=200, null=True, blank=True)
     mother = models.BooleanField(null=True, blank=True)
     subpartquantity = models.PositiveIntegerField(default=0, null=True)
@@ -106,8 +121,8 @@ class UserItem(models.Model):
 			('Exchange', 'Exchange'),
 			)
     PRODUCT1 = (
-			('LocalContainer', ' LocalContainer'),
-			('publicContainer', 'publicContainer'),
+			('Local Container', ' Local Container'),
+			('Public Container', 'Public Container'),
 			)        
     engine = (
 			
@@ -118,7 +133,12 @@ class UserItem(models.Model):
     credit = (('noncredit', 'noncredit'),
 			('credit', 'credit'),
 			
-			)                  
+			) 
+
+    PRODUCT2 = (
+        ('local', 'local'),
+        ('public', 'public'),
+    )                 
     product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True,related_name='product')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0,null=True)
@@ -142,8 +162,9 @@ class UserItem(models.Model):
     model_no = models.CharField(max_length=200,blank=True,null=True)
     engine_no = models.CharField(max_length=200,null=True,default='',blank=True)
     status=models.CharField(max_length=10,choices=PRODUCT,default='Direct',null=True)
+    # status1 = models.CharField(max_length=10, choices=PRODUCT2, default='public', null=True)
     credit=models.CharField(max_length=10,choices=credit,default='noncredit',null=True)
-    productype=models.CharField(max_length=100,choices=PRODUCT1,default='LocalContainer',null=True)
+    productype=models.CharField(max_length=100,choices=PRODUCT1,default='Local Container',null=True)
     enginecomplete=models.CharField(max_length=10,choices=engine,default='incomplete',null=True)
     remarks = models.CharField(max_length=500,blank=True,null=True)
     exchange_ammount = models.PositiveIntegerField(default=0,null=True,blank=True)
@@ -204,6 +225,13 @@ class Order(models.Model):
 
 
 class sold(models.Model):
+
+    PRODUCT1 = (
+			('Local Container', ' Local Container'),
+			('Public Container', 'Public Container'),
+			)   
+
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -217,6 +245,7 @@ class sold(models.Model):
     left = models.PositiveIntegerField(default=0,null=True)
     discount = models.PositiveIntegerField(default=0,null=True,blank=True)
     remarks = models.CharField(max_length=500,blank=True,null=True)
+    conainertype=models.CharField(max_length=100,choices=PRODUCT1,default='Local Container',null=True)
     
     price1 = models.DecimalField(
         default=0,
@@ -239,6 +268,8 @@ class sold(models.Model):
     sparename = models.CharField(max_length=200,null=True,blank=True)
     groupproduct = models.BooleanField(null=True,blank=True)
     datetime= models.DateTimeField(null=True,blank=True)
+   
+   
     @property
     def total_price(self):
         return self.quantity * self.price1 +self.exchange_ammount
@@ -410,9 +441,13 @@ class mrentry(models.Model):
 
 
 class mrentryrecord(models.Model):
+
    
 
-
+    PRODUCT1 = (
+			('Local Container', ' Local Container'),
+			('Public Container', 'Public Container'),
+			)  
     supplier = models.ForeignKey(supplier, on_delete=models.CASCADE,null=True)
     paid = models.PositiveIntegerField(default=0,null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -448,6 +483,7 @@ class mrentryrecord(models.Model):
     sparename = models.CharField(max_length=200,null=True,blank=True)
     groupproduct = models.BooleanField(null=True,blank=True)
     datetime= models.DateTimeField(null=True) 
+    conainertype=models.CharField(max_length=100,choices=PRODUCT1,default='Local Container',null=True)
     @property
     def total_price(self):
         return self.quantity * self.price1 +self.exchange_ammount

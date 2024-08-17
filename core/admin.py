@@ -47,7 +47,7 @@ admin.site.register(plreport)
 admin.site.register(Customerbalacesheet)
 admin.site.register(temppaybill)
 admin.site.register(dailyreport)
-admin.site.register(sold,ComputerAdmin)
+
 
 admin.site.register(paybill)
 admin.site.register(paybillcatogory)
@@ -119,6 +119,12 @@ admin.site.register(corportepay)
 admin.site.register(corpocatagory)
 
 admin.site.register(supplierbalancesheet)
+
+
+
+
+admin.site.register(sold)    
+    # Other admin settings...
 
 #admin.site.register(Customerbalacesheet)
 

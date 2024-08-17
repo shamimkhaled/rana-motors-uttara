@@ -55,7 +55,8 @@ def cart(request):
     a =UserItem.objects.filter(user=request.user).last()
     form = useritem(request.POST or None, request.FILES or None)
     form2 = GeeksForm(request.POST or None, request.FILES or None,instance = a)
-    shopcart =UserItem.objects.filter(user=request.user)
+    shopcart = UserItem.objects.filter(user=request.user)
+    
     user_products = UserItem.objects.filter(user=request.user,groupproduct =False)
    
     total=0
@@ -111,11 +112,12 @@ def cart(request):
 
 
 
-        for rs in shopcart: 
-           product = Product.objects.get(id=rs.product_id)
-           if int(rs.quantity) > int(product.quantity) :
-              messages.error(request, 'Do not have group product quanitity that quantity')
-              return redirect('cart') 
+        for rs in shopcart:
+           if rs.productype != "Public Container": 
+                product = Product.objects.get(id=rs.product_id)
+                if int(rs.quantity) > int(product.quantity) :
+                    messages.error(request, 'Do not have group product quanitity that quantity')
+                    return redirect('cart') 
         fs= form.save(commit=False)
         fs.user= request.user
         fs.totalprice=total-fs.discount
@@ -190,13 +192,13 @@ def cart(request):
                     except Exception as e:
                          form.add_error(None, f"Error during the second operation: {e}")    
 
-       
+        
 
         for rs in shopcart:
                 detail = sold()
                 detail.customer    = fs.customer
                  # Order Id
-                 
+                detail.conainertype=rs.productype
                 detail.product_id  = rs.product_id
                 detail.order_id     = fs.id 
                 detail.user  = request.user
@@ -218,6 +220,30 @@ def cart(request):
                 product.quantity -= rs.quantity
                 detail.exchange_ammount=rs.exchange_ammount
                 detail.costprice=product.price
+                print(rs.productype)
+                try:
+                    if rs.productype == "Public Container":
+                        
+                        product.publicquantity -= rs.quantity  # Corrected the typo here
+                        detail.costprice = product.publicprice
+
+
+                        item, created =plreport.objects.get_or_create(
+                     product_id=rs.product_id,
+                     order_id=fs.id,
+                     datetime=fs.datetime,
+                     costprice= product.publicprice,
+                     price1=rs.price1,
+                     price2=rs.price2,
+                     reporttype="Invoice Public Container",
+                     stockquantity=product.quantity,
+                     changequanitity = rs.quantity,
+                     user=request.user,
+                    )
+                    product.save()
+                except AttributeError as e:
+                    print(f"Error: {e}")                     
+
 
                 if product.mother==1:
 
@@ -225,10 +251,10 @@ def cart(request):
                     current_product = Product.objects.get(id=rs.product_id)
 # Filter UserItem based on the related Product's groupname and mother field
                     user_itemstemp = UserItem.objects.filter(
-    product__groupname=current_product.groupname
-).exclude(
-    product__mother=True
-)
+                 product__groupname=current_product.groupname
+                        ).exclude(
+                            product__mother=True
+                        )
                     grouptotalprice=0
                    
                    
@@ -247,7 +273,7 @@ def cart(request):
                      costprice= grouptotalprice,
                      price1=rs.price1,
                      price2=rs.price2,
-                     reporttype="invoice",
+                     reporttype="Invoice",
                      stockquantity=product.quantity,
                      changequanitity = rs.quantity,
                      user=request.user,
@@ -261,7 +287,7 @@ def cart(request):
                      costprice= product.price,
                      price1=rs.price1,
                      price2=rs.price2,
-                     reporttype="invoice",
+                     reporttype="Invoice",
                      stockquantity=product.quantity,
                      changequanitity = rs.quantity,
                      user=request.user,
@@ -270,9 +296,9 @@ def cart(request):
                 product.save()
                 shopcart.delete()    
                 user_products.delete()
+        
 
 
-                
                 
 
                 
@@ -4468,7 +4494,7 @@ def userItemstore(request):
         json_data = json.loads(request.body)
             # Extract the required fields from the JSON data
         productId = json_data.get('productId')
-        product = json_data.get('product')
+        productype = json_data.get('producttype')
         quantity = json_data.get('quantity')
         price1 = json_data.get('price1')
         price2 = json_data.get('price2')
@@ -4482,10 +4508,14 @@ def userItemstore(request):
         obj = get_object_or_404(Product, id = productId)
         # Create an object using the form data
 
-
-        if int(quantity) > int(obj.quantity) :
-            messages.error(request, 'Do not have that quantity')
-            return redirect('cart') 
+        if productype != "Public Container":
+            if int(quantity) > int(obj.quantity) :
+                messages.error(request, 'Do not have that quantity')
+                return redirect('cart') 
+        elif productype == "Public Container":
+            if int(quantity) > int(obj.publicquantity) :
+                messages.error(request, 'Do not have that quantity')
+                return redirect('cart')     
         if int(quantity) <= int(obj.quantity) :
             obj = UserItem.objects.create(
                 product_id=productId,
@@ -4493,6 +4523,7 @@ def userItemstore(request):
                 quantity=quantity,
                 price1=price1,
                 price2=price2,
+                productype=productype,
                 groupproduct = False,
                 status= status,
                 remarks = remarks ,
