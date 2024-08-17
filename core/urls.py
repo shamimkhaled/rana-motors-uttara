@@ -39,7 +39,7 @@ urlpatterns = [
     ),
     path("<id>/bothcashmemo", views.bothcashmemo, name="bothcashmemo"),
     # path('<id>/mrmemo', views.mrmemo, name='mrmemo'),
-    path("<id>/returnn", views.returnno, name="return"),
+    path("<id>/returnn", views.returnno, name="returnn"),
     path("<id>/returnitem", views.returnreasonn, name="returnreasonn"),
     path("returnlist", views.returnlist, name="returnlist"),
     # bill
