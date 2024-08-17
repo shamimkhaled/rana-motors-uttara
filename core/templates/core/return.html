@@ -231,11 +231,12 @@ closeButtons.forEach(closeButton => {
                     <tr>
                         <th class="text-center" scope="col">SL#</th>
                         <th class="text-center" scope="col">SPARE PRODUCT</th>
-                        <th class="text-center" scope="col">MAIN GROUP</th>
-                        <th class="text-center" scope="col">Group PRODUCT</th>
+                        <th class="text-center" scope="col">MAIN PRODUCT</th>
+                        <th class="text-center" scope="col">SUB PRODUCT</th>
                         <th class="text-center" scope="col">SINGLE PRODUCT</th>
-                        <th class="text-center" scope="col">Quantity</th>
-                        <th class="text-center" scope="col">Unit Price</th>
+                        <th class="text-center" scope="col">QTY</th>
+                        <th class="text-center" scope="col">SALES UNIT PRICE</th>
+                        <th class="text-center" scope="col">COST PRICE</th>
                       
                         <th class="text-center" scope="col">Action</th>
                     </tr>
@@ -270,6 +271,9 @@ closeButtons.forEach(closeButton => {
             
                         <td class="text-right">{{ rs.quantity }}</td>
                         <td>{{ rs.price1 }}</td>
+                        <td>{{ rs.costprice}}</td>
+
+
                         <td>
                             <button class="bg-cyan-300 hover:bg-yellow-300   font-bold py-2 px-2 rounded w-48 mr-px"
                                 onclick="window.location.href = '/{{rs.id}}/returnitem'">
