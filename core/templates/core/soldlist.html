@@ -310,30 +310,30 @@ closeButton.addEventListener('click', function() {
 <table class="w-full border-collapse border border-gray-300 rounded-lg shadow-lg">
   <thead class="bg-gray-800 text-white">
     <tr>
-      <th scope="col" class="px-4 py-3 border border-gray-400 w-1/12">DATE TIME</th>
-      <th scope="col" class="px-4 py-3 border border-gray-400 w-2/12 text-xl">ID CLIENT</th>
-      <th scope="col" class="px-4 py-3 border border-gray-400 w-2/12 text-xl">GENERAL CLIENT</th>
-      <th scope="col" class="px-4 py-3 border border-gray-400 w-1/12">TOTAL AMOUNT</th>
-      <th scope="col" class="px-4 py-3 border border-gray-400 w-1/12">DUE AMOUNT</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">OFFICE COPY</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">CLIENT COPY</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">BOTH MEMO</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">CHALAN</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">RETURN</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">EDIT CASHMEMO</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">GENERAL BILL RECEIVE</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">DELETE</th>
-      <th scope="col" class="px-4 py-2 border border-gray-400 w-1/12">SMS</th>
+      <th scope="col" class="px-4 py-3 text-center border border-gray-400 w-2/12">DATE TIME</th>
+      <th scope="col" class="px-4 py-3 text-center border border-gray-400 w-2/12 text-xl">ID CLIENT</th>
+      <th scope="col" class="px-4 py-3 text-center border border-gray-400 w-2/12 text-xl">GENERAL CLIENT</th>
+      <th scope="col" class="px-4 py-3 text-center border border-gray-400 w-1/12">TOTAL AMOUNT</th>
+      <th scope="col" class="px-4 py-3 text-center border border-gray-400 w-1/12">DUE AMOUNT</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">OFFICE COPY</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">CLIENT COPY</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">BOTH MEMO</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">CHALAN</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">RETURN</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">EDIT CASHMEMO</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">GENERAL BILL RECEIVE</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">DELETE</th>
+      <th scope="col" class="px-4 py-2 text-center border border-gray-400 w-1/12">SMS</th>
     </tr>
   </thead>
   <tbody class="bg-white text-gray-700 text-lg">
     {% for rs in orders %}
     <tr class="hover:bg-gray-100 transition duration-300">
-      <td class="px-4 py-3 border border-gray-300">{{ rs.datetime }}</td>
-      <td class="px-4 py-3 border border-gray-300 text-xl">{{ rs.customer.name }}</td>
-      <td class="px-4 py-3 border border-gray-300 text-xl">{{ rs.name }}</td>
-      <td class="px-4 py-3 border border-gray-300">{{ rs.totalprice }} </td>
-      <td class="px-4 py-3 border border-gray-300"> {{ rs.due }}</td>
+      <td class="px-4 py-3 border border-gray-300 text-2xl text-center">{{ rs.datetime }}</td>
+      <td class="px-4 py-3 border border-gray-300 text-2xl text-center">{{ rs.customer.name }}</td>
+      <td class="px-4 py-3 border border-gray-300 text-2xl text-center">{{ rs.name }}</td>
+      <td class="px-4 py-3 border border-gray-300 text-2xl text-right">{{ rs.totalprice }} </td>
+      <td class="px-4 py-3 border border-gray-300 text-2xl text-right"> {{ rs.due }}</td>
       <td class="px-4 py-2 border border-gray-300">
         <button class="bg-cyan-300 hover:bg-yellow-300 text-lg font-bold py-2 px-2 rounded w-40"
           onclick="window.location.href = '{{ rs.id }}/cashmemo'">
@@ -372,7 +372,7 @@ closeButton.addEventListener('click', function() {
         </button>
       </td>
       {% else %}
-      <td class="px-4 py-2 border border-gray-300 text-center">ALREADY POSTED</td>
+      <td class="px-4 py-2 border border-gray-300 text-center text-2xl">ALREADY POSTED</td>
       {% endif %}
       {% if not rs.customer.name %}
       <td class="px-4 py-2 border border-gray-300">
@@ -382,7 +382,7 @@ closeButton.addEventListener('click', function() {
         </button>
       </td>
       {% else %}
-      <td class="px-4 py-2 border border-gray-300 text-center">ID CUSTOMER</td>
+      <td class="px-4 py-2 border border-gray-300 text-center text-2xl">ID CUSTOMER</td>
       {% endif %}
       {% if not rs.smssend %}
       <td class="px-4 py-2 border border-gray-300">
