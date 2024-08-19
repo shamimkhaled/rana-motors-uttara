@@ -4192,10 +4192,10 @@ def salesreport(request):
                if t.id == rs.order_id and rs.order_id  is not None:
                   cash=t.paid+cash
              ## NEED TO FIX      
-            for  ac in billa:      
+            for  ac in orderlist:      
                
                   if ac.bill_id == rs.bill_id and rs.bill_id  is not None:
-                     dew=ac.ammount+dew      
+                     dew=ac.bill.ammount+dew      
 
          
          #soldlist=sold.objects.filter(order_id__in=s)
