@@ -4138,7 +4138,7 @@ def salesreport(request):
 
          
    
-         orders=dailyreport.objects.all().order_by('id')
+         orders=dailyreport.objects.all().order_by('datetime')
          myFilter =dailyreportfilter(request.GET, queryset=orders)
          orders = myFilter.qs
          s=0
@@ -4168,7 +4168,7 @@ def salesreport(request):
             #   open=rs.ammount
             #   l=l+1
             
-            if rs.reporttype == 'office expense':
+            if rs.reporttype == 'Office Expense':
                officeexpense=rs.billexpense+officeexpense
             returnprice=returnprice+rs.returnprice
             returncostprice=returncostprice+rs.returncostprice
@@ -4191,7 +4191,7 @@ def salesreport(request):
             for  t in orderlist:      
                if t.id == rs.order_id and rs.order_id  is not None:
                   cash=t.paid+cash
-                  
+             ## NEED TO FIX      
             for  ac in billa:      
                if ac.order_id == rs.order_id and rs.order_id  is not None:
                   dew=ac.ammount+dew    
@@ -4200,10 +4200,7 @@ def salesreport(request):
          #soldlist=sold.objects.filter(order_id__in=s)
          
          
-         paginator = Paginator(orders, 15) # Show 25 contacts per page.
-
-         page_number = request.GET.get('page')
-         orders = paginator.get_page(page_number)
+         
          
 
          for x in list(reversed(list(orders)))[0:1]:
@@ -4235,7 +4232,7 @@ def salesreport(request):
          
 
          orders_within_time_range = dailyreport.objects.filter(
-    added__range=(start_date, end_date)
+    datetime__range=(start_date, end_date)
 )
 
 # Retrieve returnn instances within the same time range
