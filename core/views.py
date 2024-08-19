@@ -4293,7 +4293,175 @@ def salesreport(request):
                  'oldreturnpricet':oldreturnpricet,
                }  
     
-         return render(request, "core/salesreport.html",context )           
+         return render(request, "core/salesreport.html",context )        
+
+
+
+# def salesreport(request):
+#          start_date = request.GET.get('start_date')
+#          end_date = request.GET.get('end_date')
+#          if not end_date:
+           
+#            end_date =dt_datetime.now().strftime('%Y-%m-%d')
+
+         
+   
+#          orders=dailyreport.objects.all().order_by('datetime')
+#          myFilter =dailyreportfilter(request.GET, queryset=orders)
+#          orders = myFilter.qs
+#          sales=0
+#          cost=0
+#          exchange=0
+#          profit=0
+#          l=0
+#          open=0
+        
+#          cash=0
+#          due=0
+#          open2=0
+#          corporrateex=0
+#          discount=0
+#          billa=bill.objects.filter(
+#     datetime__range=(start_date, end_date)
+# )
+#          closeblance=0
+#          comm=0
+#          returnprice=0
+#          returncostprice=0
+#          soldlist=sold.objects.all().filter(groupproduct =False)
+#          orderlist=Order.objects.all()
+#          officeexpense=0
+#          pettycashtransfer = 0
+#          for rs in orders :
+            
+#             # if l==0:
+#             #   open=rs.ammount
+#             #   l=l+1
+            
+#             if rs.reporttype == 'Office Expense':
+#                officeexpense=rs.billexpense+officeexpense
+#             returnprice=returnprice+rs.returnprice
+#             returncostprice=returncostprice+rs.returncostprice
+#             corporrateex=rs.billexpense+ corporrateex
+#             if rs.reporttype == "COMMISSION":
+#                comm=comm+rs.billexpense  
+#             if rs.reporttype == "Discount":     
+#                discount=rs.billexpense +discount     
+
+#             if rs.reporttype == "FUND TRANSFER":     
+#                pettycashtransfer=rs.billexpense +pettycashtransfer     
+
+#             for b in soldlist: 
+#               if b.order_id == rs.order_id and rs.order_id  is not None:
+#                  sales=b.total_price+sales
+#                  cost=b.total_costprice+cost
+#                  exchange=b.exchange_ammount+exchange
+#                  profit=profit+b.totalprofit
+
+#             for  t in orderlist:      
+#                if t.id == rs.order_id and rs.order_id  is not None:
+#                   cash=t.paid+cash
+#              ## NEED TO FIX      
+#             for  ac in billa:      
+               
+#                   due=ac.ammount+due   
+
+         
+#          #soldlist=sold.objects.filter(order_id__in=s)
+         
+         
+         
+         
+
+#          for x in list(reversed(list(orders)))[0:1]:
+#             closeblance=x.ammount
+        
+         
+#          withoutex=sales-exchange
+#          aftercommmision=closeblance+corporrateex
+#          totalcost=comm+discount+c+ returnprice
+#          netsale =s-returnprice
+#          grossprofit=s-totalcost
+#          netprofit=grossprofit- officeexpense
+#          if cost == 0 :
+#              percentageprofit=0
+#          if cost != 0 :   
+#             percentageprofit=(grossprofit/c ) *100
+#          duesales=withoutex-cash
+#          pettycashreportbalnce=closeblance+corporrateex
+#          commisiondisreportbalnce=pettycashreportbalnce+pettycashtransfer
+#          cashreturnbalance=commisiondisreportbalnce+comm+discount
+#          collentionbalance= cashreturnbalance+returnprice
+#          openbalance=collentionbalance-(cash+dew)
+#          open2 = open_balance + dew + cash
+#          #newreturncost =returnprice - returncostprice
+
+
+
+#         #for calculating previous time duration  order 
+         
+
+#          orders_within_time_range = dailyreport.objects.filter(
+#     datetime__range=(start_date, end_date)
+# )
+
+# # Retrieve returnn instances within the same time range
+#          returnn_within_time_range = returnn.objects.filter(
+#     sold__order__datetime__range=(start_date, end_date)
+# )
+
+# # Exclude dailyreport instances where associated returnn objects fall within the time range
+#          orders_not_in_range = orders_within_time_range.exclude(
+#     id__in=returnn_within_time_range.values_list('sold__order__id', flat=True)
+# )           
+#          oldreturnpricet=0
+#          oldreturncostt=0
+#          for rs in orders_not_in_range :
+              
+#              oldreturnpricet=rs.returnprice+oldreturnpricet
+                
+#          netsale2 =s - (returnprice-oldreturnpricet)
+
+#          context = {#'category': category,
+#                'pettycashreportbalnce':pettycashreportbalnce,
+#                'commisiondisreportbalnce':commisiondisreportbalnce,
+#                'cashreturnbalance':cashreturnbalance,
+#                'collentionbalance':collentionbalance,
+#                'openbalance':openbalance,
+#                'orders': orders,
+#                'myFilter':myFilter,
+#                'soldlist':soldlist,
+#                'duesales':duesales,
+#                 'cost':cost,
+#                 'sales':sales,
+#                 'exchange':exchange,
+#                 'pettycashtransfer':pettycashtransfer,
+#                 'percentageprofit':percentageprofit,
+#                 'grossprofit': grossprofit,
+#                 'netprofit':netprofit,
+#                 'totalcost':totalcost,
+#                 'withoutex':withoutex,
+#                 'profit':profit,
+#                 'open':open,
+#                 'cash':cash,
+#                 'dew' :dew,
+#                 'open2':open2,
+#                 'comm' :comm,
+#                 'discount':discount , 
+#                 'closeblance':closeblance,
+#                 'corporrateex':corporrateex,
+#                 'aftercommmision':aftercommmision,
+#                 'returnprice':returnprice,
+#                  'returncostprice': returncostprice,
+#                 'officeexpense':officeexpense,
+#                 'start_date': start_date,
+#                  'end_date': end_date,
+#                  'netsale' :netsale,
+#                  'netsale2' :netsale2,
+#                  'oldreturnpricet':oldreturnpricet,
+#                }  
+    
+#          return render(request, "core/salesreport.html",context )               
 
 
 def expensereport(request):
