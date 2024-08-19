@@ -3018,7 +3018,7 @@ def fianaleditcashmemo(request, id):
 
         try:
 
-            if shopcart.product.mother==1 :
+            if not shopcart.product.groupname:
                 current_product = Product.objects.get(id=fs.product_id)
         # Filter UserItem based on the related Product's groupname and mother field
                 user_itemstemp = sold.objects.filter(
@@ -3033,8 +3033,13 @@ def fianaleditcashmemo(request, id):
                                 
                                     grouptotalprice += (ns.product.price * ns.quantity)
                                     print(grouptotalprice)
-                shopcart.product.costprice=grouptotalprice 
-                shopcart.product.save()                  
+                mainproduct = sold.objects.filter(
+        product__groupname=current_product.groupname,
+        order__id=orders.id,
+        product__mother=True
+    ).first()                    
+                mainproduct.costprice=grouptotalprice 
+                mainproduct.save()                  
         except Exception as e:
                     form.add_error(None, f"GROUP PRODUCT ISSUE {e}")  
 
