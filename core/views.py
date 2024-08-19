@@ -4195,7 +4195,7 @@ def salesreport(request):
                   cash=t.paid+cash
              ## NEED TO FIX      
             for  ac in billa:      
-               if ac.order_id == rs.order_id and rs.order_id  is not None:
+               
                   dew=ac.ammount+dew    
 
          
