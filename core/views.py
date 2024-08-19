@@ -4153,9 +4153,7 @@ def salesreport(request):
          open2=0
          corporrateex=0
          discount=0
-         billa=bill.objects.filter(
-    datetime__range=(start_date, end_date)
-)
+         billa=bill.objects.all()
          closeblance=0
          comm=0
          returnprice=0
@@ -4196,7 +4194,8 @@ def salesreport(request):
              ## NEED TO FIX      
             for  ac in billa:      
                
-                  dew=ac.ammount+dew    
+                  if ac.bill_id == rs.bill_id and rs.bill_id  is not None:
+                     dew=ac.ammount+dew      
 
          
          #soldlist=sold.objects.filter(order_id__in=s)
