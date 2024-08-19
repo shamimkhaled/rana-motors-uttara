@@ -4153,7 +4153,9 @@ def salesreport(request):
          open2=0
          corporrateex=0
          discount=0
-         billa=bill.objects.all()
+         billa=bill.objects.filter(
+    datetime__range=(start_date, end_date)
+)
          closeblance=0
          comm=0
          returnprice=0
@@ -4237,7 +4239,7 @@ def salesreport(request):
 
 # Retrieve returnn instances within the same time range
          returnn_within_time_range = returnn.objects.filter(
-    sold__order__added__range=(start_date, end_date)
+    sold__order__datetime__range=(start_date, end_date)
 )
 
 # Exclude dailyreport instances where associated returnn objects fall within the time range
