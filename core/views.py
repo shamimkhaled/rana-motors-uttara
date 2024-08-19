@@ -3018,7 +3018,7 @@ def fianaleditcashmemo(request, id):
 
         try:
 
-            if not shopcart.product.groupname:
+            if  shopcart.product.groupname:
                 current_product = Product.objects.get(id=fs.product_id)
         # Filter UserItem based on the related Product's groupname and mother field
                 user_itemstemp = sold.objects.filter(
